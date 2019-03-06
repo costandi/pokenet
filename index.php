@@ -5,28 +5,47 @@
 <head>
 	<meta charset="utf-8">
 	<title>Connexion</title>
+	<link rel="icon" href="favicon.png">
 </head>
 
 
 <body>
-	<div class="round-button">
+
+	<div class="round-button" name="boutonPokeball">
 		<a href="index.php">
-			<img src="pokeball.png" />
+			<img src="pokeball.png">
 		</a>
 	</div>
 
 	<h1 id="titre" >Bienvenue sur pokenet !</h1>
 
-	<div id="content">
-		<p id="resume" >Pokenet est un site où vous pouvez constituer une équipe de pokemon et combattre d'autres joueurs dans le monde entier (votre salon) !</p>
+	<div>
+		<a href="https://www.pokemon.com/fr/">
+			<img id="gifPika" src="pika.gif">
+		</a>
 	</div>
-	<form>
-		<button class="favorite styled" type="submit" formaction="inscrit.php" formmethod="POST" >Inscrivez vous !</button>
-		<button class="favorite styled" type="submit" formaction="connect.php" formmethod="POST" autofocus>Connectez vous !</button>
-	</form>
 
-	<img id="gifPika" src="pika.gif">
 
+	<br/>
+
+
+	<div id="content">
+		<p id="resume">Pokenet est un site où vous pouvez constituer une équipe de pokemon et combattre d'autres joueurs dans le monde entier (votre salon) !</p>
+	</div>
+
+	<div id="boutons">
+		<form>
+			<button class="favorite styled" type="submit" formaction="inscrit.php" formmethod="POST" >Inscrivez vous !</button>
+			<button class="favorite styled" type="submit" formaction="connect.php" formmethod="POST" autofocus>Connectez vous !</button>
+		</form>
+	</div>
+
+
+
+	<video controls autoplay width="800" loop muted>
+		<source src="video.webm" type="video/webm">
+		Sorry, your browser doesn't support embedded videos.
+	</video>
 
 
 
@@ -35,32 +54,58 @@
 </html>
 
 
+
+
+
 <style type="text/css">
 
-/*
+
 
 * {
 	padding: 0;
-	margin: 0;
+	margin: 0; 
 }
 
-*/
+body {
+
+	background: url("fond.jpg") no-repeat;
+}
 
 
 #titre {
-	position: fixed;
-	top: 0px;
-	left: 120px;
-	width: 300px;
-	/*border: 3px solid #73AD21;*/
+	position: relative;
+	top: 5px;
+	text-align: center;
+	width: 33%;
+	margin-left: 33%;
+	border: 4px solid red;
+	border-radius: 7px;
+	padding: 10px;
+}
+
+#gifPika {
+	width: 70px;
+	height: 70px;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+#gifPika:hover {
+	background-color: rgba(255,0,30,0.5);
+
 }
 
 #content {
-	border-radius: 5px;
-	border: 3px solid red;
 	margin: 10px;
-	margin-right: 900px;
+	margin-right: 0px;
 	padding-left: 5px;
+}
+
+#resume {
+	text-shadow: 1px 1px 2px black; 
+	text-align: center;
+	text-transform: 
 }
 
 .styled {
@@ -92,6 +137,7 @@
 }
 
 .round-button {
+	margin:5px;
 	width: 80px;
 	height: 0;
 	padding-bottom: 80px;
@@ -111,9 +157,19 @@
 	height: auto;
 }
 
-#gifPika {
-	width: 70px;
-	height: 70px;
+
+
+#boutons {
+	position: relative;
+	margin-top: 100px;
+	top: 25%;
+	margin-left : 40%;
+}
+
+video {
+	position: relative;
+	margin-top: 40px;
+	margin-left: 25%; 
 }
 
 </style>
