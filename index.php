@@ -4,7 +4,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Connexion</title>
+	<title>Accueil</title>
 	<link rel="icon" href="favicon.png">
 </head>
 
@@ -17,7 +17,7 @@
 		</a>
 	</div>
 
-	<h1 id="titre" >Bienvenue sur pokenet !</h1>
+	<h1 id="titre">Bienvenue sur pokenet !</h1>
 
 	<div>
 		<a href="https://www.pokemon.com/fr/">
@@ -42,7 +42,7 @@
 
 
 
-	<video controls autoplay width="800" loop muted>
+	<video autoplay width="800" loop muted>
 		<source src="video.webm" type="video/webm">
 		Sorry, your browser doesn't support embedded videos.
 	</video>
@@ -86,7 +86,7 @@ body {
 #gifPika {
 	width: 70px;
 	height: 70px;
-	position: absolute;
+	position: fixed;
 	top: 5px;
 	right: 5px;
 }
@@ -137,6 +137,7 @@ body {
 }
 
 .round-button {
+	position: fixed;
 	margin:5px;
 	width: 80px;
 	height: 0;
@@ -152,8 +153,8 @@ body {
 }
 .round-button img {
 	display: block;
-	width: 80px;
-	padding: 0px;
+	width: 77px;
+	padding: 0;
 	height: auto;
 }
 
