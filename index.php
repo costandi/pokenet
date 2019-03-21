@@ -71,6 +71,9 @@ body {
 	background: url("fond.jpg") no-repeat;
 }
 
+#resume {
+	font-size: 22px;
+}
 
 #titre {
 	position: relative;

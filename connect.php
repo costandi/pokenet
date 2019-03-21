@@ -54,7 +54,7 @@
 		margin-bottom: 50px;
 		font-size: 35px;
 		text-align: center;
-		color: rgba(255,0,0,0.8);
+		color: rgba(255,230,0,0.9);
 	}
 
 	
