@@ -9,7 +9,7 @@
        function CreUser($BDD, $username, $MdP);
 
 //Fermeture de la BDD
-//fonction personelle pour les test. A modifier
+//fonction personelle pour les test.
 
        function fermerBDD();
 */
@@ -17,14 +17,13 @@
 
 
 function GenerBDD(){
-    $BDD=mysqli_connect("localhost","cynthia","C4rpeD1em","pokenet");
+    $BDD=mysqli_connect("localhost","","","pokenet");
     if(!$BDD){
         die("<p>connexion impossible</p>");
     }
     else return $BDD;
     
 }
-
 
 function CreUser($BDD, $username, $MdP){
     
@@ -33,8 +32,9 @@ function CreUser($BDD, $username, $MdP){
     mysqli_execute($prepUser);
 }
 
-
 function fermerBDD($BDD){
     mysqli_close($BDD);
 }
+
+
 ?>

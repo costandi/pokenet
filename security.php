@@ -4,7 +4,7 @@
 function mdpValid($MdP1)
 {
     
-    $MdP2 = filter_var($MdP1, FILTER_SANITIZE_SPECIAL_CHARS);
+    $MdP2 = filter_var($MdP1, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     
     if($MdP2 == false || $MdP1 != $MdP2)
         return 1;

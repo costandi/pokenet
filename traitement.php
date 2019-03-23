@@ -1,5 +1,6 @@
 <?php
 include './security.php';
+include './bdd.php';
 if (isset($_POST["connexion"]) && isset($_POST["nom"]) && isset($_POST["mdp"])) // si tu as clique sur connexion
     // dans la page connect.php et 
     // que tu as entré un nom et mdp
@@ -37,7 +38,7 @@ if (isset($_POST["inscription"]))
 	echo "inscrit sous le nom de ".$_POST["nom"]." ! ton mdp est ".$cMdP;
 	fermerBDD($BDD);
     }
-    echo "mot de passe invalide";
+    else echo "mot de passe invalide";
     
 }
 else if (isset($_POST["inscription"]) && !isset($_POST["connexion"]) && !isset($_POST['nom']))
@@ -45,6 +46,8 @@ else if (isset($_POST["inscription"]) && !isset($_POST["connexion"]) && !isset($
     echo "erreur d'inscription";
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html>
@@ -86,4 +89,3 @@ else if (isset($_POST["inscription"]) && !isset($_POST["connexion"]) && !isset($
      height: auto;
  }
 </style>
-
