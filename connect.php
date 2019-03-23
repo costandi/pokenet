@@ -7,14 +7,14 @@
 
 	<div class="round-button" name="boutonPokeball">
 		<a href="index.php">
-			<img src="pokeball.png">
+			<img src="decors/pokeball.png">
 		</a>
 	</div>
 
 	<form action="traitement.php" method="POST">
 		<h3>Connectez vous !</h3>
 		<input type="text" required placeholder="Pseudo" name="nom" autofocus> <br/><br/>
-		<input type="password" required placeholder="mot de passe"> <br/><br/>
+		<input type="password" required placeholder="mot de passe" name="mdp"> <br/><br/>
 		<input type="submit" value="se connecter" name="connexion">
 	</form>
 
@@ -32,7 +32,7 @@
 	}
 
 	body {
-		background: url("fond.jpg") no-repeat;
+		background: url("decors/fond.jpg") no-repeat;
 	}
 
 

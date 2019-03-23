@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Accueil</title>
-	<link rel="icon" href="favicon.png">
+	<link rel="icon" href="decors/favicon.png">
 </head>
 
 
@@ -13,7 +13,7 @@
 
 	<div class="round-button" name="boutonPokeball">
 		<a href="index.php">
-			<img src="pokeball.png">
+			<img src="decors/pokeball.png">
 		</a>
 	</div>
 
@@ -21,7 +21,7 @@
 
 	<div>
 		<a href="https://www.pokemon.com/fr/">
-			<img id="gifPika" src="pika.gif">
+			<img id="gifPika" src="decors/pika.gif">
 		</a>
 	</div>
 
@@ -43,7 +43,7 @@
 
 
 	<video autoplay width="800" loop muted>
-		<source src="video.webm" type="video/webm">
+		<source src="decors/video.webm" type="video/webm">
 		Sorry, your browser doesn't support embedded videos.
 	</video>
 
@@ -68,7 +68,7 @@
 
 body {
 
-	background: url("fond.jpg") no-repeat;
+	background: url("decors/fond.jpg") no-repeat;
 }
 
 #resume {

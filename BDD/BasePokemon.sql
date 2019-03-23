@@ -69,5 +69,3 @@ create table User (
 	NumSac int not null references Sac(ID_Sac),
 	QteThune int not null
 );
-
-

@@ -7,7 +7,7 @@
 
 	<div class="round-button" name="boutonPokeball">
 		<a href="index.php">
-			<img src="pokeball.png">
+			<img src="decors/pokeball.png">
 		</a>
 	</div>
 
@@ -60,7 +60,7 @@
 	}
 
 	body {
-		background: url("fond.jpg") no-repeat;
+		background: url("decors/fond.jpg") no-repeat;
 	}
 
 
