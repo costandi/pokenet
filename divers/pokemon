@@ -1,0 +1,34 @@
+#!/bin/bash
+echo 'vous étiez dans le dossier ' $PWD
+
+file="tempCheminVersPokemon" # un fichier temporaire dans lequel on va stocker le chemin vers le repertoire du jeu
+
+
+if [[ -f $file ]]; then      # s'il existe deja on le supprime
+	echo "suppression du fichier temporaire"
+	rm $file;
+fi
+
+
+
+find ~/ -type d -name "pokemon" >$file 2>/dev/null  # j'ai passe 100 ans a faire cette ligne mais normalement ca fonctionne : avec find on recupere
+													# le repertoire qui s'appelle pokemon (met "pokenet" si tu l'as appelé comme ça) et on stocke le
+													#resultat dans $file tout en redirigeant la sortie erreur vers la "poubelle"
+
+path=$(cat $file)   # on enregistre dans path le chemin contenu dans le fichier temporaire
+rm $file			# on supprime le fichier temporaire
+
+cd $path 			# et on va la ou le chemin nous dirige
+
+
+echo 'vous etes maintenant dans le dossier : '$PWD  # elementaire mon cher Watson !
+
+
+gnome-terminal -- php7.2 -S localhost:8080 | firefox http://localhost:8080/  # cette commande sert a ouvrir un autre terminal dans lequel 
+																		   # on lance un serveur en localhost et on va dessus avec firefox
+cd $path	# rappel : on est dans un nouveau terminal donc avec lui aussi on va dans le bon dossier
+mysql -u root -p "pokenet"  # et on lance mysql en rentrant direct dans la base de donnees "pokenet"
+
+
+# quand tu as fini de te servir de tout ca tu fais juste un Ctrl+C sur le terminal ou ya le serveur en localhost et ca arrete tout !
+# Bonne journee ^-^
