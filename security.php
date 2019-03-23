@@ -39,4 +39,9 @@ function decrypt($encrypted_string, $encryption_key) {
 
     return $decrypted_string;
 }
+
+function clef()
+{
+    return "faucibusturpisineumi";
+}
 ?>
