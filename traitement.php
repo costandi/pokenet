@@ -60,7 +60,7 @@ else if (isset($_POST["inscription"]) && !isset($_POST["connexion"]) && !isset($
     <body>
 	<div class="round-button" name="boutonPokeball">
 	    <a href="index.php">
-		<img src="pokeball.png">
+		<img src="decors/pokeball.png">
 	    </a>
 	</div>
     </body>
