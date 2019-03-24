@@ -13,24 +13,20 @@ form {
     left: 37%;
     top: 20%;
     border: solid 3px rgba(80,80,150,0.8);
-    padding-left: 2%;
-    padding-right: 2%;
-    padding-bottom: 2%;
-    padding-top: 2%;
+    padding-left: 7%;
+    padding-right: 7%;
+    padding-bottom: 7%;
     border-radius: 30%;
     background-color: rgba(80,80,150,0.5);
-    justify-self: center;
 }
 
 form h3 {
-    position: block;
+    position: relative;
     margin-top: 70px;
     margin-bottom: 50px;
-    margin-left: auto;
-    margin-right: auto;
     font-size: 35px;
     text-align: center;
-    color: rgba(255,0,0,0.8);
+    color: rgba(255,255,0,0.8);
 }
 
 
@@ -155,18 +151,39 @@ form input[type=submit]:active {
     height: auto;
 }
 
+
+
 #boutons {
-    top: 10%;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-    
+    position: relative;
+    margin-top: 100px;
+    top: 25%;
+    margin-left : 40%;
 }
 
 video {
-    position: block;
+    position: relative;
+    margin-top: 40px;
+    margin-left: 25%; 
+}
+
+.round-button {
+    position: relative;
+    margin:5px;
+    width: 80px;
+    height: 0;
+    padding-bottom: 80px;
+    border-radius: 50%;
+    border: 2px solid #f5f5f5;
+    overflow: hidden;
+    background: #464646;
+    box-shadow: 0 0 3px gray;
+}
+.round-button:hover {
+    background: red;
+}
+.round-button img {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    top: 30%;
+    width: 77px;
+    padding: 0;
+    height: auto;
 }
