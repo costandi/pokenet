@@ -13,35 +13,44 @@ function mdpValid($MdP1)
         return 0;
 }
 
-//Fonction qui encrypte des données avec un message a crypter & une clef.
-//Source : https://openclassrooms.com/fr/courses/2644516-securisez-les-mots-de-passe-des-utilisateurs-avec-php
-function encrypt($pure_string, $encryption_key) {
-
-    $iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
-
-    $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-
-    $encrypted_string = mcrypt_encrypt(MCRYPT_BLOWFISH, $encryption_key, utf8_encode($pure_string), MCRYPT_MODE_ECB, $iv);
-
-    return $encrypted_string;
-
-}
-
-//Fonction qui decrypte des données avec un message a décrypter & une clef.
-//Source : https://openclassrooms.com/fr/courses/2644516-securisez-les-mots-de-passe-des-utilisateurs-avec-php
-function decrypt($encrypted_string, $encryption_key) {
-
-    $iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
-
-    $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-
-    $decrypted_string = mcrypt_decrypt(MCRYPT_BLOWFISH, $encryption_key, $encrypted_string, MCRYPT_MODE_ECB, $iv);
-
-    return $decrypted_string;
-}
-
+//Source : https://openclassrooms.com/fr/courses/2091901-protegez-vous-efficacement-contre-les-failles-web/2873202-protegez-les-donnees
 function clef()
 {
     return "faucibusturpisineumi";
 }
+
+
+class Chiffrement {
+    
+    // Algorithme utilisé pour le cryptage des blocs
+    private static $cipher  = MCRYPT_RIJNDAEL_128;
+    
+    // Clé de cryptage         
+    private static $key = "faucibusturpisineumi";
+    
+    // Mode opératoire (traitement des blocs)
+    private static $mode    = 'cbc';
+    
+    public static function crypt($data){
+        $keyHash = md5(self::$key);
+        $key = substr($keyHash, 0, mcrypt_get_key_size(self::$cipher, self::$mode));
+        $iv  = substr($keyHash, 0, mcrypt_get_block_size(self::$cipher, self::$mode));
+        
+        $data = mcrypt_encrypt(self::$cipher, $key, $data, self::$mode, $iv);
+        
+        return base64_encode($data);
+    }
+    
+    public static function decrypt($data){
+        $keyHash = md5(self::$key);
+        $key = substr($keyHash, 0,   mcrypt_get_key_size(self::$cipher, self::$mode) );
+        $iv  = substr($keyHash, 0, mcrypt_get_block_size(self::$cipher, self::$mode) );
+        
+        $data = base64_decode($data);
+        $data = mcrypt_decrypt(self::$cipher, $key, $data, self::$mode, $iv);
+        
+        return rtrim($data);
+    }
+}
+
 ?>

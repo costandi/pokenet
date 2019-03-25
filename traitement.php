@@ -31,12 +31,12 @@ if (isset($_POST["inscription"]))
     $check = mdpValid($_POST["mdp"]);
     if ($check == 0)
     {
-	$cMdP = encrypt($_POST["mdp"], clef());
-	$BDD = GenerBDD();
-	CreUser($BDD, $_POST["nom"], $cMdP);
-	$cMdP = decrypt($cMdP, clef());
-	echo "inscrit sous le nom de ".$_POST["nom"]." ! ton mdp est ".$cMdP;
-	fermerBDD($BDD);
+        $cMdP = Chiffrement::crypt($_POST["mdp"]);
+        $BDD = GenerBDD();
+        CreUser($BDD, $_POST["nom"], $cMdP);
+        $cMdP = Chiffrement::decrypt($cMdP);
+        echo "inscrit sous le nom de ".$_POST["nom"]." ! ton mdp est ".$cMdP;
+        fermerBDD($BDD);
     }
     else echo "mot de passe invalide";
     

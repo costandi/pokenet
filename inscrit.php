@@ -153,7 +153,7 @@
 
 	function validatePassword(){
 		if(password.value != confirm_password.value) {
-			confirm_password.setCustomValidity("FFFFRRRRRAAAAAAAAAAAA");
+			confirm_password.setCustomValidity("Vos mots de passe ne sont pas identiques!");
 		} else {
 			confirm_password.setCustomValidity('');
 		}
