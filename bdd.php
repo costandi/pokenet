@@ -31,7 +31,7 @@ function GenerBDD(){
 
 function CreUser($BDD, $username, $MdP){
     
-    $prepUser = mysqli_prepare($BDD, "INSERT INTO User(UserName,User_MDP) VALUES(?,?)");
+    $prepUser = mysqli_prepare($BDD, "INSERT INTO User(UserName,User_MDP,NumEq, NumSac, QteThune) VALUES(?,?, 0, 0, 500)");
 
     mysqli_stmt_bind_param($prepUser, 'ss', $username, $MdP);
     mysqli_execute($prepUser);
