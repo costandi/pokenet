@@ -1,0 +1,65 @@
+* {
+    padding: 0;
+    margin: 0;
+    color: #00004d;
+}
+
+body {
+    background-color: rgba(80,80,150,1);
+    align-content: center;
+}
+
+
+#fenetre {
+    margin: 5px;
+    position: absolute;
+    background-color: #b3d9ff;
+    width: 75%;
+    height: 94%;
+    
+}
+
+
+#droite {
+    margin: 5px;
+    width: 24%;
+    position: absolute;
+    background-color: #00004d;
+    height: 94%;
+    right: 1px;
+    z-index: 2;
+}
+
+
+
+#g {
+    left: 5px;
+
+    background-color: #3399ff;
+    position: absolute;
+    height: 97%;
+    width: 20%;
+}
+
+
+
+#d {
+    right: 5px;
+
+    background-color: #e6ecff;
+    position: absolute;
+    height: 97%;
+    width: 75%;
+}
+
+
+
+
+#etatJ {
+    margin: 5px;
+    position: absolute;
+    background-color: #e6ecff;
+    height: 4%;
+    width: 99%;
+    bottom: 5px;
+}
