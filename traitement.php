@@ -21,9 +21,13 @@ if (isset($_POST["connexion"]) && isset($_POST["nom"]) && isset($_POST["mdp"])) 
 
         if ($entrer == true)
         {
+            session_start();
             echo "connecté";
             echo "<p>Bienvenue ".$_POST["nom"]." !</p>";                                    // on check le mdp
             echo "votre mdp est ".$_POST["mdp"];
+            $_SESSION['ID']=getIdNumber($BDD, $_POST['nom']);
+
+            echo "<br>".$_SESSION['ID'];
             /*lien vers le jeu en php*/
         }
 

@@ -16,12 +16,16 @@
 //Verifier si un mot de passe crypter correspond au mot de passe de la base de donnée. Prend en paramettre une base de donnée, un nom d'utilisateur et le mot de passe a comparer a la base de donnée
 //Fonction personelle.
        function checkUserBDD($BDD, $UNcheck, $MDP2check);
+
+//Verifier si un MDP donné et un Nom d'utilisateur donné existent dans la BDD: return true si l'utilisateut et le MDP est correct et false sinon. Prend en parametre une base de donnée, un nom utilisateur a verifier et un mot de passe crypté a verifier
+//Fonction personelle
+       function checkUserBDD($BDD, $UNcheck, $MDP2check);
 */
 //__________________________________________________________________________________
 
 
 function GenerBDD(){
-    $BDD=mysqli_connect("localhost","","","pokenet");
+    $BDD=mysqli_connect("localhost","cynthia","C4rpeD1em","pokenet");
     if(!$BDD){
         die("<p>connexion impossible</p>");
     }
@@ -48,14 +52,36 @@ function checkUserBDD($BDD, $UNcheck, $MDP2check){
     mysqli_stmt_bind_result($stmt, $MDPvalide);
     
     while(mysqli_stmt_fetch($stmt));
-
-    echo "Vrai mdp= ".$MDPvalide."<br>MDP 2 look: ".$MDP2check."<br>";
-
     
     if ($MDPvalide == $MDP2check)
         return true;
     else
         return false;
+    
+}
+
+function getIdNumber($BDD, $User)
+{
+    $stmt = mysqli_prepare($BDD, "SELECT ID_D FROM User WHERE UserName = ?");
+    mysqli_stmt_bind_param($stmt, 's', $User);
+    mysqli_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $ID);
+
+    while(mysqli_stmt_fetch($stmt));
+    
+    return $ID;
+    
+}
+function getUsername($BDD, $ID)
+{
+    $stmt = mysqli_prepare($BDD, "SELECT Username FROM User WHERE ID_I = ?");
+    mysqli_stmt_bind_param($stmt, 's', $ID);
+    mysqli_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $User);
+
+    while(mysqli_stmt_fetch($stmt));
+    
+    return $User;
     
 }
 
