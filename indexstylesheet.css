@@ -9,19 +9,19 @@ body {
 
 
 form {
-    position: absolute;
-    left: 37%;
-    top: 20%;
-    border: solid 3px rgba(80,80,150,0.8);
+    position: relative;
+    left: 29%;
+   
     padding-left: 2%;
     padding-right: 2%;
     padding-bottom: 2%;
     padding-top: 2%;
-    border-radius: 30%;
-    background-color: rgba(80,80,150,0.5);
+   
+    /*background-color: rgba(80,80,150,0.5);*/
     justify-self: center;
 }
 
+/*
 form h3 {
     position: block;
     margin-top: 70px;
@@ -31,43 +31,28 @@ form h3 {
     font-size: 35px;
     text-align: center;
     color: rgba(255,0,0,0.8);
-}
+}*/
 
-
-
-form input[type=text], [type=password] {
-    border-color: rgba(80,80,150,0.8);
-    border-radius: 15%;
-    height: 30px;
-    width: 200px;
-    background-color: rgba(80,80,150,0.7);
-    color: rgb(230,230,230);
-    font-size: 20px;
-}
-
-form ::placeholder {
-    color: rgb(180,180,180);
-}
-
+/*
 form input[type=submit] {
     position: relative;
     left: 18%;
     width: 150px;
     height: 50px;
-    border-radius: 20%;
+   
     background-color: rgb(100,100,255); 
-    border-color: rgba(80,80,150,0.5);
+
     color: white;
     font-size: 20px;
 }
-
+*//*
 form input[type=submit]:hover {
     background-color: rgba(100,100,255,0.8);
 }
 
 form input[type=submit]:active {
     box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6), inset 2px 2px 3px rgba(0, 0, 0, .6);
-}
+}*/
 
 #titre {
     position: relative;
@@ -94,9 +79,8 @@ form input[type=submit]:active {
 }
 
 #content {
-    margin: 10px;
-    margin-right: 0px;
-    padding-left: 5px;
+    position :relative;
+    margin-top: 3%;
 }
 
 #resume {
@@ -156,7 +140,9 @@ form input[type=submit]:active {
 }
 
 #boutons {
-    top: 10%;
+    position: relative;
+    margin-top: 3%;
+    margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
     width: 50%;
@@ -164,9 +150,9 @@ form input[type=submit]:active {
 }
 
 video {
-    position: block;
+    position: relative;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    top: 30%;
+    margin-top: 5%;
 }
