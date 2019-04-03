@@ -25,7 +25,7 @@
 
 
 function GenerBDD(){
-    $BDD=mysqli_connect("localhost","cynthia","C4rpeD1em","pokenet");
+    $BDD=mysqli_connect("localhost","","","pokenet");
     if(!$BDD){
         die("<p>connexion impossible</p>");
     }
