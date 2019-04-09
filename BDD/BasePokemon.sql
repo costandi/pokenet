@@ -10,9 +10,9 @@ create table Type (
 );
 
 create table Sac (
-	ID_Sac int not null primary key auto_increment,
-	Pokeball int not null,
-	Potion int not null
+	ID_Sac int not null primary key,
+	Pokeball int not null default 0,
+	Potion int not null default 0
 );
 
 
@@ -51,7 +51,7 @@ create table Pokedex (
 
 
 create table Equipe (
-	ID_Eq int not null auto_increment primary key,
+	ID_Eq int not null primary key,
 	PKM1 int references Pokemon(ID_Pkm),
 	PKM2 int references Pokemon(ID_Pkm),
 	PKM3 int references Pokemon(ID_Pkm),
