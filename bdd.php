@@ -45,17 +45,13 @@ function CreUser($BDD, $username, $MdP){
     mysqli_stmt_bind_param($newSac,'i', $ID);
     mysqli_execute($newSac);
 
-    $UpUser = mysqli_prepare($BDD, "UPDATE User SET NumSac = ? WHERE ID_D = ?");
-    mysqli_stmt_bind_param($UpUser,'ii', $ID, $ID);
-    mysqli_execute($UpUser);
-
     
     $newEq = mysqli_prepare($BDD, "INSERT INTO Equipe VALUES(?, null, null, null, null, null, null)");
     mysqli_stmt_bind_param($newSac,'i', $ID);
     mysqli_execute($newEq);
 
-    $UpUser = mysqli_prepare($BDD, "UPDATE User SET NumEq = ? WHERE ID_D = ?");
-    mysqli_stmt_bind_param($UpUser,'ii', $ID, $ID);
+    $UpUser = mysqli_prepare($BDD, "UPDATE User SET NumEq = ?, NumSac = ? WHERE ID_D = ?");
+    mysqli_stmt_bind_param($UpUser,'iii', $ID, $ID, $ID);
     mysqli_execute($UpUser);
 }
 
