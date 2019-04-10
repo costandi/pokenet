@@ -1,71 +1,76 @@
 
 create table Etat (
-	ID_Et int not null primary key auto_increment,
-	Nom_Et varchar(20) not null
+	IDEt int not null primary key auto_increment,
+	nomEt varchar(20) not null
 );
 
 create table Type (
-	ID_T int not null primary key auto_increment,
-	Nom_T varchar(30) not null
+	IDT int not null primary key auto_increment,
+	nomT varchar(30) not null
 );
 
 create table Sac (
-	ID_Sac int not null primary key,
-	Pokeball int not null default 0,
-	Potion int not null default 0
+	IDSac int not null primary key auto_increment,
+	pokeball int not null,
+	potion int not null
 );
 
 
-create table Attaques (
-	ID_ATK int not null primary key auto_increment,
-	Nom_ATK varchar(30) not null,
-	Type int not null references Type(ID_T),
-	Degats int not null
+create table Attaque (
+	IDAtk int not null primary key auto_increment,
+	nomAtk varchar(30) not null,
+	typeAtk int not null references Type(IDT),
+	degats int not null
 );
 
 
 
 create table Pokedex (
-	ID_Pkd int not null primary key auto_increment,
-	Nom varchar(30) not null,
-	Type int not null references Type(ID_T),
-	Type2 int references Type(ID_T)
+	IDPkd int not null primary key auto_increment,
+	nom varchar(30) not null
 );
 
 
 
- create table Pokemon (
- 	ID_Pkm int not null auto_increment primary key,
- 	ID_Pkd int not null references Pokedex(ID),
- 	Atk1 int not null references Attaques(ID_ATK),
- 	Atk2 int references Attaques(ID_ATK),
- 	Atk3 int references Attaques(ID_ATK),
- 	Atk4 int references Attaques(ID_ATK),
- 	Niveau int not null,
- 	PV int not null,
- 	Etat int not null references Etat(ID_Etat),
- 	KO int not null,
- 	vitesse int not null,
- 	sauvage int not null
- );
+create table Pokemon (
+	IDPkm int not null auto_increment primary key,
+	IDPkd_ int not null references Pokedex(IDPkd),
+	niveau int not null,
+	PV int not null,
+	etat int not null references Etat(IDEt),
+	KO boolean not null,
+	vitesse int not null,
+	sauvage boolean not null
+);
 
 
 create table Equipe (
-	ID_Eq int not null primary key,
-	PKM1 int references Pokemon(ID_Pkm),
-	PKM2 int references Pokemon(ID_Pkm),
-	PKM3 int references Pokemon(ID_Pkm),
-	PKM4 int references Pokemon(ID_Pkm),
-	PKM5 int references Pokemon(ID_Pkm),
-	PKM6 int references Pokemon(ID_Pkm)
+	IDEq int not null auto_increment primary key,
+	IDPkmEq int
 );
 
 
 create table User (
-	ID_D int not null primary key auto_increment,
-	UserName varchar(40) not null,
-	User_MDP varchar(40) not null,
-	NumEq int not null references Equipe(ID_Eq),
-	NumSac int not null references Sac(ID_Sac),
-	QteThune int not null
+	IDD int not null primary key auto_increment,
+	userName varchar(40) not null,
+	userMDP varchar(40) not null,
+	qtteThune int not null
+);
+
+create table PoAtk (
+	IDPkmPA int,
+	IDAtkPA int
+);
+
+create table PoType (
+	IDPkmPT int,
+	IDTypePT int
+);
+
+
+
+create table PC (
+	IDPC int not null auto_increment primary key,
+	IDDPC int not null,
+	PCPkm int not null
 );
