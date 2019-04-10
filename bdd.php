@@ -99,4 +99,40 @@ function getUsername($BDD, $ID)
     
 }
 
+function getAtkName($BDD, $ID){
+   
+    $stmt = mysqli_prepare($BDD, "SELECT Nom_ATK FROM Attaques WHERE ID_ATK = ?");
+    mysqli_stmt_bind_param($stmt, 'i', $ID);
+    mysqli_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $Atk);
+
+    
+    while(mysqli_stmt_fetch($stmt));
+
+    return $Atk;    
+}
+
+function getPkmAtk($BDD, $ID){
+
+    $stmt = mysqli_prepare($BDD, "SELECT Atk1, Atk2, Atk3, Atk4 FROM Pokemon WHERE ID_Pkm = ?");
+    mysqli_stmt_bind_param($stmt, 'i', $ID);
+    mysqli_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $Atk1, $Atk2, $Atk3, $Atk4);
+
+    while(mysqli_stmt_fetch($stmt));
+
+    $AtkTab = array(
+        "ID1" => $Atk1,
+        "ID2" => $Atk2,
+        "ID3" => $Atk3,
+        "ID4" => $Atk4,
+        "ATK1" => getAtkName($BDD, $Atk1),
+        "ATK2" => getAtkName($BDD, $Atk2),
+        "ATK3" => getAtkName($BDD, $Atk3),
+        "ATK4" => getAtkName($BDD, $Atk4)
+    );
+
+    return $AtkTab; 
+}
+
 ?>
