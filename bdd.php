@@ -2,14 +2,7 @@
 /*
 
 
-
-
 select ID_Pkm, Niveau, nom, Nom_T, Nom_ATK from Pokemon, Pokedex, Type, Attaques where Pokemon.ID_Pkd=Pokedex.ID_Pkd and ID_T=type and Pokemon.Atk1=ID_ATK;
-
-
-
-
-
 
 
 
@@ -35,7 +28,7 @@ function checkUserBDD($BDD, $UNcheck, $MDP2check);
 
 
 function GenerBDD(){
-    $BDD=mysqli_connect("localhost","root","1919","pokenet");
+    $BDD=mysqli_connect("localhost","","","pokenet");
     if(!$BDD){
         die("<p>connexion impossible</p>");
     }
@@ -52,16 +45,8 @@ function CreUser($BDD, $username, $MdP){
     $newSac = mysqli_prepare($BDD, "INSERT INTO Sac VALUES(?, 5, 5)");
     mysqli_stmt_bind_param($newSac,'i', $ID);
     mysqli_execute($newSac);
-    
-    // $newEq = mysqli_prepare($BDD, "INSERT INTO Equipe VALUES(?, )");
-    // mysqli_stmt_bind_param($newSac,'i', $ID);
-    // mysqli_execute($newEq);
-
-
-    // $UpUser = mysqli_prepare($BDD, "UPDATE User SET NumEq = ?, NumSac = ? WHERE ID_D = ?");
-    // mysqli_stmt_bind_param($UpUser,'iii', $ID, $ID, $ID);
-    // mysqli_execute($UpUser);
 }
+
 function fermerBDD($BDD){
     mysqli_close($BDD);
 }
@@ -101,38 +86,43 @@ function getUsername($BDD, $ID)
     
 }
 
-
-
-function getAtkName($BDD, $ID){
-   
-    $stmt = mysqli_prepare($BDD, "SELECT nomAtk FROM Attaques WHERE IDAtk = ?");
+function getPkmAtk($BDD, $ID){
+    $stmt = mysqli_prepare($BDD, "SELECT IDAtkPA, nomAtk 
+                                  FROM PoAtk NATURAL JOIN Attaque 
+                                  WHERE IDPkmPA = ?");
     mysqli_stmt_bind_param($stmt, 'i', $ID);
     mysqli_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $Atk);
+    $res = mysqli_stmt_bind_result($stmt, $IDAtk, $nomAtk);
     
-    while(mysqli_stmt_fetch($stmt));
-    return $Atk;    
+    
+    $AtkTab = array();
+
+    if($res) {
+        while(mysqli_stmt_fetch($stmt)){
+            array_push($AtkTab, $IDAtk, $nomAtk);
+        }
+    }
+    
+    return $AtkTab; 
 }
 
 
+function newPkm($BDD, $ID){
+    $newPkm = mysqli_prepare($BDD, "INSERT INTO Pokemon(IDPkd_, niveau, PV, etat, KO, 
+                                                          vitesse, sauvage) 
+                                      VALUES(?, 1, 500, -1, 0, 5, 1)");
+    mysqli_stmt_bind_param($newPkm, 'i', $ID);
+    mysqli_execute($newPkm);
+}
 
-function getPkmAtk($BDD, $ID){
-    $stmt = mysqli_prepare($BDD, "SELECT * FROM PoAtk WHERE IDPkmPA = ?");
-    mysqli_stmt_bind_param($stmt, 'i', $ID);
-    mysqli_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $Atk1, $Atk2, $Atk3, $Atk4);
-    while(mysqli_stmt_fetch($stmt));
-    $AtkTab = array(
-        "ID1" => $Atk1,
-        "ID2" => $Atk2,
-        "ID3" => $Atk3,
-        "ID4" => $Atk4,
-        "ATK1" => getAtkName($BDD, $Atk1),
-        "ATK2" => getAtkName($BDD, $Atk2),
-        "ATK3" => getAtkName($BDD, $Atk3),
-        "ATK4" => getAtkName($BDD, $Atk4)
-    );
-    return $AtkTab; 
+function starter($BDD, $IDPkm, $IDUser){
+
+    newPkm($BDD, $IDUser);
+    
+    $newEq = mysqli_prepare($BDD, "INSERT INTO Equipe(IDEq, IDPkmEq) VALUES(?,?)");
+    mysqli_stmt_bind_param($newEq, 'ii', $IDUser, $IDPkm);
+    mysqli_execute($newPkm);    
+    
 }
 
 
