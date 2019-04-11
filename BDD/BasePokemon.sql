@@ -58,13 +58,15 @@ create table User (
 );
 
 create table PoAtk (
-	IDPkmPA int,
-	IDAtkPA int
+	IDPkmPA int references Pokemon(IDPkm),
+	IDAtkPA int references Attaque(IDAtk),
+	PRIMARY KEY(IDPkmPA, IDAtkPA)
 );
 
 create table PoType (
-	IDPkmPT int,
-	IDTypePT int
+	IDPkdPT int references Pokedex(IDPkd),
+	IDTypePT int references Type(IDT),
+	PRIMARY KEY(IDPkdPT, IDTypePT)
 );
 
 
