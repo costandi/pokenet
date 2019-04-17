@@ -243,6 +243,11 @@ function getPotion($BDD, $ID){
     
 	return $Potion;
 }
+
+function newDay($BDD){
+    mysqli_query($BDD, "UPDATE User SET qtteThune = qtteThune + '50'");
+    mysqli_query($BDD, "UPDATE Sac SET pokeball = pokeball + '5'");
+}
 ?>
 
 
