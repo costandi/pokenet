@@ -1,3 +1,6 @@
+<?php
+include './bdd.php';
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,29 +8,61 @@
 </head>
 <body>
 
+<?php
+	$bob = 2; // bob VS pol
+	$pol = 4;
+	
+	$BDD = GenerBDD();
 
+	$pok = getPkmAtk($BDD, $bob);
+	$t = getTypePkm($BDD, $bob);
+
+	$pok2 = getPkmAtk($BDD, $pol);
+	$t2 = getTypePkm($BDD, $pol);
+?>
 
 	<div>
+		<?php
+		displayPokemonInfo($BDD, $pol);
+		echo $t2[0]."<br/>";
+		echo $t2[1];
+		?>
+	</div>
 
+<br/>
+
+	<div>
+		<?php
+		displayPokemonInfo($BDD, $bob);
+		echo $t[0]."<br/>";
+		echo $t[1];
+		?>
 	</div>
 
 
 
+
 	<form>
-		<input type="button" id="attaque" value="attaque">
-		<input type="button" id="attaque1" value="charge">
-		<input type="button" id="attaque2" value="null">
-		<input type="button" id="attaque3" value="null">
-		<input type="button" id="attaque4" value="null">
+		<input type="button" id="attaque" value="Attaques">
+
+		<?php
+			displayAttaque($BDD, $pok);			
+		?>
+
+
 
 
 		<br/>
 
 
 		<input type="button" id="objets" value="objets">
+
 		<input type="button" id="pokeball" value="pokeball">
 		<input type="button" id="potion" value="potion">
 
+		<?php
+		fermerBDD($BDD);
+		?>
 	</form>
 
 </body>
@@ -41,7 +76,6 @@
 	}
 
 	input {
-
 		border: 0;
 		line-height: 2.5;
 		padding: 0 20px;
@@ -96,13 +130,16 @@
 	attaque.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "hidden";
+		objets.style.visibility = "hidden";
+
 
 		attaque1.style.visibility = "visible";
 		attaque2.style.visibility = "visible";
 		attaque3.style.visibility = "visible";
 		attaque4.style.visibility = "visible";
 
-		objets.style.visibility = "hidden";
+		
+
 	});
 
 
@@ -120,17 +157,43 @@
 	});
 
 
+	pokeball.addEventListener("click", function ()
+	{
+		attaque.style.visibility = "visible";
+		objets.style.visibility = "visible";
+
+		pokeball.style.visibility = "hidden";
+		potion.style.visibility = "hidden";
+
+		
+	});
+
+
+	potion.addEventListener("click", function ()
+	{
+		attaque.style.visibility = "visible";
+		objets.style.visibility = "visible";
+
+		pokeball.style.visibility = "hidden";
+		potion.style.visibility = "hidden";
+	
+		
+	});
+
 
 	attaque1.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "visible";
+		objets.style.visibility = "visible";
 
 		attaque1.style.visibility = "hidden";
 		attaque2.style.visibility = "hidden";
 		attaque3.style.visibility = "hidden";
 		attaque4.style.visibility = "hidden";
 
-		objets.style.visibility = "visible";
+		
+
+		
 	});
 
 
@@ -139,13 +202,14 @@
 	attaque2.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "visible";
+		objets.style.visibility = "visible";
 
 		attaque1.style.visibility = "hidden";
 		attaque2.style.visibility = "hidden";
 		attaque3.style.visibility = "hidden";
 		attaque4.style.visibility = "hidden";
 
-		objets.style.visibility = "visible";
+		
 	});
 
 
@@ -154,13 +218,14 @@
 	attaque3.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "visible";
+		objets.style.visibility = "visible";
 
 		attaque1.style.visibility = "hidden";
 		attaque2.style.visibility = "hidden";
 		attaque3.style.visibility = "hidden";
 		attaque4.style.visibility = "hidden";
 
-		objets.style.visibility = "visible";
+		
 	});
 
 
@@ -169,57 +234,16 @@
 	attaque4.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "visible";
+		objets.style.visibility = "visible";
 
 		attaque1.style.visibility = "hidden";
 		attaque2.style.visibility = "hidden";
 		attaque3.style.visibility = "hidden";
 		attaque4.style.visibility = "hidden";
 
-		objets.style.visibility = "visible";
+		
 	});
-
-
-
-
-	pokeball.addEventListener("click", function ()
-	{
-		attaque.style.visibility = "visible";
-
-		pokeball.style.visibility = "hidden";
-		potion.style.visibility = "hidden";
-
-		objets.style.visibility = "visible";
-	});
-
-
-	potion.addEventListener("click", function ()
-	{
-		attaque.style.visibility = "visible";
-
-		pokeball.style.visibility = "hidden";
-		potion.style.visibility = "hidden";
-	
-		objets.style.visibility = "visible";
-	});
-
-
-
-
-
-
-
-
-
 
 
 	
 </script>
-
-
-
-<?php
-
-
-
-
-?>
