@@ -83,8 +83,6 @@ function getIdNumber($BDD, $User)
 
 }
 
-
-
 function getUsername($BDD, $ID)
 {
 	$stmt = mysqli_prepare($BDD, "SELECT username FROM User WHERE IDD = ?");
@@ -95,7 +93,6 @@ function getUsername($BDD, $ID)
 	while(mysqli_stmt_fetch($stmt));
 
 	return $User;
-
 }
 
 
@@ -214,6 +211,38 @@ function getDamage($BDD, $attaque)
 	return $degats;
 }
 
+function getMoney($BDD, $ID){
+    $stmt = mysqli_prepare($BDD, "SELECT qtteThune FROM User WHERE IDD = ?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
+
+	mysqli_stmt_bind_result($stmt, $Thune);
+    while(mysqli_stmt_fetch($stmt));
+        
+	return $Thune;
+}
+
+function getPokeball($BDD, $ID){
+    $stmt = mysqli_prepare($BDD, "SELECT pokeball FROM Sac WHERE IDSac = ?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
+
+	mysqli_stmt_bind_result($stmt, $Pokeball);
+	while(mysqli_stmt_fetch($stmt));
+    
+	return $Pokeball;
+}
+
+function getPotion($BDD, $ID){
+    $stmt = mysqli_prepare($BDD, "SELECT potion FROM Sac WHERE IDSac = ?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
+
+	mysqli_stmt_bind_result($stmt, $Potion);
+	while(mysqli_stmt_fetch($stmt));
+    
+	return $Potion;
+}
 ?>
 
 
