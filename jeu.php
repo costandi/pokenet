@@ -3,7 +3,12 @@ session_start();
 
 include './bdd.php';
 $BDD = GenerBDD();
+
 $un = getUsername($BDD, $_SESSION['ID']);
+$pb = getPokeball($BDD, $_SESSION['ID']);
+$pt = getPotion($BDD, $_SESSION['ID']);
+$mn = getMoney($BDD, $_SESSION['ID']);
+
 fermerBDD($BDD);
 ?>
 
@@ -12,7 +17,7 @@ fermerBDD($BDD);
     
     <head>
 	<meta charset="utf-8">
-	<title>Pokenet</title>
+	<Title>Pokenet</title>
 	<link rel="icon" href="decors/favicon.png">
 	<link rel="stylesheet" type="text/css" href="jeu.css">
     </head>
@@ -31,12 +36,36 @@ fermerBDD($BDD);
 	    </div>
 	</div>
 	<div id="etatJ">
-	    Nom : <?php echo $un; ?> 
+	    <table>
+		<tr>
+		    <td>
+			Nom : <?php echo $un; ?>
+		    </td>
+		    <td>	
+			Pokeball : <?php echo $pb; ?>	
+		    </td>
+		    <td>
+			Potions : <?php echo $pt; ?>
+		    </td>
+		    <td>
+			Pokedollars : <?php echo $mn; ?> 
+		    </td>
+		    <td>
+			<form method="POST" action="index.php">
+			    <input type="submit" value="Déconnexion" id="deco" name="deco"/>
+			</form> 
+		    </td>
+		    
+		</tr>
+	    </table>
+	    
+	    
+	    
+	    
 	</div>
 	
     </body>
 </html>
-
 
 <script type="text/javascript">
  

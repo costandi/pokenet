@@ -29,6 +29,10 @@ if (isset($_POST["connexion"]) && isset($_POST["nom"]) && isset($_POST["mdp"])) 
 
             echo "<br>".$_SESSION['ID'];
             /*lien vers le jeu en php*/
+
+            header('Location: jeu.php');
+            exit;
+            
         }
 
         else {

@@ -1,8 +1,20 @@
+<?php
+session_start();
+
+if(isset($_POST['deco']))
+{
+    session_destroy();
+    $_SESSION=array();
+}
+
+?>
+
+
 <!DOCTYPE html>
 
 <html lang="fr">
 
-<head>
+    <head>
 	<meta charset="utf-8">
 	<title>Accueil</title>
 	<link rel="icon" href="decors/favicon.png">
