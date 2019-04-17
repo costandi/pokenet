@@ -248,7 +248,40 @@ function newDay($BDD){
     mysqli_query($BDD, "UPDATE User SET qtteThune = qtteThune + '50'");
     mysqli_query($BDD, "UPDATE Sac SET pokeball = pokeball + '5'");
 }
+
+function  buyPokeball($BDD, $ID){
+    $test = getMoney($BDD, $ID);
+
+    if($test >= 300){ 
+        $stmt = mysqli_prepare($BDD, "UPDATE User SET qtteThune = qtteThune - '300' WHERE IDD = ?");
+        mysqli_stmt_bind_param($stmt, 'i', $ID);
+        mysqli_execute($stmt);
+        
+        $stmt2 = mysqli_prepare($BDD, "UPDATE Sac SET pokeball = pokeball + '1' WHERE IDSac = ?");
+        mysqli_stmt_bind_param($stmt2, 'i', $ID);
+        mysqli_execute($stmt2);
+        
+        return true;
+    }
+    
+    else return false;
+}
+
+function  buyPotion($BDD, $ID){
+    $test = getmoney($BDD, $ID);
+
+    if($test >= 200){ 
+        $stmt = mysqli_prepare($BDD, "UPDATE User SET qtteThune = qtteThune - '200' WHERE IDD = ?");
+        mysqli_stmt_bind_param($stmt, 'i', $ID);
+        mysqli_execute($stmt);
+        
+        $stmt2 = mysqli_prepare($BDD, "UPDATE Sac SET potion = potion + '1' WHERE IDSac = ?");
+        mysqli_stmt_bind_param($stmt2, 'i', $ID);
+        mysqli_execute($stmt2);
+        
+        return true;
+    }
+    
+    else return false;
+}
 ?>
-
-
-
