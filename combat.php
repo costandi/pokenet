@@ -9,36 +9,43 @@ include './bdd.php';
 <body>
 
 <?php
-	$bob = 2; // bob VS pol
-	$pol = 4;
+	$bob = 2; // bob VS joseLeBandit
+	$joseLeBandit = 4;
 	
 	$BDD = GenerBDD();
 
 	$pok = getPkmAtk($BDD, $bob);
 	$t = getTypePkm($BDD, $bob);
 
-	$pok2 = getPkmAtk($BDD, $pol);
-	$t2 = getTypePkm($BDD, $pol);
+	$pok2 = getPkmAtk($BDD, $joseLeBandit);
+	$t2 = getTypePkm($BDD, $joseLeBandit);
 ?>
 
-	<div>
+	<div id="ennemi">ennemi
 		<?php
-		displayPokemonInfo($BDD, $pol);
+		displayPokemonInfo($BDD, $joseLeBandit);
 		echo $t2[0]."<br/>";
 		echo $t2[1];
 		?>
 	</div>
+	
+	<div id="degats">
+		<?php
+		$PV = getPV($BDD, 4);
+		echo "<br/>il reste ".$PV." pv";
+		?>
+	</div>
+
 
 <br/>
 
-	<div>
+	<div id="pokemon">
 		<?php
 		displayPokemonInfo($BDD, $bob);
 		echo $t[0]."<br/>";
 		echo $t[1];
 		?>
 	</div>
-
 
 
 
@@ -64,6 +71,10 @@ include './bdd.php';
 		fermerBDD($BDD);
 		?>
 	</form>
+
+
+
+
 
 </body>
 </html>
@@ -94,6 +105,10 @@ include './bdd.php';
 
 	}
 
+	#stat {
+		color: red;
+	}
+
 	input:hover {
 		background-color: rgba(255, 0, 0, 1);
 	}
@@ -115,6 +130,38 @@ include './bdd.php';
 </style>
 
 <script type="text/javascript">
+
+
+
+	function send(i){
+			var xhr = new XMLHttpRequest();
+			let degats =  document.querySelector("#degats");
+			let ennemi =  document.querySelector("#ennemi");
+		xhr.open('GET', 'ajaxServ.php?param1=' + i, false); //true pour synchrone, false pour asynchrone
+
+		xhr.addEventListener('readystatechange', function() {
+
+			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status ===200)
+				degats.innerHTML = xhr.responseText + "<br/>";
+
+
+		}
+		);
+		xhr.send();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 	var attaque = document.querySelector("#attaque");
 	var attaque1 = document.querySelector("#attaque1");
 	var attaque2 = document.querySelector("#attaque2");
