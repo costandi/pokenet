@@ -45,8 +45,9 @@ create table Pokemon (
 
 
 create table Equipe (
-	IDEq int not null auto_increment primary key,
-	IDPkmEq int
+	IDEq int not null auto_increment,
+	IDPkmEq int references Pokemon(IDPkm),
+	primary key (IDEq, IDPkmEQ)
 );
 
 
@@ -72,7 +73,8 @@ create table PoType (
 
 
 create table PC (
-	IDPC int not null auto_increment primary key,
-	IDDPC int not null,
-	PCPkm int not null
+	IDPC int not null auto_increment,
+	PCPkm int not null references Pokemon(IDPkm),
+	primary key (IDPC, PCPkm)
+
 );

@@ -1,2 +1,15 @@
-insert into Equipe (PKM1, PKM2, PKM3, PKM4, PKM5, PKM6)
-	values (1, 2, 3, NULL, NULL, NULL);
+insert into Equipe
+	values (1, 1);
+
+insert into Equipe
+	values (1, 2);
+
+insert into Equipe
+	values (1, 3);
+
+insert into Equipe
+	values (2, 4);
+
+insert into Equipe
+	values (2, 5);
+
