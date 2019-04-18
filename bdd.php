@@ -26,7 +26,7 @@ function checkUserBDD($BDD, $UNcheck, $MDP2check);
 //__________________________________________________________________________________
 
 function GenerBDD(){
-	$BDD=mysqli_connect("localhost","root","1919","pokenet");
+	$BDD=mysqli_connect("localhost","cynthia","C4rpeD1em","pokenet");
 	if(!$BDD){
 		die("<p>connexion impossible</p>");
 	}

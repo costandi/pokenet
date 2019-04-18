@@ -2,7 +2,19 @@
 session_start();
 
 include './bdd.php';
+
 $BDD = GenerBDD();
+
+if(isset($_POST["pokeball"])){
+    buyPokeball($BDD, $_SESSION['ID']);
+    $_POST = null;
+}
+
+if(isset($_POST["potion"])){
+    buyPotion($BDD, $_SESSION['ID']);
+    $_POST = null;
+}
+
 
 $un = getUsername($BDD, $_SESSION['ID']);
 $pb = getPokeball($BDD, $_SESSION['ID']);
@@ -10,8 +22,6 @@ $pt = getPotion($BDD, $_SESSION['ID']);
 $mn = getMoney($BDD, $_SESSION['ID']);
 
 fermerBDD($BDD);
-
-$vb = "AFFICHER";
 ?>
 
 <!DOCTYPE html>
@@ -26,16 +36,20 @@ $vb = "AFFICHER";
     
     <body>
 	
-	<div id="fenetre">Fenetre</div>
+	<div id="fenetre">
+	    Choisisser un article!
+	    <form method="POST" action="magasin.php">
+		<input type="submit" name="potion" value="Acheter une potion"/>
+		<input type="submit" name="pokeball" value="Acheter une pokeball"/>
+	    </form>    
+	</div>
 	
 	<div id="droite">test
-	    <div id="g">
-		<p id ="md">_________________________________________________MENU</p></div>
+	    <div id="g"><p id ="md">_________________________________________________MENU</p></div>
 	    <div id="d">
 		<ul>
 		    <li><p>Se promener</p></li>
 		    <li><p>Combattre d'autres joueurs!</p></li>
-		    <li><p><a href="magasin.php">Magasin</a></p></li>
 		</ul>
 	    </div>
 	</div>
@@ -73,7 +87,7 @@ $vb = "AFFICHER";
 
 <script type="text/javascript">
  
- var statutB = 0;
+ var statutB = 1;
  var fenetre = document.querySelector("#fenetre");
  var droite = document.querySelector("#droite");
  
