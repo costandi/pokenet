@@ -26,7 +26,7 @@ function checkUserBDD($BDD, $UNcheck, $MDP2check);
 //__________________________________________________________________________________
 
 function GenerBDD(){
-	$BDD=mysqli_connect("localhost","cynthia","C4rpeD1em","pokenet");
+	$BDD=mysqli_connect("localhost","root","1919","pokenet");
 	if(!$BDD){
 		die("<p>connexion impossible</p>");
 	}
@@ -36,17 +36,21 @@ function GenerBDD(){
 
 
 function CreUser($BDD, $username, $MdP){
-
-	$prepUser = mysqli_prepare($BDD, "INSERT INTO User(userName,userMDP, qtteThune) VALUES(?,?, 500)");
-	mysqli_stmt_bind_param($prepUser, 'ss', $username, $MdP);
-	mysqli_execute($prepUser);
-	$ID = getIdNumber($BDD, $username);
-
-	$newSac = mysqli_prepare($BDD, "INSERT INTO Sac VALUES(?, 5, 5)");
-	mysqli_stmt_bind_param($newSac,'i', $ID);
-	mysqli_execute($newSac);
+    $tmp = getIdNumber($BDD, $username);
+    
+    if ($tmp == -1){
+        $prepUser = mysqli_prepare($BDD, "INSERT INTO User(username,userMDP, qtteThune) VALUES(?,?, 500)");
+        mysqli_stmt_bind_param($prepUser, 'ss', $username, $MdP);
+        mysqli_execute($prepUser);
+        $ID = getIdNumber($BDD, $username);
+        
+        $newSac = mysqli_prepare($BDD, "INSERT INTO Sac VALUES(?, 5, 5)");
+        mysqli_stmt_bind_param($newSac,'i', $ID);
+        mysqli_execute($newSac);
+    }
+    
+    return $tmp;
 }
-
 
 
 function fermerBDD($BDD){
@@ -79,7 +83,11 @@ function getIdNumber($BDD, $User)
 	mysqli_stmt_bind_result($stmt, $ID);
 	while(mysqli_stmt_fetch($stmt));
 
-	return $ID;
+
+    if (!$ID)
+        return -1;
+    else
+        return $ID;
 
 }
 
@@ -88,11 +96,8 @@ function getUsername($BDD, $ID)
 	$stmt = mysqli_prepare($BDD, "SELECT username FROM User WHERE IDD = ?");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
-
-	mysqli_stmt_bind_result($stmt, $User);
-	while(mysqli_stmt_fetch($stmt));
-
-	return $User;
+    mysqli_stmt_bind_result($stmt, $User);
+    while(mysqli_stmt_fetch($stmt));
 }
 
 
@@ -107,11 +112,11 @@ function getPkmAtk($BDD, $ID){
 
 	$AtkTab = array();
 	if($res) {
-		while(mysqli_stmt_fetch($stmt)){
-			array_push($AtkTab, $IDAtk, $nomAtk);
-		}
-	}
-	return $AtkTab;
+ 		while(mysqli_stmt_fetch($stmt)){
+ 			array_push($AtkTab, $IDAtk, $nomAtk);
+        }
+ 	}
+ 	return $AtkTab;
 }
 
 
@@ -283,5 +288,39 @@ function  buyPotion($BDD, $ID){
     }
     
     else return false;
+}
+
+function getPkmTeam($BDD, $ID){
+	$stmt = mysqli_prepare($BDD, 
+		"SELECT IDPkmEq, nom from Equipe NATURAL JOIN Pokedex where IDEq = ?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
+	$res = mysqli_stmt_bind_result($stmt, $IDPkmEq, $nomPkm);
+
+
+	$AtkEq = array();
+	if($res) {
+ 		while(mysqli_stmt_fetch($stmt)){
+ 			array_push($AtkEq, $IDPkmEq, $nomPkm);
+        }
+ 	}
+ 	return $AtkEq;
+}
+
+function getPkmPc($BDD, $ID){
+	$stmt = mysqli_prepare($BDD, 
+		"SELECT IDPkmPC, nom from PC NATURAL JOIN Pokedex where IDPkmPC = ?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
+	$res = mysqli_stmt_bind_result($stmt, $IDPkmEq, $nomPkm);
+
+
+	$AtkEq = array();
+	if($res) {
+ 		while(mysqli_stmt_fetch($stmt)){
+ 			array_push($AtkEq, $IDPkmEq, $nomPkm);
+        }
+ 	}
+ 	return $AtkEq;
 }
 ?>

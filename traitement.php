@@ -58,10 +58,15 @@ if (isset($_POST["inscription"]))
     if ($check == 0)
     {
         $cMdP = Chiffrement::crypt($_POST["mdp"]);
-        $BDD = GenerBDD();
-        CreUser($BDD, $_POST["nom"], $cMdP);
-        $cMdP = Chiffrement::decrypt($cMdP);
-        echo "inscrit sous le nom de ".$_POST["nom"]." ! ton mdp est ".$cMdP;
+        $BDD = GenerBDD();        
+	
+	$tmp = CreUser($BDD, $_POST["nom"], $cMdP);
+	
+	if ($tmp == -1){
+            $cMdP = Chiffrement::decrypt($cMdP);
+            echo "inscrit sous le nom de ".$_POST["nom"]." ! ton mdp est ".$cMdP;
+        }
+	else echo "Ce nom d'utilisateur est déja prit!";
         fermerBDD($BDD);
     }
     else echo "mot de passe invalide";
@@ -77,41 +82,41 @@ else if (isset($_POST["inscription"]) && !isset($_POST["connexion"]) && !isset($
 
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
 	<title></title>
 	<link rel="icon" href="favicon.png">
 	<link rel="stylesheet" type="text/css" href="stylesheet.css">
 
-</head>
-<body>
+    </head>
+    <body>
 	<div class="round-button" name="boutonPokeball">
-       <a href="index.php">
-          <img src="decors/pokeball.png">
-      </a>
-  </div>
-</body>
+	    <a href="index.php">
+		<img src="decors/pokeball.png">
+	    </a>
+	</div>
+    </body>
 </html>
 
 <style type="text/css">
-   .round-button {
-       position: relative;
-       margin:5px;
-       width: 80px;
-       height: 0;
-       padding-bottom: 80px;
-       border-radius: 50%;
-       border: 2px solid #f5f5f5;
-       overflow: hidden;
-       background: #464646;
-       box-shadow: 0 0 3px gray;
-   }
-   .round-button:hover {
-       background: red;
-   }
-   .round-button img {
-       display: block;
-       width: 77px;
-       padding: 0;
-       height: auto;
-   }
+ .round-button {
+     position: relative;
+     margin:5px;
+     width: 80px;
+     height: 0;
+     padding-bottom: 80px;
+     border-radius: 50%;
+     border: 2px solid #f5f5f5;
+     overflow: hidden;
+     background: #464646;
+     box-shadow: 0 0 3px gray;
+ }
+ .round-button:hover {
+     background: red;
+ }
+ .round-button img {
+     display: block;
+     width: 77px;
+     padding: 0;
+     height: auto;
+ }
 </style>
