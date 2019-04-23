@@ -8,9 +8,9 @@ include './bdd.php';
 </head>
 <body>
 
-<?php
-	$bob = 2; // bob VS joseLeBandit
-	$joseLeBandit = 4;
+	<?php
+	$bob = 1; // bob VS joseLeBandit
+	$joseLeBandit = 3;
 	
 	$BDD = GenerBDD();
 
@@ -19,31 +19,34 @@ include './bdd.php';
 
 	$pok2 = getPkmAtk($BDD, $joseLeBandit);
 	$t2 = getTypePkm($BDD, $joseLeBandit);
-?>
+	?>
 
 	<div id="ennemi">ennemi
 		<?php
 		displayPokemonInfo($BDD, $joseLeBandit);
 		echo $t2[0]."<br/>";
-		echo $t2[1];
+		// echo $t2[1];
 		?>
 	</div>
-	
-	<div id="degats">
+
+	<div id="vie">
 		<?php
-		$PV = getPV($BDD, 4);
+		$PV = getPV($BDD, $joseLeBandit);
 		echo "<br/>il reste ".$PV." pv";
+		$KO = setKO($BDD, $joseLeBandit);
+
+// IL FAUT EMPECHER D'UTILISER N'IMPORTE QUELLE ATTAQUE DEPUIS L'INVITE DE COMMANDE JS
 		?>
 	</div>
 
 
-<br/>
+	<br/>
 
 	<div id="pokemon">
 		<?php
 		displayPokemonInfo($BDD, $bob);
 		echo $t[0]."<br/>";
-		echo $t[1];
+		echo $t[1]."<br/>";
 		?>
 	</div>
 
@@ -53,7 +56,7 @@ include './bdd.php';
 		<input type="button" id="attaque" value="Attaques">
 
 		<?php
-			displayAttaque($BDD, $pok);			
+		displayAttaque($BDD, $pok);			
 		?>
 
 
@@ -133,21 +136,30 @@ include './bdd.php';
 
 
 
-	function send(i){
-			var xhr = new XMLHttpRequest();
-			let degats =  document.querySelector("#degats");
-			let ennemi =  document.querySelector("#ennemi");
+	function send(bot, i){
+		var xhr = new XMLHttpRequest();
+		let vie =  document.querySelector("#vie");
+
 		xhr.open('GET', 'ajaxServ.php?param1=' + i, false); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 
-			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status ===200)
-				degats.innerHTML = xhr.responseText + "<br/>";
+			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+				vie.innerHTML = xhr.responseText;
 
 
 		}
 		);
-		xhr.send();
+		
+		if (bot == "not a robot") {
+			xhr.send();
+		}
+		
+		
+	}
+
+	function bot() {
+		return "not a robot";
 	}
 
 
@@ -223,7 +235,7 @@ include './bdd.php';
 
 		pokeball.style.visibility = "hidden";
 		potion.style.visibility = "hidden";
-	
+
 		
 	});
 
