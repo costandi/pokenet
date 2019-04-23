@@ -15,12 +15,13 @@ function fermerBDD();
 function checkUserBDD($BDD, $UNcheck, $MDP2check);
 */
 
-// select nom, PV, niveau from Pokedex, Pokemon where IDPkd=IDPkm and IDPkm=1;
+// select nom, PV, niveau from Pokedex, Pokemon where IDPkd=IDPkm and IDPkm=1
 
 // select nomT from Type, PoType where IDPkdPT=2 and IDT=IDTypePT
 
 // select nomAtk from Attaque, PoAtk where IDPkmPA=3 and IDAtk=IDAtkPA
 
+// select nom from Pokemon, Equipe, Pokedex, User where IDPkm=IDPkmEq and IDD=IDEq and IDPkm=IDPkd and IDD=1
 
 //utiliser l'id dresseur pour le sac et l'equipe
 //__________________________________________________________________________________
@@ -53,13 +54,14 @@ function CreUser($BDD, $username, $MdP){
 }
 
 
+
 function fermerBDD($BDD){
 	mysqli_close($BDD);
 }
 
 
 
-function checkUserBDD($BDD, $UNcheck, $MDP2check){
+function checkUserBDD($BDD, $UNcheck, $MDP2check) {
 	$stmt = mysqli_prepare($BDD, "SELECT userMDP FROM User WHERE userName = ?");
 	mysqli_stmt_bind_param($stmt, 's', $UNcheck);
 	mysqli_execute($stmt);
@@ -79,25 +81,27 @@ function getIdNumber($BDD, $User)
 	$stmt = mysqli_prepare($BDD, "SELECT IDD FROM User WHERE userName = ?");
 	mysqli_stmt_bind_param($stmt, 's', $User);
 	mysqli_execute($stmt);
-
 	mysqli_stmt_bind_result($stmt, $ID);
 	while(mysqli_stmt_fetch($stmt));
-
-
     if (!$ID)
         return -1;
     else
         return $ID;
-
 }
+
+
 
 function getUsername($BDD, $ID)
 {
 	$stmt = mysqli_prepare($BDD, "SELECT username FROM User WHERE IDD = ?");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $User);
-    while(mysqli_stmt_fetch($stmt));
+
+	mysqli_stmt_bind_result($stmt, $User);
+	while(mysqli_stmt_fetch($stmt));
+
+	return $User;
+
 }
 
 
@@ -112,11 +116,11 @@ function getPkmAtk($BDD, $ID){
 
 	$AtkTab = array();
 	if($res) {
- 		while(mysqli_stmt_fetch($stmt)){
- 			array_push($AtkTab, $IDAtk, $nomAtk);
-        }
- 	}
- 	return $AtkTab;
+		while(mysqli_stmt_fetch($stmt)){
+			array_push($AtkTab, $IDAtk, $nomAtk);
+		}
+	}
+	return $AtkTab;
 }
 
 
@@ -163,11 +167,10 @@ function displayAttaque($BDD, $pok) {
 	$a = 1;
 
 	for ($i=1; $i < $taille; $i=$i+2) { 
-		echo "	<input type='button' id='attaque".$a."' value='".$pok[$i]."'>	";
+		echo "	<input type='button' id='attaque".$a."' onclick='send(bot(), ".$pok[$i-1].")' value='".$pok[$i]."'>	";
 		$a = $a+1;
 	}
 	echo "<br/>";
-
 }
 
 
@@ -192,14 +195,46 @@ function getTypePkm($BDD, $pok) {
  
 
 function displayPokemonInfo($BDD, $pok) {
-	$stmt = mysqli_prepare($BDD, "SELECT nom, niveau, PV from Pokedex, Pokemon where IDPkd=IDPkm and IDPkm=?");
+	$stmt = mysqli_prepare($BDD, "SELECT nom, niveau from Pokedex, Pokemon where IDPkd=IDPkm and IDPkm=?");
 	mysqli_stmt_bind_param($stmt, 'i', $pok);
 	mysqli_execute($stmt);
 
-	mysqli_stmt_bind_result($stmt, $nom, $niveau, $PV);
+	mysqli_stmt_bind_result($stmt, $nom, $niveau);
 	while(mysqli_stmt_fetch($stmt));
 
-	echo $nom." niveau ". $niveau." avec ". $PV." pv !<br/>";
+	echo "<p id=stat>".$nom." niveau ". $niveau."</p>";
+}
+
+
+function getPV($BDD, $pok){
+	$stmt = mysqli_prepare($BDD, "SELECT PV from  Pokemon where IDPkm=?");
+	mysqli_stmt_bind_param($stmt, 'i', $pok);
+	mysqli_execute($stmt);
+
+	mysqli_stmt_bind_result($stmt, $PV);
+	while(mysqli_stmt_fetch($stmt));
+
+	return $PV;
+}
+
+
+function setKO($BDD, $pok)
+{
+	$PV = getPV($BDD, $pok);
+
+	if ($PV <= 0) {
+		$stmt = mysqli_prepare($BDD, "UPDATE Pokemon set KO=1 where IDPkm=?");
+		mysqli_stmt_bind_param($stmt, 'i', $pok);
+		mysqli_execute($stmt);
+		echo "<br/>KO !";
+	}
+	else
+	{
+		$stmt = mysqli_prepare($BDD, "UPDATE Pokemon set KO=0 where IDPkm=?");
+		mysqli_stmt_bind_param($stmt, 'i', $pok);
+		mysqli_execute($stmt);
+		// echo "<br/>pas KO !";
+	}
 }
 
 
@@ -216,79 +251,103 @@ function getDamage($BDD, $attaque)
 	return $degats;
 }
 
-function getMoney($BDD, $ID){
-    $stmt = mysqli_prepare($BDD, "SELECT qtteThune FROM User WHERE IDD = ?");
-	mysqli_stmt_bind_param($stmt, 'i', $ID);
+
+function applyDamage($BDD, $damage, $IDennemi)
+{
+	$stmt = mysqli_prepare($BDD, "UPDATE Pokemon set PV=PV-? where IDPkm = ?");
+	mysqli_stmt_bind_param($stmt, 'ii', $damage, $IDennemi);
 	mysqli_execute($stmt);
 
+	
+}
+
+
+
+
+
+function getMoney($BDD, $ID){
+	$stmt = mysqli_prepare($BDD, "SELECT qtteThune FROM User WHERE IDD = ?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
 	mysqli_stmt_bind_result($stmt, $Thune);
-    while(mysqli_stmt_fetch($stmt));
-        
+	while(mysqli_stmt_fetch($stmt));
+		
 	return $Thune;
 }
-
 function getPokeball($BDD, $ID){
-    $stmt = mysqli_prepare($BDD, "SELECT pokeball FROM Sac WHERE IDSac = ?");
+	$stmt = mysqli_prepare($BDD, "SELECT pokeball FROM Sac WHERE IDSac = ?");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
-
 	mysqli_stmt_bind_result($stmt, $Pokeball);
 	while(mysqli_stmt_fetch($stmt));
-    
+	
 	return $Pokeball;
 }
-
 function getPotion($BDD, $ID){
-    $stmt = mysqli_prepare($BDD, "SELECT potion FROM Sac WHERE IDSac = ?");
+	$stmt = mysqli_prepare($BDD, "SELECT potion FROM Sac WHERE IDSac = ?");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
-
 	mysqli_stmt_bind_result($stmt, $Potion);
 	while(mysqli_stmt_fetch($stmt));
-    
+	
 	return $Potion;
 }
-
 function newDay($BDD){
-    mysqli_query($BDD, "UPDATE User SET qtteThune = qtteThune + '50'");
-    mysqli_query($BDD, "UPDATE Sac SET pokeball = pokeball + '5'");
+	mysqli_query($BDD, "UPDATE User SET qtteThune = qtteThune + '50'");
+	mysqli_query($BDD, "UPDATE Sac SET pokeball = pokeball + '5'");
 }
-
 function  buyPokeball($BDD, $ID){
-    $test = getMoney($BDD, $ID);
-
-    if($test >= 300){ 
-        $stmt = mysqli_prepare($BDD, "UPDATE User SET qtteThune = qtteThune - '300' WHERE IDD = ?");
-        mysqli_stmt_bind_param($stmt, 'i', $ID);
-        mysqli_execute($stmt);
-        
-        $stmt2 = mysqli_prepare($BDD, "UPDATE Sac SET pokeball = pokeball + '1' WHERE IDSac = ?");
-        mysqli_stmt_bind_param($stmt2, 'i', $ID);
-        mysqli_execute($stmt2);
-        
-        return true;
-    }
-    
-    else return false;
+	$test = getMoney($BDD, $ID);
+	if($test >= 300){ 
+		$stmt = mysqli_prepare($BDD, "UPDATE User SET qtteThune = qtteThune - '300' WHERE IDD = ?");
+		mysqli_stmt_bind_param($stmt, 'i', $ID);
+		mysqli_execute($stmt);
+		
+		$stmt2 = mysqli_prepare($BDD, "UPDATE Sac SET pokeball = pokeball + '1' WHERE IDSac = ?");
+		mysqli_stmt_bind_param($stmt2, 'i', $ID);
+		mysqli_execute($stmt2);
+		
+		return true;
+	}
+	
+	else return false;
 }
-
 function  buyPotion($BDD, $ID){
-    $test = getmoney($BDD, $ID);
-
-    if($test >= 200){ 
-        $stmt = mysqli_prepare($BDD, "UPDATE User SET qtteThune = qtteThune - '200' WHERE IDD = ?");
-        mysqli_stmt_bind_param($stmt, 'i', $ID);
-        mysqli_execute($stmt);
-        
-        $stmt2 = mysqli_prepare($BDD, "UPDATE Sac SET potion = potion + '1' WHERE IDSac = ?");
-        mysqli_stmt_bind_param($stmt2, 'i', $ID);
-        mysqli_execute($stmt2);
-        
-        return true;
-    }
-    
-    else return false;
+	$test = getmoney($BDD, $ID);
+	if($test >= 200){ 
+		$stmt = mysqli_prepare($BDD, "UPDATE User SET qtteThune = qtteThune - '200' WHERE IDD = ?");
+		mysqli_stmt_bind_param($stmt, 'i', $ID);
+		mysqli_execute($stmt);
+		
+		$stmt2 = mysqli_prepare($BDD, "UPDATE Sac SET potion = potion + '1' WHERE IDSac = ?");
+		mysqli_stmt_bind_param($stmt2, 'i', $ID);
+		mysqli_execute($stmt2);
+		
+		return true;
+	}
+	
+	else return false;
 }
+
+
+// function getEquipe($BDD, $ID)
+// {
+// 	$stmt = mysqli_prepare($BDD, "SELECT IDPkmEq, position, nom, PV from Equipe, User, Pokedex, Pokemon where IDEq=IDD and IDPkm=IDPkmEq and IDD=? and IDPkmEq=IDPkd");
+// 	mysqli_stmt_bind_param($stmt, 'i', $ID);
+// 	mysqli_execute($stmt);
+
+// 	$res = mysqli_stmt_bind_result($stmt, $IDPkm, $pos, $nom, $PV);
+
+
+// 	$equipe = array();
+// 	if($res) {
+// 		while(mysqli_stmt_fetch($stmt)){
+// 			array_push($equipe, $IDPkm, $pos, $nom, $PV);
+// 		}
+// 	}
+// 	return $equipe;
+// }
+
 
 function getPkmTeam($BDD, $ID){
 	$stmt = mysqli_prepare($BDD, 
@@ -296,8 +355,6 @@ function getPkmTeam($BDD, $ID){
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
 	$res = mysqli_stmt_bind_result($stmt, $IDPkmEq, $nomPkm);
-
-
 	$AtkEq = array();
 	if($res) {
  		while(mysqli_stmt_fetch($stmt)){
@@ -306,6 +363,25 @@ function getPkmTeam($BDD, $ID){
  	}
  	return $AtkEq;
 }
+
+
+// function displayEquipe($BDD, $eq) {
+// 	$taille = count($eq);
+// 	//echo "taille = ".$taille;
+
+// 	$i = 0;
+// 	$a = 1;
+// 	echo "<ul>";
+// 	for ($i=0; $i < $taille; $i=$i+4) { 
+// 		echo "<li>idPkm : ".$eq[$i]."<br/>position : ".$eq[$i+1]."<br/>nom : ".$eq[$i+2]."<br/>pv : ".$eq[$i+3]." pv</li>	";
+// 		echo "<br/>";
+
+// 		$a = $a+1;
+// 	}
+// 	echo "</ul>";
+	
+// }
+
 
 function getPkmPc($BDD, $ID){
 	$stmt = mysqli_prepare($BDD, 
@@ -313,8 +389,6 @@ function getPkmPc($BDD, $ID){
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
 	$res = mysqli_stmt_bind_result($stmt, $IDPkmEq, $nomPkm);
-
-
 	$AtkEq = array();
 	if($res) {
  		while(mysqli_stmt_fetch($stmt)){
@@ -323,4 +397,8 @@ function getPkmPc($BDD, $ID){
  	}
  	return $AtkEq;
 }
+
 ?>
+
+
+
