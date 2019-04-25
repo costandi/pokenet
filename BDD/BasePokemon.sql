@@ -47,6 +47,7 @@ create table Pokemon (
 create table Equipe (
 	IDEq int not null auto_increment,
 	IDPkmEq int references Pokemon(IDPkm),
+	position int not null,
 	primary key (IDEq, IDPkmEQ)
 );
 
