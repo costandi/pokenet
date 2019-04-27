@@ -105,26 +105,6 @@ function getUsername($BDD, $ID)
 }
 
 
-
-function getPkmAtk($BDD, $ID){
-	$stmt = mysqli_prepare($BDD, 
-		"SELECT IDAtkPA, nomAtk from Attaque, PoAtk where IDPkmPA = ? and IDAtk = IDAtkPA");
-	mysqli_stmt_bind_param($stmt, 'i', $ID);
-	mysqli_execute($stmt);
-	$res = mysqli_stmt_bind_result($stmt, $IDAtk, $nomAtk);
-
-
-	$AtkTab = array();
-	if($res) {
-		while(mysqli_stmt_fetch($stmt)){
-			array_push($AtkTab, $IDAtk, $nomAtk);
-		}
-	}
-	return $AtkTab;
-}
-
-
-
 function newPkm($BDD, $ID){
 	$newPkm = mysqli_prepare($BDD, "INSERT INTO Pokemon(IDPkd_, niveau, PV, etat, KO, vitesse, sauvage)
 		VALUES(?, 1, 100, -1, 0, 5, 1)");
@@ -167,7 +147,7 @@ function displayAttaque($BDD, $pok) {
 	$a = 1;
 
 	for ($i=1; $i < $taille; $i=$i+2) { 
-		echo "	<input type='button' id='attaque".$a."' onclick='send(bot(), ".$pok[$i-1].")' value='".$pok[$i]."'>	";
+		echo "	<input type='button' id='attaque".$a."' onclick='send(".$pok[$i-1].")' value='".$pok[$i]."'>	";
 		$a = $a+1;
 	}
 	echo "<br/>";
@@ -238,17 +218,38 @@ function setKO($BDD, $pok)
 }
 
 
-
-function getDamage($BDD, $attaque)
-{
-	$stmt = mysqli_prepare($BDD, "SELECT degats FROM Attaque WHERE IDAtk = ?");
-	mysqli_stmt_bind_param($stmt, 'i', $attaque);
+function getPkmAtk($BDD, $ID){
+	$stmt = mysqli_prepare($BDD, 
+		"SELECT IDAtkPA, nomAtk from Attaque, PoAtk where IDPkmPA = ? and IDAtk = IDAtkPA");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
+	$res = mysqli_stmt_bind_result($stmt, $IDAtk, $nomAtk);
 
-	mysqli_stmt_bind_result($stmt, $degats);
-	while(mysqli_stmt_fetch($stmt));
 
-	return $degats;
+	$AtkTab = array();
+	if($res) {
+		while(mysqli_stmt_fetch($stmt)){
+			array_push($AtkTab, $IDAtk, $nomAtk);
+		}
+	}
+	return $AtkTab;
+}
+
+
+
+function getDamage($BDD, $attaque, $array)
+{
+	if (in_array($attaque, $array)) {
+		$stmt = mysqli_prepare($BDD, "SELECT degats FROM Attaque WHERE IDAtk = ?");
+		mysqli_stmt_bind_param($stmt, 'i', $attaque);
+		mysqli_execute($stmt);
+
+		mysqli_stmt_bind_result($stmt, $degats);
+		while(mysqli_stmt_fetch($stmt));
+
+		return $degats;
+	}
+	
 }
 
 
@@ -397,6 +398,68 @@ function getPkmPc($BDD, $ID){
  	}
  	return $AtkEq;
 }
+
+// select count dans l'equipe :
+// si < 6 => pos = count+1
+// sinon => dans le PC
+
+
+function getFirstPkm($BDD, $IDEq)
+{
+	$stmt = mysqli_prepare($BDD, "SELECT IdPkmEq from Equipe where IDEq= ? and position=1");
+	mysqli_stmt_bind_param($stmt, 'i', $IDEq);
+	mysqli_execute($stmt);
+
+	mysqli_stmt_bind_result($stmt, $first);
+	while(mysqli_stmt_fetch($stmt));
+
+	return $first;
+}
+
+
+
+// select vitesse from Pokemon, Equipe where IDPkm=IDpkmEq and IDEq=2 and position=1
+
+function getVitesse($BDD, $ID)
+{
+	$stmt = mysqli_prepare($BDD, "SELECT vitesse from Pokemon, Equipe where IDPkm=IDpkmEq and IDEq=? and position=1");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
+
+	mysqli_stmt_bind_result($stmt, $first);
+	while(mysqli_stmt_fetch($stmt));
+
+	return $first;
+}
+
+
+
+function whoStart($BDD, $Pkm1, $Pkm2)
+{
+	$pok1 = getVitesse($BDD, $Pkm1);
+	$pok2 = getVitesse($BDD, $Pkm2);
+
+	if ($pok1 < $pok2) {
+		return $Pkm1;
+	}
+	else
+		return $Pkm2;
+}
+
+
+function whofinish($BDD, $Pkm1, $Pkm2)
+{
+	$pok1 = getVitesse($BDD, $Pkm1);
+	$pok2 = getVitesse($BDD, $Pkm2);
+
+	if ($pok1 > $pok2) {
+		return $Pkm1;
+	}
+	else
+		return $Pkm2;
+}
+
+
 
 ?>
 

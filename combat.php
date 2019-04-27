@@ -1,5 +1,12 @@
 <?php
+session_start();
 include './bdd.php';
+
+if (!isset($_SESSION['ID'])) {
+	header("refresh:3; URL=connect.php");
+	die ('Vous devez vous connecter pour combatre !');	
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -9,71 +16,92 @@ include './bdd.php';
 <body>
 
 	<?php
-	$bob = 1; // bob VS joseLeBandit
-	$joseLeBandit = 3;
-	
 	$BDD = GenerBDD();
+	
+
+	$bob = getFirstPkm($BDD, $_SESSION['ID']); // bob VS joseLeBandit
+	$joseLeBandit = 3;
+
+	echo $bob;
+
+
 
 	$pok = getPkmAtk($BDD, $bob);
 	$t = getTypePkm($BDD, $bob);
 
 	$pok2 = getPkmAtk($BDD, $joseLeBandit);
 	$t2 = getTypePkm($BDD, $joseLeBandit);
+
+
+	$premier = whoStart($BDD, $bob, $joseLeBandit);
+	echo "le premier est le num : ".$premier;
+
+
+
+	$dernier = whoFinish($BDD, $bob, $joseLeBandit);
+	echo "<br/>le dernier est le num : ".$dernier;
+
+
 	?>
+
 
 	<div id="ennemi">ennemi
 		<?php
 		displayPokemonInfo($BDD, $joseLeBandit);
 		echo $t2[0]."<br/>";
-		// echo $t2[1];
+		echo $t2[1];
 		?>
+		<div id="vie">
+			<?php
+			$PV = getPV($BDD, $joseLeBandit);
+			echo "il reste ".$PV." pv à l'adversaire !";
+			setKO($BDD, $joseLeBandit);
+
+			?>
+		</div>
 	</div>
 
-	<div id="vie">
-		<?php
-		$PV = getPV($BDD, $joseLeBandit);
-		echo "<br/>il reste ".$PV." pv";
-		$KO = setKO($BDD, $joseLeBandit);
-
-// IL FAUT EMPECHER D'UTILISER N'IMPORTE QUELLE ATTAQUE DEPUIS L'INVITE DE COMMANDE JS
-		?>
-	</div>
+	
 
 
+	<br/>
 	<br/>
 
 	<div id="pokemon">
 		<?php
 		displayPokemonInfo($BDD, $bob);
+		$PV2 = getPV($BDD, $bob);
+		echo "il vous reste ".$PV2." pv !<br/>";
+		setKO($BDD, $bob);
+
 		echo $t[0]."<br/>";
 		echo $t[1]."<br/>";
 		?>
+
+		<div id="actions">
+
+			<input type="button" id="attaque" value="Attaques" onclick="combatre(2)">
+
+			<br/>
+
+			<input type="button" id="objets" value="Objets">
+
+			<input type="button" id="pokeball" value="Pokeball">
+			<input type="button" id="potion" value="Potion">
+
+			<br/>
+			<br/>
+			<br/>
+
+			<input type="button" id="retour" value="Retour">
+
+		</div>
+
 	</div>
 
 
 
-	<form>
-		<input type="button" id="attaque" value="Attaques">
-
-		<?php
-		displayAttaque($BDD, $pok);			
-		?>
-
-
-
-
-		<br/>
-
-
-		<input type="button" id="objets" value="objets">
-
-		<input type="button" id="pokeball" value="pokeball">
-		<input type="button" id="potion" value="potion">
-
-		<?php
-		fermerBDD($BDD);
-		?>
-	</form>
+	
 
 
 
@@ -134,33 +162,89 @@ include './bdd.php';
 
 <script type="text/javascript">
 
+	var bob = <?php echo $bob ?>;
+	var joseLeBandit = <?php echo $joseLeBandit ?>;
+	var premier = <?php echo $premier ?>;
+
+	var actions = document.querySelector("#actions");
+	var randomAttaque;
 
 
-	function send(bot, i){
+	function getRandomAttaque(max) {
+		return Math.floor(Math.random() * Math.floor(max));
+	}
+
+
+	//while equipe1 pas KO et equipe2 pas ko
+	// combatre();
+
+	function combatre(IDAtk) {
+		if (current == bob) {
+			// afficher les attaques
+
+		}
+
+		else {
+			randomAttaque = getRandomAttaque(/*nb d'attaque de l'ennemi*/);
+		}
+	}
+
+
+	function send(IDAtk){
 		var xhr = new XMLHttpRequest();
 		let vie =  document.querySelector("#vie");
 
-		xhr.open('GET', 'ajaxServ.php?param1=' + i, false); //true pour synchrone, false pour asynchrone
+		xhr.open('GET', 'ajaxCombat.php?IDAtk=' + IDAtk, false); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
 				vie.innerHTML = xhr.responseText;
-
-
 		}
 		);
 		
-		if (bot == "not a robot") {
-			xhr.send();
+		
+		xhr.send();
+		
+		
+		
+	}
+
+	// function bot() {
+	// 	return "not a robot";
+	// }
+
+
+
+	//appeler la fonction dans chaque bouton d'attaque, ou d'objet
+	// si i = 0 => le plus rapide
+	// si i = 1 => le plus lent
+
+
+
+
+
+
+	// }
+
+	var current = aQui(<?php echo $premier ?>);
+
+	function aQui()
+	{
+		if (current == bob)
+		{
+			current = joseLeBandit;
+			vie.innerHTML += "<br/>ton tour";
 		}
-		
-		
+
+		else {
+			current = bob;
+			// alert("non");
+		}
+
+		return current;
 	}
 
-	function bot() {
-		return "not a robot";
-	}
 
 
 
@@ -171,7 +255,7 @@ include './bdd.php';
 
 
 
-
+	var retour = document.querySelector("#retour");
 
 
 	var attaque = document.querySelector("#attaque");
@@ -202,6 +286,22 @@ include './bdd.php';
 	});
 
 
+
+	retour.addEventListener("click", function ()
+	{
+		attaque.style.visibility = "visible";
+		objets.style.visibility = "visible";
+
+		pokeball.style.visibility = "hidden";
+		potion.style.visibility = "hidden";
+
+		attaque1.style.visibility = "hidden";
+		attaque2.style.visibility = "hidden";
+		attaque3.style.visibility = "hidden";
+		attaque4.style.visibility = "hidden";
+
+		
+	});
 
 
 
@@ -306,3 +406,6 @@ include './bdd.php';
 
 	
 </script>
+<?php
+fermerBDD($BDD);
+?>
