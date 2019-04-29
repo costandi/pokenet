@@ -1,19 +1,10 @@
 <?php
 /*
 select ID_Pkm, Niveau, nom, Nom_T, Nom_ATK from Pokemon, Pokedex, Type, Attaques where Pokemon.ID_Pkd=Pokedex.ID_Pkd and ID_T=type and Pokemon.Atk1=ID_ATK;
-//Preparation de la BDD
-//Fonction personelle. A modifier
-function GenerBDD();
-//CreUser est une fonction qui insere un tuple dans la table User avec une base de donnée, un username et un mot de passe crypter
-//Fonction personelle.
-function CreUser($BDD, $username, $MdP);
-//Fermeture de la BDD
-//fonction personelle pour les test. A modifier
-function fermerBDD();
-//Verifier si un mot de passe crypter correspond au mot de passe de la base de donnée. Prend en paramettre une base de donnée, un nom d'utilisateur et le mot de passe a comparer a la base de donnée
-//Fonction personelle.
-function checkUserBDD($BDD, $UNcheck, $MDP2check);
 */
+
+
+
 
 // select nom, PV, niveau from Pokedex, Pokemon where IDPkd=IDPkm and IDPkm=1
 
@@ -25,6 +16,75 @@ function checkUserBDD($BDD, $UNcheck, $MDP2check);
 
 //utiliser l'id dresseur pour le sac et l'equipe
 //__________________________________________________________________________________
+/*
+function GenerBDD(){}
+
+function CreUser($BDD, $username, $MdP){}
+
+function fermerBDD($BDD){}
+
+function checkUserBDD($BDD, $UNcheck, $MDP2check) {}
+
+function getIdNumber($BDD, $User){}
+
+function getUsername($BDD, $ID){}
+
+function newPkm($BDD, $ID){}
+
+//function starter($BDD, $IDPkm, $IDUser){
+
+// function hardestChoice($BDD) {}
+
+function displayAttaque($BDD, $pok) {}
+
+function getTypePkm($BDD, $pok) {}
+
+function displayPokemonInfo($BDD, $pok) {}
+
+function getPV($BDD, $pok){}
+
+function setKO($BDD, $pok){}
+
+function getPkmAtk($BDD, $ID){}
+
+function getDamage($BDD, $attaque, $array){}
+
+function applyDamage($BDD, $damage, $IDennemi){}
+
+function getMoney($BDD, $ID){}
+
+function getPokeball($BDD, $ID){}
+
+function getPotion($BDD, $ID){}
+
+function newDay($BDD){}
+
+function buyPokeball($BDD, $ID){}
+
+function buyPotion($BDD, $ID){}
+
+function getEquipe($BDD, $ID){}
+
+function displayEquipe($BDD, $eq) {}
+
+function getPkmPc($BDD, $ID){}
+
+function getFirstPkm($BDD, $IDEq){}
+
+function getVitesse($BDD, $ID){}
+
+function whoStart($BDD, $Pkm1, $Pkm2){}
+
+function whofinish($BDD, $Pkm1, $Pkm2){}
+
+function countAttaque($BDD, $ID){}
+
+function getArrayIDAtk($BDD, $ID){}
+
+function getRandomAttaque($BDD, $ID){}
+
+*/
+
 
 function GenerBDD(){
 	$BDD=mysqli_connect("localhost","root","1919","pokenet");
@@ -113,16 +173,13 @@ function newPkm($BDD, $ID){
 	mysqli_execute($newPkm);
 }
 
-
-
+/*
 function starter($BDD, $IDPkm, $IDUser){
 	newPkm($BDD, $IDPkm);
-
 	$newEq = mysqli_prepare($BDD, "INSERT INTO Equipe(IDEq, IDPkmEq) VALUES(?,?)");
 	mysqli_stmt_bind_param($newEq, 'ii', $IDUser, $IDPkm);
 	mysqli_execute($newPkm);    
-}
-
+    }*/
 
 
 // function hardestChoice($BDD) {
@@ -262,10 +319,6 @@ function applyDamage($BDD, $damage, $IDennemi)
 	
 }
 
-
-
-
-
 function getMoney($BDD, $ID){
 	$stmt = mysqli_prepare($BDD, "SELECT qtteThune FROM User WHERE IDD = ?");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
@@ -331,62 +384,43 @@ function  buyPotion($BDD, $ID){
 }
 
 
-// function getEquipe($BDD, $ID)
-// {
-// 	$stmt = mysqli_prepare($BDD, "SELECT IDPkmEq, position, nom, PV from Equipe, User, Pokedex, Pokemon where IDEq=IDD and IDPkm=IDPkmEq and IDD=? and IDPkmEq=IDPkd");
-// 	mysqli_stmt_bind_param($stmt, 'i', $ID);
-// 	mysqli_execute($stmt);
-
-// 	$res = mysqli_stmt_bind_result($stmt, $IDPkm, $pos, $nom, $PV);
-
-
-// 	$equipe = array();
-// 	if($res) {
-// 		while(mysqli_stmt_fetch($stmt)){
-// 			array_push($equipe, $IDPkm, $pos, $nom, $PV);
-// 		}
-// 	}
-// 	return $equipe;
-// }
+function getEquipe($BDD, $ID)
+{
+    $stmt = mysqli_prepare($BDD, "SELECT IDPkmEq, position, nom, PV from Equipe, User, Pokedex, Pokemon where IDEq=IDD and IDPkm=IDPkmEq and IDD=? and IDPkmEq=IDPkd");
+ 	mysqli_stmt_bind_param($stmt, 'i', $ID);
+ 	mysqli_execute($stmt);
+ 	$res = mysqli_stmt_bind_result($stmt, $IDPkm, $pos, $nom, $PV);
 
 
-function getPkmTeam($BDD, $ID){
-	$stmt = mysqli_prepare($BDD, 
-		"SELECT IDPkmEq, nom from Equipe NATURAL JOIN Pokedex where IDEq = ?");
-	mysqli_stmt_bind_param($stmt, 'i', $ID);
-	mysqli_execute($stmt);
-	$res = mysqli_stmt_bind_result($stmt, $IDPkmEq, $nomPkm);
-	$AtkEq = array();
-	if($res) {
+ 	$equipe = array();
+ 	if($res) {
  		while(mysqli_stmt_fetch($stmt)){
- 			array_push($AtkEq, $IDPkmEq, $nomPkm);
-        }
+ 			array_push($equipe, $IDPkm, $pos, $nom, $PV);
+ 		}
  	}
- 	return $AtkEq;
+ 	return $equipe;
 }
 
+function displayEquipe($BDD, $eq) {
+ 	$taille = count($eq);
+    //echo "taille = ".$taille;
+ 	$i = 0;
+ 	$a = 1;
+ 	echo "<ul>";
+ 	for ($i=0; $i < $taille; $i=$i+4) { 
+ 		echo "<li>idPkm : ".$eq[$i]."<br/>position : ".$eq[$i+1]."<br/>nom : ".$eq[$i+2]."<br/>pv : ".$eq[$i+3]." pv</li>	";
+ 		echo "<br/>";
 
-// function displayEquipe($BDD, $eq) {
-// 	$taille = count($eq);
-// 	//echo "taille = ".$taille;
-
-// 	$i = 0;
-// 	$a = 1;
-// 	echo "<ul>";
-// 	for ($i=0; $i < $taille; $i=$i+4) { 
-// 		echo "<li>idPkm : ".$eq[$i]."<br/>position : ".$eq[$i+1]."<br/>nom : ".$eq[$i+2]."<br/>pv : ".$eq[$i+3]." pv</li>	";
-// 		echo "<br/>";
-
-// 		$a = $a+1;
-// 	}
-// 	echo "</ul>";
+        $a = $a+1;
+    }
+    echo "</ul>";
 	
-// }
+}
 
 
 function getPkmPc($BDD, $ID){
 	$stmt = mysqli_prepare($BDD, 
-		"SELECT IDPkmPC, nom from PC NATURAL JOIN Pokedex where IDPkmPC = ?");
+                           "SELECT IDPkmPC, nom from PC NATURAL JOIN Pokedex where IDPkmPC = ?");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
 	$res = mysqli_stmt_bind_result($stmt, $IDPkmEq, $nomPkm);
@@ -459,26 +493,20 @@ function whofinish($BDD, $Pkm1, $Pkm2)
 		return $Pkm2;
 }
 
-
 function countAttaque($BDD, $ID)
 {
 	$stmt = mysqli_prepare($BDD, "SELECT count(IDAtkPA) from PoAtk where IDPkmPA=?");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
-
 	mysqli_stmt_bind_result($stmt, $nb);
 	while(mysqli_stmt_fetch($stmt));
-
 	return $nb;
 }
-
-
 function getArrayIDAtk($BDD, $ID)
 {
 	$stmt = mysqli_prepare($BDD, "SELECT IDAtkPA from PoAtk where IDPkmPA=?");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
-
 	$res = mysqli_stmt_bind_result($stmt, $PoAtk);
 	$arrayAtk = array();
 	if($res) {
@@ -486,27 +514,18 @@ function getArrayIDAtk($BDD, $ID)
  			array_push($arrayAtk, $PoAtk);
         }
  	}
-
  	print_r($arrayAtk);
-
  	return $arrayAtk;
 }
-
-
 function getRandomAttaque($BDD, $ID)
 {
 	$tab = getArrayIDAtk($BDD, $ID);
 	// print_r($tab);
-
 	$ran = random_int(0, sizeof($tab)-1);
 	// echo "<script>alert(".$ran.");</script>";
-
 	// echo "<script>alert(".$tab[$ran].");</script>";
-
 	return $tab[$ran];
-
 }
-
 
 
 ?>
