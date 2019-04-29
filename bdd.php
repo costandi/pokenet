@@ -460,6 +460,54 @@ function whofinish($BDD, $Pkm1, $Pkm2)
 }
 
 
+function countAttaque($BDD, $ID)
+{
+	$stmt = mysqli_prepare($BDD, "SELECT count(IDAtkPA) from PoAtk where IDPkmPA=?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
+
+	mysqli_stmt_bind_result($stmt, $nb);
+	while(mysqli_stmt_fetch($stmt));
+
+	return $nb;
+}
+
+
+function getArrayIDAtk($BDD, $ID)
+{
+	$stmt = mysqli_prepare($BDD, "SELECT IDAtkPA from PoAtk where IDPkmPA=?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
+
+	$res = mysqli_stmt_bind_result($stmt, $PoAtk);
+	$arrayAtk = array();
+	if($res) {
+ 		while(mysqli_stmt_fetch($stmt)){
+ 			array_push($arrayAtk, $PoAtk);
+        }
+ 	}
+
+ 	print_r($arrayAtk);
+
+ 	return $arrayAtk;
+}
+
+
+function getRandomAttaque($BDD, $ID)
+{
+	$tab = getArrayIDAtk($BDD, $ID);
+	// print_r($tab);
+
+	$ran = random_int(0, sizeof($tab)-1);
+	// echo "<script>alert(".$ran.");</script>";
+
+	// echo "<script>alert(".$tab[$ran].");</script>";
+
+	return $tab[$ran];
+
+}
+
+
 
 ?>
 
