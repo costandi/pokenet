@@ -62,19 +62,20 @@ if (!isset($_SESSION['ID'])) {
 
 
 		?>
-			<?php 
-			// echo "
-			// <script>
-			// 	var test=".getRandomAttaque($BDD, $joueur2)."
-			// 	alert(test);
+		<?php // ici la valeur de l'attaque s'affiche
+			echo "
+			<script>
+				var test=".getRandomAttaque($BDD, $joueur2)."
+				alert(test);
 
-			// </script>";
+			</script>";
 			//getRandomAttaque($BDD, $joueur2);	
-			?>;
+		?>;
 	</div>
+			
 
 
-
+			
 
 
 
@@ -102,7 +103,6 @@ if (!isset($_SESSION['ID'])) {
 		displayAttaque($BDD, $pok);
 
 		?>
-
 
 
 		<br/>
@@ -180,6 +180,18 @@ if (!isset($_SESSION['ID'])) {
 
 </style>
 
+
+<script type="text/javascript">
+
+	// var bbb =parseInt(<?php //echo 5;?>, 10) ;
+	// // document.write(bbb.toString() )	;
+
+	// alert(bbb);
+
+	// alert("oui");
+</script>
+
+
 <script type="text/javascript">
 
 	var joueur1 = <?php echo $joueur1 ?>;
@@ -203,10 +215,12 @@ if (!isset($_SESSION['ID'])) {
 
 
 
-
-
-
-
+	// <?php
+	// echo "
+	// var test = ".getRandomAttaque($BDD, $joueur2).";
+	// alert(test);
+	// ";
+	// ?>
 
 
 
@@ -239,34 +253,43 @@ if (!isset($_SESSION['ID'])) {
 
 	var attE;
 	var current = <?php echo $premier ?>;
-
+	// current = 18;
+	var test;
 
 	function aQui()	{
 		if (current == joueur1)
 		{
 			vie.innerHTML += "<br/>ton tour";
+			
+
 			current = joueur2;
 		}
 		else if (current == joueur2)
 		{
-			alert("oui");
+			// alert(<?php // echo getRandomAttaque($BDD, $joueur2); ?>);
+			// alert(test);
 
-			<?php
-				echo "
-				var test=".getRandomAttaque($BDD, $joueur2)."
-				alert(test);
-
-				";
-
-			?>
-
+			// <?php
+			// 	echo " 				
+			// 		test = ".getRandomAttaque($BDD, $joueur2).";
+			// 		alert(test);
+			// 	";// RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHH
+			// ?>
 
 
-			// attE = <?php// echo getRandomAttaque($BDD, $joueur2);	?>;
-			// alert(attE);
+
+
+			
+
 			current = joueur1;
-			// aQui();
 		}
+
+		else
+		{
+			alert("ekjfhezkfjhefzkjhzekjfh");
+		}
+
+
 		return current;
 	}
 
@@ -370,5 +393,5 @@ if (!isset($_SESSION['ID'])) {
 	
 </script>
 <?php
-		fermerBDD($BDD);
-		?>
+fermerBDD($BDD);
+?>
