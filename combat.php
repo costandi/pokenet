@@ -3,10 +3,10 @@ session_start();
 include './bdd.php';
 
 if (!isset($_SESSION['ID'])) {
-	header("refresh:3; URL=connect.php");
-	die ('Vous devez vous connecter pour combatre !');	
+	echo "<script> alert('vous devez vous connecter pour combatre !')</script>";
+	
+	header("location: connect.php");
 }
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,49 +19,63 @@ if (!isset($_SESSION['ID'])) {
 	$BDD = GenerBDD();
 	
 
-	$bob = getFirstPkm($BDD, $_SESSION['ID']); // bob VS joseLeBandit
-	$joseLeBandit = 3;
+	$joueur1 = getFirstPkm($BDD, $_SESSION['ID']); // joueur1 VS joueur2
+	$joueur2 = 2;
 
-	echo $bob;
+	echo $joueur1;
+	
+	
+
+	$pok = getPkmAtk($BDD, $joueur1);
+	$t = getTypePkm($BDD, $joueur1);
+
+	$pok2 = getPkmAtk($BDD, $joueur2);
+	$t2 = getTypePkm($BDD, $joueur2);
 
 
-
-	$pok = getPkmAtk($BDD, $bob);
-	$t = getTypePkm($BDD, $bob);
-
-	$pok2 = getPkmAtk($BDD, $joseLeBandit);
-	$t2 = getTypePkm($BDD, $joseLeBandit);
-
-
-	$premier = whoStart($BDD, $bob, $joseLeBandit);
+	$premier = whoStart($BDD, $joueur1, $joueur2);
 	echo "le premier est le num : ".$premier;
 
 
 
-	$dernier = whoFinish($BDD, $bob, $joseLeBandit);
+	$dernier = whoFinish($BDD, $joueur1, $joueur2);
 	echo "<br/>le dernier est le num : ".$dernier;
 
 
 	?>
 
-
 	<div id="ennemi">ennemi
 		<?php
-		displayPokemonInfo($BDD, $joseLeBandit);
+		displayPokemonInfo($BDD, $joueur2);
 		echo $t2[0]."<br/>";
 		echo $t2[1];
-		?>
-		<div id="vie">
-			<?php
-			$PV = getPV($BDD, $joseLeBandit);
-			echo "il reste ".$PV." pv à l'adversaire !";
-			setKO($BDD, $joseLeBandit);
 
-			?>
-		</div>
+		// echo getRandomAttaque($BDD, $joueur2);
+		?>
 	</div>
 
-	
+	<div id="vie">
+		<?php
+		$PV = getPV($BDD, $joueur2);
+		echo "il reste ".$PV." pv à l'adversaire !";
+		setKO($BDD, $joueur2);
+
+
+		?>
+			<?php 
+			// echo "
+			// <script>
+			// 	var test=".getRandomAttaque($BDD, $joueur2)."
+			// 	alert(test);
+
+			// </script>";
+			//getRandomAttaque($BDD, $joueur2);	
+			?>;
+	</div>
+
+
+
+
 
 
 	<br/>
@@ -69,39 +83,45 @@ if (!isset($_SESSION['ID'])) {
 
 	<div id="pokemon">
 		<?php
-		displayPokemonInfo($BDD, $bob);
-		$PV2 = getPV($BDD, $bob);
+		displayPokemonInfo($BDD, $joueur1);
+		$PV2 = getPV($BDD, $joueur1);
 		echo "il vous reste ".$PV2." pv !<br/>";
-		setKO($BDD, $bob);
+		setKO($BDD, $joueur1);
 
 		echo $t[0]."<br/>";
 		echo $t[1]."<br/>";
 		?>
-
-		<div id="actions">
-
-			<input type="button" id="attaque" value="Attaques" onclick="combatre(2)">
-
-			<br/>
-
-			<input type="button" id="objets" value="Objets">
-
-			<input type="button" id="pokeball" value="Pokeball">
-			<input type="button" id="potion" value="Potion">
-
-			<br/>
-			<br/>
-			<br/>
-
-			<input type="button" id="retour" value="Retour">
-
-		</div>
-
 	</div>
 
 
 
-	
+	<div id="actions">
+		<input type="button" id="attaque" value="Attaques" onclick="aQui()">
+
+		<?php
+		displayAttaque($BDD, $pok);
+
+		?>
+
+
+
+		<br/>
+
+
+		<input type="button" id="objets" value="Objets">
+
+		<input type="button" id="pokeball" value="Pokeball">
+		<input type="button" id="potion" value="Potion">
+
+		<br/>
+		<br/>
+		<br/>
+
+		<input type="button" id="retour" value="Retour">
+		
+
+		
+	</div>
 
 
 
@@ -162,42 +182,42 @@ if (!isset($_SESSION['ID'])) {
 
 <script type="text/javascript">
 
-	var bob = <?php echo $bob ?>;
-	var joseLeBandit = <?php echo $joseLeBandit ?>;
+	var joueur1 = <?php echo $joueur1 ?>;
+	var joueur2 = <?php echo $joueur2 ?>;
 	var premier = <?php echo $premier ?>;
-
 	var actions = document.querySelector("#actions");
-	var randomAttaque;
+	
 
-
-	function getRandomAttaque(max) {
-		return Math.floor(Math.random() * Math.floor(max));
-	}
 
 
 	//while equipe1 pas KO et equipe2 pas ko
 	// combatre();
+	// function combatre(IDAtk) {
+	// 	if (current == joueur1) {
+	// 		// afficher les attaques
+	// 	}
+	// 	else {
+	// 		randomAttaque = getRandomAttaque(/*nb d'attaque de l'ennemi*/);
+	// 	}
+	// }
 
-	function combatre(IDAtk) {
-		if (current == bob) {
-			// afficher les attaques
 
-		}
 
-		else {
-			randomAttaque = getRandomAttaque(/*nb d'attaque de l'ennemi*/);
-		}
-	}
+
+
+
+
+
+
+
+
 
 
 	function send(IDAtk){
 		var xhr = new XMLHttpRequest();
 		let vie =  document.querySelector("#vie");
-
 		xhr.open('GET', 'ajaxCombat.php?IDAtk=' + IDAtk, false); //true pour synchrone, false pour asynchrone
-
 		xhr.addEventListener('readystatechange', function() {
-
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
 				vie.innerHTML = xhr.responseText;
 		}
@@ -209,203 +229,146 @@ if (!isset($_SESSION['ID'])) {
 		
 		
 	}
-
 	// function bot() {
 	// 	return "not a robot";
 	// }
-
-
-
 	//appeler la fonction dans chaque bouton d'attaque, ou d'objet
 	// si i = 0 => le plus rapide
 	// si i = 1 => le plus lent
-
-
-
-
-
-
 	// }
 
-	var current = aQui(<?php echo $premier ?>);
+	var attE;
+	var current = <?php echo $premier ?>;
 
-	function aQui()
-	{
-		if (current == bob)
+
+	function aQui()	{
+		if (current == joueur1)
 		{
-			current = joseLeBandit;
 			vie.innerHTML += "<br/>ton tour";
+			current = joueur2;
 		}
+		else if (current == joueur2)
+		{
+			alert("oui");
 
-		else {
-			current = bob;
-			// alert("non");
+			<?php
+				echo "
+				var test=".getRandomAttaque($BDD, $joueur2)."
+				alert(test);
+
+				";
+
+			?>
+
+
+
+			// attE = <?php// echo getRandomAttaque($BDD, $joueur2);	?>;
+			// alert(attE);
+			current = joueur1;
+			// aQui();
 		}
-
 		return current;
 	}
 
 
 
-
-
-
-
-
-
-
-
 	var retour = document.querySelector("#retour");
-
-
 	var attaque = document.querySelector("#attaque");
 	var attaque1 = document.querySelector("#attaque1");
 	var attaque2 = document.querySelector("#attaque2");
 	var attaque3 = document.querySelector("#attaque3");
 	var attaque4 = document.querySelector("#attaque4");
-
-
 	var objets = document.querySelector("#objets");
 	var potion = document.querySelector("#potion");
 	var pokeball = document.querySelector("#pokeball");
-
-
 	attaque.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "hidden";
 		objets.style.visibility = "hidden";
-
-
 		attaque1.style.visibility = "visible";
 		attaque2.style.visibility = "visible";
 		attaque3.style.visibility = "visible";
 		attaque4.style.visibility = "visible";
-
 		
-
 	});
-
-
-
 	retour.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "visible";
 		objets.style.visibility = "visible";
-
 		pokeball.style.visibility = "hidden";
 		potion.style.visibility = "hidden";
-
 		attaque1.style.visibility = "hidden";
 		attaque2.style.visibility = "hidden";
 		attaque3.style.visibility = "hidden";
 		attaque4.style.visibility = "hidden";
-
 		
 	});
-
-
-
 	objets.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "hidden";
-
 		pokeball.style.visibility = "visible";
 		potion.style.visibility = "visible";
-
 		objets.style.visibility = "hidden";
 	});
-
-
 	pokeball.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "visible";
 		objets.style.visibility = "visible";
-
 		pokeball.style.visibility = "hidden";
 		potion.style.visibility = "hidden";
-
 		
 	});
-
-
 	potion.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "visible";
 		objets.style.visibility = "visible";
-
 		pokeball.style.visibility = "hidden";
 		potion.style.visibility = "hidden";
-
 		
 	});
-
-
 	attaque1.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "visible";
 		objets.style.visibility = "visible";
-
 		attaque1.style.visibility = "hidden";
 		attaque2.style.visibility = "hidden";
 		attaque3.style.visibility = "hidden";
 		attaque4.style.visibility = "hidden";
-
 		
-
 		
 	});
-
-
-
-
 	attaque2.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "visible";
 		objets.style.visibility = "visible";
-
 		attaque1.style.visibility = "hidden";
 		attaque2.style.visibility = "hidden";
 		attaque3.style.visibility = "hidden";
 		attaque4.style.visibility = "hidden";
-
 		
 	});
-
-
-
-
 	attaque3.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "visible";
 		objets.style.visibility = "visible";
-
 		attaque1.style.visibility = "hidden";
 		attaque2.style.visibility = "hidden";
 		attaque3.style.visibility = "hidden";
 		attaque4.style.visibility = "hidden";
-
 		
 	});
-
-
-
-
 	attaque4.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "visible";
 		objets.style.visibility = "visible";
-
 		attaque1.style.visibility = "hidden";
 		attaque2.style.visibility = "hidden";
 		attaque3.style.visibility = "hidden";
 		attaque4.style.visibility = "hidden";
-
 		
 	});
-
-
 	
 </script>
 <?php
-fermerBDD($BDD);
-?>
+		fermerBDD($BDD);
+		?>
