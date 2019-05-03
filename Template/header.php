@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<?php $BDD = GenerBDD();
+
+ $un = getUsername($BDD, $_SESSION["ID"]);
+ $pb = getPokeball($BDD, $_SESSION["ID"]);
+ $pt = getPotion($BDD, $_SESSION["ID"]);
+ $mn = getMoney($BDD, $_SESSION["ID"]);
+
+fermerBDD($BDD); ?>
+
 <html lang='fr'>
     
     <head>
@@ -9,5 +18,5 @@
     </head>
     
     <body>
-	
 	<div id='fenetre'>
+	    

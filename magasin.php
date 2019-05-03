@@ -5,10 +5,10 @@ include './bdd.php';
 
 $BDD = GenerBDD();
 
-$un = 0;
-$pb = 0;
-$pt = 0;
-$mn = 0;
+$un = getUsername($BDD, $_SESSION["ID"]);
+$pb = getPokeball($BDD, $_SESSION["ID"]);
+$pt = getPotion($BDD, $_SESSION["ID"]);
+$mn = getMoney($BDD, $_SESSION["ID"]);
 
 fermerBDD($BDD);
 
@@ -30,16 +30,10 @@ Choisisser un article!<br/>
 	     var tab = JSON.parse(xhr.responseText);
 	     alert(tab[0]);
 
-	     <?php
-	     $BDD = GenerBDD();
-	     
-	     $un = getUsername($BDD, $_SESSION["ID"]);
-	     $pb = getPokeball($BDD, $_SESSION["ID"]);
-	     $pt = getPotion($BDD, $_SESSION["ID"]);
-	     $mn = getMoney($BDD, $_SESSION["ID"]);
-	     
-	     fermerBDD($BDD);
-	     ?>
+         updatePokeball(tab[1]);
+         updatePotion(tab[2]);
+         updateMoney(tab[3]);
+         
 	 }
      });
      
