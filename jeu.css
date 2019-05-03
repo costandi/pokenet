@@ -77,9 +77,11 @@ table {
 }
 
 tr, td {
-    padding-left: 3%;
-    padding-right: 3%;
     left: 0;
     right: 0;
+    
 }
 
+.DMR {
+    width: 15%;
+}
