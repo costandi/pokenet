@@ -2,53 +2,40 @@
 session_start();
 
 include './bdd.php';
-	$BDD = GenerBDD();
+$BDD = GenerBDD();
 
-	$bob = getFirstPkm($BDD, $_SESSION['ID']); // bob VS joseLeBandit
-	$joseLeBandit = 3;
-
-
-	$pok = getPkmAtk($BDD, $bob);
+$joueur1 = getFirstPkm($BDD, $_SESSION['ID']); // joueur1 VS joueur2
+$joueur2 = 2;
 
 
 
-// echo "bouton ".$_GET['IDAtk']." !";
-
-if (isset($_GET['IDAtk'])) 
+if (isset($_GET['IDAtk']) && isset($_GET['cible']) && isset($_GET['lanceur'])) 
 {
-//	echo "bouton ".$_GET['IDAtk']." !";
+	$rep = array();
 
+	$pok = getPkmAtk($BDD, $_GET['lanceur']);
 	$damage = getDamage($BDD, $_GET['IDAtk'], $pok);
 
-
-	// echo "<br/>cette attaque fait ".$damage." degats !";
-
-
-	applyDamage($BDD, $damage, $joseLeBandit);
+	applyDamage($BDD, $damage, $_GET['cible']);
 
 
-	// displayPokemonInfo($BDD, 4);
-	// displayPokemonInfo($BDD, 2);
+	// $PV = getPV($BDD, $joueur2);
 
+	// echo "il reste ".$PV." pv à l'adversaire !";
+	$rep[0] = getPV($BDD, $joueur1);
+	$rep[1] = getPV($BDD, $joueur2);
+	$rep[2] = setKO($BDD, $joueur1);
+	$rep[3] = setKO($BDD, $joueur2);
 
-	$PV = getPV($BDD, $joseLeBandit);
-	echo "il reste ".$PV." pv à l'adversaire !";
+	echo json_encode($rep);
 
+	//echo setKO($BDD, $_GET['cible']);
 
-	setKO($BDD, $joseLeBandit);
-} 
-else 
-{
-	echo "pas de click sur une attaque !";
 }
-
-
-
-// if ($_GET['IDAtk'] == 1) 
+// else 
 // {
-// 	echo "azertyuio";
+// 	echo "pas de click sur une attaque !";
 // }
 
 fermerBDD($BDD);
-
 ?>

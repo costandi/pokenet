@@ -17,14 +17,14 @@ if (!isset($_SESSION['ID'])) {
 
 	<?php
 	$BDD = GenerBDD();
-	
+
 
 	$joueur1 = getFirstPkm($BDD, $_SESSION['ID']); // joueur1 VS joueur2
 	$joueur2 = 2;
 
-	echo $joueur1;
-	
-	
+	// echo $joueur1;
+
+
 
 	$pok = getPkmAtk($BDD, $joueur1);
 	$t = getTypePkm($BDD, $joueur1);
@@ -54,74 +54,76 @@ if (!isset($_SESSION['ID'])) {
 		?>
 	</div>
 
-	<div id="vie">
+	<div id="vieE">
 		<?php
-		$PV = getPV($BDD, $joueur2);
-		echo "il reste ".$PV." pv à l'adversaire !";
-		setKO($BDD, $joueur2);
-
-
+			$PV = getPV($BDD, $joueur2);
+			echo "il reste ".$PV." pv à l'adversaire !";
+			echo setKO($BDD, $joueur2);
 		?>
-		<?php // ici la valeur de l'attaque s'affiche
-			echo "
-			<script>
-				var test=".getRandomAttaque($BDD, $joueur2)."
-				alert(test);
+	<!-- 	<?php // ici la valeur de l'attaque s'affiche
+			// echo "
+			// <script>
+			// 	var test=".getRandomAttaque($BDD, $joueur2)."
+			// 	alert(test);
 
-			</script>";
+			// </script>";
 			//getRandomAttaque($BDD, $joueur2);	
-		?>;
-	</div>
-			
+	?>; -->
+</div>
 
 
-			
 
 
+
+
+
+<br/>
+<br/>
+
+<div id="pokemon">
+	<?php
+	displayPokemonInfo($BDD, $joueur1);
+
+	setKO($BDD, $joueur1);
+
+	echo $t[0]."<br/>";
+	echo $t[1]."<br/>";
+	?>
+</div>
+
+<div id="vie">
+	<?php
+	$PV2 = getPV($BDD, $joueur1);
+	echo "il vous reste ".$PV2." pv !<br/>";
+	?>
+
+</div>
+
+
+
+
+<input type="button" id="attaque" value="Attaques" onclick="display()">
+
+<div id="atk">
+
+</div>
+<br/>
+
+<div id="obj">
+	<input type="button" id="objets" value="Objets">
+
+	<input type="button" id="pokeball" value="Pokeball">
+	<input type="button" id="potion" value="Potion">
 
 	<br/>
 	<br/>
+	<br/>
 
-	<div id="pokemon">
-		<?php
-		displayPokemonInfo($BDD, $joueur1);
-		$PV2 = getPV($BDD, $joueur1);
-		echo "il vous reste ".$PV2." pv !<br/>";
-		setKO($BDD, $joueur1);
-
-		echo $t[0]."<br/>";
-		echo $t[1]."<br/>";
-		?>
-	</div>
+	<input type="button" id="retour" value="Retour" onclick="del()">
 
 
 
-	<div id="actions">
-		<input type="button" id="attaque" value="Attaques" onclick="aQui()">
-
-		<?php
-		displayAttaque($BDD, $pok);
-
-		?>
-
-
-		<br/>
-
-
-		<input type="button" id="objets" value="Objets">
-
-		<input type="button" id="pokeball" value="Pokeball">
-		<input type="button" id="potion" value="Potion">
-
-		<br/>
-		<br/>
-		<br/>
-
-		<input type="button" id="retour" value="Retour">
-		
-
-		
-	</div>
+</div>
 
 
 
@@ -197,8 +199,10 @@ if (!isset($_SESSION['ID'])) {
 	var joueur1 = <?php echo $joueur1 ?>;
 	var joueur2 = <?php echo $joueur2 ?>;
 	var premier = <?php echo $premier ?>;
-	var actions = document.querySelector("#actions");
+	var atk = document.querySelector("#atk");
 	
+	let vieE =  document.querySelector("#vieE");
+	let vie =  document.querySelector("#vie");
 
 
 
@@ -223,37 +227,84 @@ if (!isset($_SESSION['ID'])) {
 	// ?>
 
 
+	function boom()
+	{
+		return <?php echo getRandomAttaque($BDD, $joueur2);?>;			
+	}
+
+
+	function display()
+	{
+		atk.innerHTML += "<?php displayAttaque($BDD, $pok);?>";
+	}
+
+
+	function del()
+	{
+		atk.innerHTML = "";
+	}
+
+
+	function updateVieE(i){
+		document.getElementById("vieE").innerHTML = "il reste "+i+" pv à l'adversaire !";
+	}
+
+	function updateVie(i){
+		document.getElementById("vie").innerHTML = "il vous reste "+i+" pv !";
+	}
+
+	function KO(i)
+	{
+		if (i != null)
+			{document.getElementById("vie").innerHTML += "<br/>KO !";}
+	}
+
+	function KOe(i)
+	{
+		if (i != null)
+			{document.getElementById("vieE").innerHTML += "<br/>KO !";}
+	}
 
 
 
 
-	function send(IDAtk){
+
+	function send(IDAtk, idCible, idLanceur){
 		var xhr = new XMLHttpRequest();
-		let vie =  document.querySelector("#vie");
-		xhr.open('GET', 'ajaxCombat.php?IDAtk=' + IDAtk, false); //true pour synchrone, false pour asynchrone
+
+		
+		xhr.open('GET', 'ajaxCombat.php?IDAtk=' + IDAtk +'&cible=' + idCible+'&lanceur=' + idLanceur , true); //true pour synchrone, false pour asynchrone
+	
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
-				vie.innerHTML = xhr.responseText;
+				var tab = JSON.parse(xhr.responseText);
+	    		// alert(tab[0]);
+	     		updateVie(tab[0]);
+	     		updateVieE(tab[1]);
+
+	     		KO(tab[2]);
+	     		KOe(tab[3]);
+
+	    		// alert(tab[1]);
+				
+				// vieE.innerHTML = xhr.responseText;
 		}
 		);
-		
-		
+
+
 		xhr.send();
-		
-		
-		
+
+
 	}
-	// function bot() {
-	// 	return "not a robot";
-	// }
+
 	//appeler la fonction dans chaque bouton d'attaque, ou d'objet
 	// si i = 0 => le plus rapide
 	// si i = 1 => le plus lent
 	// }
 
 	var attE;
-	var current = <?php echo $premier ?>;
-	// current = 18;
+	// var current = <?php //echo $premier ?>;
+	var current = joueur2;
 	var test;
 
 	function aQui()	{
@@ -261,27 +312,17 @@ if (!isset($_SESSION['ID'])) {
 		{
 			vie.innerHTML += "<br/>ton tour";
 			
+			
 
 			current = joueur2;
 		}
 		else if (current == joueur2)
 		{
-			// alert(<?php // echo getRandomAttaque($BDD, $joueur2); ?>);
-			// alert(test);
-
-			// <?php
-			// 	echo " 				
-			// 		test = ".getRandomAttaque($BDD, $joueur2).";
-			// 		alert(test);
-			// 	";// RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHH
-			// ?>
-
-
-
-
-			
+			// alert(boom());
+			send(boom(), joueur1, joueur2);
 
 			current = joueur1;
+			aQui();
 		}
 
 		else
@@ -304,16 +345,18 @@ if (!isset($_SESSION['ID'])) {
 	var objets = document.querySelector("#objets");
 	var potion = document.querySelector("#potion");
 	var pokeball = document.querySelector("#pokeball");
-	attaque.addEventListener("click", function ()
-	{
-		attaque.style.visibility = "hidden";
-		objets.style.visibility = "hidden";
-		attaque1.style.visibility = "visible";
-		attaque2.style.visibility = "visible";
-		attaque3.style.visibility = "visible";
-		attaque4.style.visibility = "visible";
+	
+	// attaque.addEventListener("click", function ()
+	// {
 		
-	});
+	// 	objets.style.visibility = "hidden";
+	// 	attaque1.style.visibility = "visible";
+	// 	attaque2.style.visibility = "visible";
+	// 	attaque3.style.visibility = "visible";
+	// 	attaque4.style.visibility = "visible";
+		
+	// });
+
 	retour.addEventListener("click", function ()
 	{
 		attaque.style.visibility = "visible";
@@ -392,6 +435,8 @@ if (!isset($_SESSION['ID'])) {
 	});
 	
 </script>
+
+
 <?php
 fermerBDD($BDD);
 ?>
