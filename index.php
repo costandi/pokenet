@@ -34,7 +34,7 @@ if(isset($_POST['deco']))
 	<h1 id="titre">Bienvenue sur pokenet !</h1>
 
 	<div>
-	    <a href="https://www.pokemon.com/fr/">
+	    <a href="easter.html">
 		<img id="gifPika" src="decors/pika.gif">
 	    </a>
 	</div>
