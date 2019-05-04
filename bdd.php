@@ -530,20 +530,6 @@ function getArrayIDAtk($BDD, $ID)
 }
 
 
-function getRandomAttaque($BDD, $ID)
-{
-	$tab = getArrayIDAtk($BDD, $ID);
-	// print_r($tab);
-
-	$ran = random_int(0, sizeof($tab)-1);
-	// echo "<script>alert(".$ran.");</script>";
-
-	// echo "<script>alert(".$tab[$ran].");</script>";
-	// echo "alert(".$tab[$ran].");";
-
-	return $tab[$ran];
-}
-
 
 
 ?>

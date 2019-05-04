@@ -50,26 +50,18 @@ if (!isset($_SESSION['ID'])) {
 		echo $t2[0]."<br/>";
 		echo $t2[1];
 
-		// echo getRandomAttaque($BDD, $joueur2);
+	
 		?>
 	</div>
 
-	<div id="vieE">
+	<p id="vieE">
 		<?php
 			$PV = getPV($BDD, $joueur2);
 			echo "il reste ".$PV." pv à l'adversaire !";
 			echo setKO($BDD, $joueur2);
 		?>
-	<!-- 	<?php // ici la valeur de l'attaque s'affiche
-			// echo "
-			// <script>
-			// 	var test=".getRandomAttaque($BDD, $joueur2)."
-			// 	alert(test);
 
-			// </script>";
-			//getRandomAttaque($BDD, $joueur2);	
-	?>; -->
-</div>
+</p>
 
 
 
@@ -91,13 +83,13 @@ if (!isset($_SESSION['ID'])) {
 	?>
 </div>
 
-<div id="vie">
+<p id="vie">
 	<?php
 	$PV2 = getPV($BDD, $joueur1);
 	echo "il vous reste ".$PV2." pv !<br/>";
 	?>
 
-</div>
+</p>
 
 
 
@@ -185,17 +177,6 @@ if (!isset($_SESSION['ID'])) {
 
 <script type="text/javascript">
 
-	// var bbb =parseInt(<?php //echo 5;?>, 10) ;
-	// // document.write(bbb.toString() )	;
-
-	// alert(bbb);
-
-	// alert("oui");
-</script>
-
-
-<script type="text/javascript">
-
 	var joueur1 = <?php echo $joueur1 ?>;
 	var joueur2 = <?php echo $joueur2 ?>;
 	var premier = <?php echo $premier ?>;
@@ -204,33 +185,6 @@ if (!isset($_SESSION['ID'])) {
 	let vieE =  document.querySelector("#vieE");
 	let vie =  document.querySelector("#vie");
 
-
-
-	//while equipe1 pas KO et equipe2 pas ko
-	// combatre();
-	// function combatre(IDAtk) {
-	// 	if (current == joueur1) {
-	// 		// afficher les attaques
-	// 	}
-	// 	else {
-	// 		randomAttaque = getRandomAttaque(/*nb d'attaque de l'ennemi*/);
-	// 	}
-	// }
-
-
-
-	// <?php
-	// echo "
-	// var test = ".getRandomAttaque($BDD, $joueur2).";
-	// alert(test);
-	// ";
-	// ?>
-
-
-	function boom()
-	{
-		return <?php echo getRandomAttaque($BDD, $joueur2);?>;			
-	}
 
 
 	function display()
@@ -265,6 +219,17 @@ if (!isset($_SESSION['ID'])) {
 			{document.getElementById("vieE").innerHTML += "<br/>KO !";}
 	}
 
+	function getRandomInt(max) {
+  		return Math.floor(Math.random() * Math.floor(max));
+	}
+
+	function getRandomAttaque()
+	{
+		var arrayAtkE = <?php echo json_encode(getArrayIDAtk($BDD, $joueur2)) ?>;
+		var aleat = getRandomInt(arrayAtkE.length);
+
+		return arrayAtkE[aleat];
+	}
 
 
 
@@ -279,22 +244,18 @@ if (!isset($_SESSION['ID'])) {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
 				var tab = JSON.parse(xhr.responseText);
 	    		// alert(tab[0]);
-	     		updateVie(tab[0]);
-	     		updateVieE(tab[1]);
+	     		updateVie(tab[0]); // ma vie
+	     		updateVieE(tab[1]);// vie adversaire
 
-	     		KO(tab[2]);
-	     		KOe(tab[3]);
+	     		KO(tab[2]); // mon KO
+	     		KOe(tab[3]);// KO adversaire
+
+	     		return tab;
 
 	    		// alert(tab[1]);
-				
-				// vieE.innerHTML = xhr.responseText;
-		}
-		);
-
+		});
 
 		xhr.send();
-
-
 	}
 
 	//appeler la fonction dans chaque bouton d'attaque, ou d'objet
@@ -318,8 +279,8 @@ if (!isset($_SESSION['ID'])) {
 		}
 		else if (current == joueur2)
 		{
-			// alert(boom());
-			send(boom(), joueur1, joueur2);
+			send(getRandomAttaque(), joueur1, joueur2);
+			
 
 			current = joueur1;
 			aQui();
