@@ -56,7 +56,7 @@ function whoStart($BDD, $Pkm1, $Pkm2){}
 function whofinish($BDD, $Pkm1, $Pkm2){}
 function countAttaque($BDD, $ID){}
 function getArrayIDAtk($BDD, $ID){}
-function getRandomAttaque($BDD, $ID){}
+getNomAttaque($BDD, $ID) {}
 
 
 
@@ -243,7 +243,7 @@ function setKO($BDD, $pok)
 		$stmt = mysqli_prepare($BDD, "UPDATE Pokemon set KO=1 where IDPkm=?");
 		mysqli_stmt_bind_param($stmt, 'i', $pok);
 		mysqli_execute($stmt);
-		return "<br/>KO !";
+		return "KO !";
 	}
 	else
 	{
@@ -368,23 +368,43 @@ function  buyPotion($BDD, $ID){
 }
 
 
-// function getEquipe($BDD, $ID)
-// {
-// 	$stmt = mysqli_prepare($BDD, "SELECT IDPkmEq, position, nom, PV from Equipe, User, Pokedex, Pokemon where IDEq=IDD and IDPkm=IDPkmEq and IDD=? and IDPkmEq=IDPkd");
-// 	mysqli_stmt_bind_param($stmt, 'i', $ID);
-// 	mysqli_execute($stmt);
+function getEquipe($BDD, $ID)
+{
+	$stmt = mysqli_prepare($BDD, "SELECT IDPkmEq, position, nom, PV from Equipe, User, Pokedex, Pokemon where IDEq=IDD and IDPkm=IDPkmEq and IDD=? and IDPkmEq=IDPkd");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
 
-// 	$res = mysqli_stmt_bind_result($stmt, $IDPkm, $pos, $nom, $PV);
+	$res = mysqli_stmt_bind_result($stmt, $IDPkmEq, $position, $nom, $PV);
 
 
-// 	$equipe = array();
-// 	if($res) {
-// 		while(mysqli_stmt_fetch($stmt)){
-// 			array_push($equipe, $IDPkm, $pos, $nom, $PV);
-// 		}
-// 	}
-// 	return $equipe;
-// }
+	$equipe = array();
+	if($res) {
+		while(mysqli_stmt_fetch($stmt)){
+			array_push($equipe, $IDPkmEq, $position, $nom, $PV);
+		}
+	}
+	return $equipe;
+}
+
+
+function displayEquipe($BDD, $eq) {
+	$taille = count($eq);
+	// echo "taille = ".$taille;
+
+	$i = 0;
+	$a = 1;
+	echo "<ul>";
+	for ($i=0; $i < $taille; $i=$i+4) { 
+		echo "<li>idPkm : ".$eq[$i]."<br/>position : ".$eq[$i+1]."<br/>nom : ".$eq[$i+2]."<br/>pv : ".$eq[$i+3]." pv</li>	";
+		echo "<br/>";
+
+		$a = $a+1;
+	}
+	echo "</ul>";
+	
+}
+
+
 
 
 function getPkmTeam($BDD, $ID){
@@ -401,24 +421,6 @@ function getPkmTeam($BDD, $ID){
  	}
  	return $AtkEq;
 }
-
-
-// function displayEquipe($BDD, $eq) {
-// 	$taille = count($eq);
-// 	//echo "taille = ".$taille;
-
-// 	$i = 0;
-// 	$a = 1;
-// 	echo "<ul>";
-// 	for ($i=0; $i < $taille; $i=$i+4) { 
-// 		echo "<li>idPkm : ".$eq[$i]."<br/>position : ".$eq[$i+1]."<br/>nom : ".$eq[$i+2]."<br/>pv : ".$eq[$i+3]." pv</li>	";
-// 		echo "<br/>";
-
-// 		$a = $a+1;
-// 	}
-// 	echo "</ul>";
-	
-// }
 
 
 function getPkmPc($BDD, $ID){
@@ -529,7 +531,19 @@ function getArrayIDAtk($BDD, $ID)
  	return $arrayAtk;
 }
 
+function getNomAttaque($BDD, $ID) 
+{
+	$stmt = mysqli_prepare($BDD, "SELECT nomAtk from Attaque where IDAtk=?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
 
+	mysqli_stmt_bind_result($stmt, $nom);
+	while(mysqli_stmt_fetch($stmt));
+    if (!$nom)
+        return -1;
+    else
+        return $nom;
+}
 
 
 ?>
