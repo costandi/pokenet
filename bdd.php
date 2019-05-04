@@ -30,7 +30,7 @@ function fermerBDD($BDD){}
 function checkUserBDD($BDD, $UNcheck, $MDP2check) {}
 function getIdNumber($BDD, $User){}
 function getUsername($BDD, $ID){}
-function newPkm($BDD, $ID){}
+function newPkmSauvage($BDD, $ID){}
 //function starter($BDD, $IDPkm, $IDUser){
 // function hardestChoice($BDD) {}
 function displayAttaque($BDD, $pok) {}
@@ -56,8 +56,19 @@ function whoStart($BDD, $Pkm1, $Pkm2){}
 function whofinish($BDD, $Pkm1, $Pkm2){}
 function countAttaque($BDD, $ID){}
 function getArrayIDAtk($BDD, $ID){}
-getNomAttaque($BDD, $ID) {}
+function getNomAttaque($BDD, $ID) {}
 
+
+et la c'est le bordel
+
+
+function newPkmSauvage
+function capture
+function countEquipe
+function countPokemon
+function addInEquipe
+function addInPC
+function starter
 
 
 */
@@ -140,27 +151,6 @@ function getUsername($BDD, $ID)
 	return $User;
 
 }
-
-
-function newPkm($BDD, $ID){
-	$newPkm = mysqli_prepare($BDD, "INSERT INTO Pokemon(IDPkd_, niveau, PV, etat, KO, vitesse, sauvage)
-		VALUES(?, 1, 100, -1, 0, 5, 1)");
-
-	mysqli_stmt_bind_param($newPkm, 'i', $ID);
-	mysqli_execute($newPkm);
-}
-
-
-
-function starter($BDD, $IDPkm, $IDUser){
-	newPkm($BDD, $IDPkm);
-
-	$newEq = mysqli_prepare($BDD, "INSERT INTO Equipe(IDEq, IDPkmEq) VALUES(?,?)");
-	mysqli_stmt_bind_param($newEq, 'ii', $IDUser, $IDPkm);
-	mysqli_execute($newPkm);    
-}
-
-
 
 // function hardestChoice($BDD) {
 // 	$stmt = mysqli_querry($BDD, "SELECT * FROM Pokedex WHERE IDPkd=1 or IDPkd=4 or IDPkd=7");
@@ -456,9 +446,6 @@ function getFirstPkm($BDD, $IDEq)
 }
 
 
-
-// select vitesse from Pokemon, Equipe where IDPkm=IDpkmEq and IDEq=2 and position=1
-
 function getVitesse($BDD, $ID)
 {
 	$stmt = mysqli_prepare($BDD, "SELECT vitesse from Pokemon, Equipe where IDPkm=IDpkmEq and IDEq=? and position=1");
@@ -531,19 +518,102 @@ function getArrayIDAtk($BDD, $ID)
  	return $arrayAtk;
 }
 
-function getNomAttaque($BDD, $ID) 
+// function getNomAttaque($BDD, $ID) 
+// {
+// 	$stmt = mysqli_prepare($BDD, "SELECT nomAtk from Attaque where IDAtk=?");
+// 	mysqli_stmt_bind_param($stmt, 'i', $ID);
+// 	mysqli_execute($stmt);
+
+// 	mysqli_stmt_bind_result($stmt, $nom);
+// 	while(mysqli_stmt_fetch($stmt));
+//     if (!$nom)
+//         return -1;
+//     else
+//         return $nom;
+// }
+
+
+
+
+function newPkmSauvage($BDD, $ID)
 {
-	$stmt = mysqli_prepare($BDD, "SELECT nomAtk from Attaque where IDAtk=?");
+	$newPkm = mysqli_prepare($BDD, "INSERT INTO Pokemon(IDPkd_, niveau, PV, etat, KO, vitesse, sauvage)	VALUES(?, 1, 100, -1, 0, 5, 1)");
+	mysqli_stmt_bind_param($newPkm, 'i', $ID);
+	mysqli_execute($newPkm);
+}
+
+
+function capture($BDD, $IDD, $IDPkm) //idpkm est l'id en parametre de l'adversaire
+{
+	$stmt = mysqli_prepare($BDD, "UPDATE Pokemon set sauvage=0 where IDPkm= ?");
+	mysqli_stmt_bind_param($stmt, 'i', $IDPkm);
+	mysqli_execute($stmt);
+
+	$nb = countEquipe($BDD, $IDD);
+
+	if ($nb < 6)
+	{
+		addInEquipe($BDD, $IDD, $IDPkm);
+	}
+	else
+	{
+		addInPC($BDD, $IDD, $IDPkm);
+	}
+}
+
+
+function countEquipe($BDD, $ID)
+{
+	$stmt = mysqli_prepare($BDD, "SELECT count(*) from Equipe where IDEq = ?");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
 
-	mysqli_stmt_bind_result($stmt, $nom);
+	mysqli_stmt_bind_result($stmt, $nb);
 	while(mysqli_stmt_fetch($stmt));
-    if (!$nom)
-        return -1;
-    else
-        return $nom;
+
+	return $nb;
 }
+
+
+
+function countPokemon($BDD, $ID)
+{
+	$stmt = mysqli_prepare($BDD, "SELECT count(*) from Pokemon");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
+
+	mysqli_stmt_bind_result($stmt, $nb);
+	while(mysqli_stmt_fetch($stmt));
+
+	return $nb;
+}
+
+
+
+function addInEquipe($BDD, $IDD, $IDPkm)
+{
+	$pos = countEquipe($BDD, $ID)+1;
+	$newInEq = mysqli_prepare($BDD, "INSERT INTO Equipe(IDEq, IDPkmEq, position) VALUES(?,?,?)");
+	mysqli_stmt_bind_param($newInEq, 'ii', $IDD, $IDPkm, $pos);
+	mysqli_execute($newInEq);
+}
+
+
+function addInPC($BDD, $IDD, $IDPkm)
+{
+	$newInPC = mysqli_prepare($BDD, "INSERT INTO PC(IDPC, PCPkm) VALUES(?,?)");
+	mysqli_stmt_bind_param($newInPC, 'ii', $IDD, $IDPkm);
+	mysqli_execute($newInPC);
+}
+
+function starter($BDD, $IDPkm, $IDD) //id pkm = le choix qu'on fait entre 1, 4, 7
+{
+	newPkmSauvage($BDD, $IDPkm);
+	addInEquipe($BDD, $IDD, $IDPkm);
+}
+
+
+
 
 
 ?>
