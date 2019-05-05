@@ -40,7 +40,7 @@
 </html>
 <script>
  
- var statutB = 1;
+ var statutB = 0;
  var fenetre = document.querySelector("#fenetre");
  var droite = document.querySelector("#droite");
 
@@ -91,4 +91,8 @@
      document.getElementById("mn").innerHTML = newVal;
  }
 
+ function updateEquipe(newVal){
+     document.getElementById("disEquipe").innerHTML = newVal;
+
+}
 </script>
