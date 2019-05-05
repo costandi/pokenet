@@ -5,9 +5,9 @@ include './bdd.php';
 $BDD = GenerBDD();
 
 $joueur1 = getFirstPkm($BDD, $_SESSION['ID']); // joueur1 VS joueur2
-$joueur2 = 2;
+$joueur2 = $_COOKIE["adversaire"];
 
-
+// ATTAQUE
 if (isset($_GET['IDAtk']) && isset($_GET['cible']) && isset($_GET['lanceur'])) 
 {
 	$rep = array();
@@ -25,6 +25,15 @@ if (isset($_GET['IDAtk']) && isset($_GET['cible']) && isset($_GET['lanceur']))
 	echo json_encode($rep);
 
 }
+
+
+
+// CAPTURE
+if (isset($_GET['IDD']) && isset($_GET['IDPkm']))
+{
+	usePokeball($BDD, $_GET['IDD']);
+	capture($BDD, $_GET['IDD'], $_GET['IDPkm']);
+} 
 
 fermerBDD($BDD);
 ?>

@@ -2,11 +2,6 @@
 session_start();
 include './bdd.php';
 
-if (!isset($_SESSION['ID'])) {
-	echo "<script> alert('vous devez vous connecter pour combatre !')</script>";
-	
-	header("location: connect.php");
-}
 include './Template/header.php';
 ?>
 
@@ -15,9 +10,19 @@ include './Template/header.php';
 <body>
 	<?php
 	$BDD = GenerBDD();
+	$ran = getRandomPkm($BDD);
+
 
 	$joueur1 = getFirstPkm($BDD, $_SESSION['ID']); // joueur1 VS joueur2
-	$joueur2 = 2;
+	$joueur2 = newPkmSauvage($BDD, $ran); // l'aléatoire fonctionne mais il ne connais pas d'attaque
+	
+	// $joueur2 = 29;
+
+	// echo $joueur1."<br/>";
+	// echo $joueur2;
+
+	setcookie("adversaire", $joueur2);
+
 
 
 	$pok = getPkmAtk($BDD, $joueur1);
@@ -78,7 +83,7 @@ include './Template/header.php';
 		<div id="obj">
 			<input type="button" id="objets" value="Objets">
 
-			<input type="button" id="pokeball" value="Pokeball">
+			<input type="button" id="pokeball" value="Pokeball" onclick="capture(<?php echo $_SESSION['ID'] ?>, <?php echo $joueur2 ?>)">
 			<input type="button" id="potion" value="Potion">
 
 			<br/>
@@ -141,13 +146,21 @@ include './Template/header.php';
 	function KO(i)
 	{
 		if (i != null)
-			{document.getElementById("vie").innerHTML += "<br/>KO !";}
+		{
+			document.getElementById("vie").innerHTML += "<br/>KO !";
+			alert("vous etes KO !");
+			window.location.replace("jeu.php");
+		}
 	}
 
 	function KOe(i)
 	{
 		if (i != null)
-			{document.getElementById("vieE").innerHTML += "<br/>KO !";}
+		{
+			document.getElementById("vieE").innerHTML += "<br/>KO !";
+			alert("il est KO !");
+			window.location.replace("jeu.php");
+		}
 	}
 
 	function getRandomInt(max) {
@@ -163,6 +176,7 @@ include './Template/header.php';
 	}
 
 
+
 	// function getNomAtk(id)
 	// {
 	// 	.innerHTML += "<?php //getNomAttaque($BDD, );?>";
@@ -174,8 +188,8 @@ include './Template/header.php';
 	function send(IDAtk, idCible, idLanceur){
 		var xhr = new XMLHttpRequest();
 
-		
-		xhr.open('GET', 'ajaxCombat.php?IDAtk=' + IDAtk +'&cible=' + idCible+'&lanceur=' + idLanceur , true); //true pour synchrone, false pour asynchrone
+
+		xhr.open('GET', 'ajaxCombat.php?IDAtk=' + IDAtk +'&cible=' + idCible+'&lanceur=' + idLanceur , false); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
@@ -197,6 +211,27 @@ include './Template/header.php';
 	}
 
 
+
+	function capture(IDD, IDPkm)
+	{
+		var xhr = new XMLHttpRequest();
+
+
+		xhr.open('GET', 'ajaxCombat.php?IDD=' + IDD +'&IDPkm=' + IDPkm, false); //true pour synchrone, false pour asynchrone
+
+		xhr.addEventListener('readystatechange', function() {
+			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+
+				alert("tin tin tiiiin tintintintintintintiiiiin");
+				window.location.replace("jeu.php");
+
+	     	});
+
+		xhr.send();
+	}
+
+
+
 	var attE;
 	// var current = <?php //echo $premier ?>;
 	var current = joueur2;
@@ -205,7 +240,6 @@ include './Template/header.php';
 	function aQui()	{
 		if (current == joueur1)
 		{
-			vie.innerHTML += "<br/>ton tour";
 			current = joueur2;
 		}
 
