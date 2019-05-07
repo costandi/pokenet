@@ -1,6 +1,6 @@
 /* USER */
-insert into User (UserName, User_MDP, QteThune)
-	values ("root", "cHeA7aUmZS+UW/STRphyTw==", 500);
+insert into User (UserName, User_MDP, QteThune, dateDeconnexion, dejaJoue)
+	values ("root", "cHeA7aUmZS+UW/STRphyTw==", 500, 1557218898, true);
 /* FIN USER */
 
 /* SAC */
