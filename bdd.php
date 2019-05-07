@@ -1,7 +1,7 @@
 <?php
 /*
    function GenerBDD(){}
-   function CreUser($BDD, $username, $MdP){}
+*  function CreUser($BDD, $username, $MdP){}
    function fermerBDD($BDD){}
    function checkUserBDD($BDD, $UNcheck, $MDP2check) {}
    function getIdNumber($BDD, $User){}
@@ -24,9 +24,9 @@
    function buyPokeball($BDD, $ID){}
    function buyPotion($BDD, $ID){}
    function getEquipe($BDD, $ID){}
- * function displayEquipe($BDD, $eq) {}
- * function getPkmPc($BDD, $ID){}
- * function displayPkmPC($pc) {}
+   function displayEquipe($BDD, $eq) {}
+   function getPkmPc($BDD, $ID){}
+   function displayPkmPC($pc) {}
    function getFirstPkm($BDD, $IDEq){}
    function getVitesse($BDD, $ID){}
    function whoStart($BDD, $Pkm1, $Pkm2){}
@@ -42,9 +42,11 @@
    function addInEquipe
    function addInPC
    function starter
- * function exchangePkmEq($BDD, $pos1, $pos2);
-
- */
+   function exchangePkmEq($BDD, $pos1, $pos2);
+*  function getDateDeconnexion($BDD, $ID);
+*  function setDateDeconnexion($BDD, $ID);
+ 
+*/
 //__________________________________________________________________________________
 function GenerBDD(){
     $BDD=mysqli_connect("localhost","root","1919","pokenet");
@@ -60,7 +62,7 @@ function CreUser($BDD, $username, $MdP){
     $tmp = getIdNumber($BDD, $username);
     
     if ($tmp == -1){
-        $prepUser = mysqli_prepare($BDD, "INSERT INTO User(username,userMDP, qtteThune) VALUES(?,?, 500)");
+        $prepUser = mysqli_prepare($BDD, "INSERT INTO User(username,userMDP, qtteThune, dateDeconnexion) VALUES(?,?, 500, false)");
         mysqli_stmt_bind_param($prepUser, 'ss', $username, $MdP);
         mysqli_execute($prepUser);
         $ID = getIdNumber($BDD, $username);
@@ -637,4 +639,24 @@ function exchangePkmEq($BDD, $ID, $pos1, $pos2){
     mysqli_execute($stmt);
 }
 
+function getDateDeconnexion($BDD, $ID){
+    $stmt = mysqli_prepare($BDD, "SELECT dateDeconnexion FROM User WHERE IDD=?");
+
+    mysqli_stmt_bind_param($stmt, "i", $ID);
+    mysqli_execute($stmt);
+
+    $res = mysqli_stmt_bind_result($stmt, $DD);
+    
+    while(mysqli_stmt_fetch($stmt));
+
+    return $DD;
+}
+
+
+function setDateDeconnexion($BDD, $ID){
+    $stmt = mysqli_prepare($BDD, "UPDATE User SET dateDeconnexion=? WHERE IDD=?");
+
+    mysqli_stmt_bind_param($stmt, "ii", time(), $ID);
+    mysqli_execute($stmt);
+}
 ?>
