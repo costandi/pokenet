@@ -56,7 +56,9 @@ create table User (
 	IDD int not null primary key auto_increment,
 	userName varchar(40) not null,
 	userMDP varchar(40) not null,
-	qtteThune int not null
+	qtteThune int not null,
+	dateDeconnexion int not null,
+	dejaJoue boolean not null default false
 );
 
 create table PoAtk (
@@ -70,8 +72,6 @@ create table PoType (
 	IDTypePT int references Type(IDT),
 	PRIMARY KEY(IDPkdPT, IDTypePT)
 );
-
-
 
 create table PC (
 	IDPC int not null auto_increment,
