@@ -5,7 +5,7 @@ include './Template/header.php';
 
 $BDD = GenerBDD();
 
-$eq = getEquipe($BDD, 1);
+$eq = getEquipe($BDD, $_SESSION['ID']);
 ?>
 <div id='disEquipe'> <?php echo displayEquipe($eq); ?></div>
 <?php
