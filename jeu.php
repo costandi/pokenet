@@ -3,16 +3,16 @@
 
 	include_once './bdd.php';
 
-	// $un = getUsername($BDD, $_SESSION['ID']);
-	// $pb = getPokeball($BDD, $_SESSION['ID']);
-	// $pt = getPotion($BDD, $_SESSION['ID']);
-	// $mn = getMoney($BDD, $_SESSION['ID']);
+	$BDD =  GenerBDD();
+	$DD = getDateDeconnexion($BDD, $_SESSION['ID']);
 
+	if ($DD <= (time() - 24*60*60)){
+    		newDay($BDD, $_SESSION['ID']);
+    	setDateDeconnexion($BDD, $_SESSION['ID']); 
+	}
+	fermerBDD($BDD);
 
 	include './Template/header.php';
-
-// echo "deja joue : ".$dejaJoue;
-
 
 	if ($dejaJoue == 0) {
 		include './speach.php';
