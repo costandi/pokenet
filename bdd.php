@@ -87,6 +87,7 @@ function checkUserBDD($BDD, $UNcheck, $MDP2check) {
 	mysqli_stmt_bind_result($stmt, $MDPvalide);
 
 	while(mysqli_stmt_fetch($stmt));
+
 	if ($MDPvalide == $MDP2check)
 		return true;
 	else
@@ -330,9 +331,9 @@ function  buyPotion($BDD, $ID){
 function getEquipe($BDD, $ID){
 	$stmt = mysqli_prepare($BDD,
 						   "SELECT IDPkmEq, position, nom, PV 
-							from Equipe, User, Pokedex, Pokemon 
-							where IDEq=IDD and IDPkm=IDPkmEq and IDD=? and IDPkmEq=IDPkd 
-							order by position ASC");
+						   from Equipe, User, Pokedex, Pokemon 
+						   where IDEq=IDD and IDPkm=IDPkmEq and IDD=? and IDPkd_=IDPkd 
+						   order by position ASC");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
 	$res = mysqli_stmt_bind_result($stmt, $IDPkm, $pos, $nom, $PV);
@@ -513,10 +514,13 @@ function newPkmSauvage($BDD, $ID)
 	$IDaleatPkm = mysqli_insert_id($BDD);
 	$tab = getTypePkm($BDD, $IDaleatPkm);
 //for i = 0; i < $tab.length; i++
-
-	$insertType = mysqli_prepare($BDD, "INSERT INTO PoType VALUES(?, ?)");
-	mysqli_stmt_bind_param($insertType, 'ii', $IDaleatPkm, $tab[0]);
-	mysqli_execute($insertType);
+	// echo sizeof($tab);
+	for ($i=0; $i < sizeof($tab); $i++) { 
+		$insertType = mysqli_prepare($BDD, "INSERT INTO PoType VALUES(?, ?)");
+		mysqli_stmt_bind_param($insertType, 'ii', $IDaleatPkm, $tab[i]);
+		mysqli_execute($insertType);
+	}
+	
 
 	// echo "<h1>".$IDaleatPkm."</h1>";
 	return $IDaleatPkm;
@@ -559,6 +563,10 @@ function countEquipe($BDD, $ID)
 
 function addInEquipe($BDD, $IDD, $IDPkm)
 {
+	$stmt = mysqli_prepare($BDD, "UPDATE Pokemon set sauvage=0 where IDPkm= ?");
+	mysqli_stmt_bind_param($stmt, 'i', $IDPkm);
+	mysqli_execute($stmt);
+
 	$pos = countEquipe($BDD, $IDD)+1;
 	$newInEq = mysqli_prepare($BDD, "INSERT INTO Equipe(IDEq, IDPkmEq, position) VALUES(?,?,?)");
 	mysqli_stmt_bind_param($newInEq, 'iii', $IDD, $IDPkm, $pos);
@@ -568,6 +576,11 @@ function addInEquipe($BDD, $IDD, $IDPkm)
 
 function addInPC($BDD, $IDD, $IDPkm)
 {
+	$stmt = mysqli_prepare($BDD, "UPDATE Pokemon set sauvage=0 where IDPkm= ?");
+	mysqli_stmt_bind_param($stmt, 'i', $IDPkm);
+	mysqli_execute($stmt);
+
+
 	$newInPC = mysqli_prepare($BDD, "INSERT INTO PC(IDPC, PCPkm) VALUES(?,?)");
 	mysqli_stmt_bind_param($newInPC, 'ii', $IDD, $IDPkm);
 	mysqli_execute($newInPC);
@@ -589,8 +602,8 @@ function countPokemon($BDD, $ID)
 
 function starter($BDD, $IDPkm, $IDD) //id pkm = le choix qu'on fait entre 1, 4, 7
 {
-	newPkmSauvage($BDD, $IDPkm);
-	addInEquipe($BDD, $IDD, $IDPkm);
+	$starter = newPkmSauvage($BDD, $IDPkm);
+	addInEquipe($BDD, $IDD, $starter);
 }
 
 function usePokeball($BDD, $ID)
