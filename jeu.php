@@ -17,9 +17,9 @@
 	if ($dejaJoue == 0) {
 		include './speach.php';
 	}
-?>
-Fenetre
-
-<?php 
+	 else
+		 
+	echo "Bienvenue, ".$un." ! <br>";
+		
 	include './Template/footer.php'; 
 ?>
