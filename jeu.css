@@ -1,87 +1,180 @@
 * {
-    padding: 0;
-    margin: 0;
-    color: #00004d;
+	padding: 0;
+	margin: 0;
+	color: #00004d;
 }
 
 body {
-    background-color: rgba(80,80,150,1);
-    align-content: center;
+	background-color: rgba(80,80,150,1);
+	align-content: center;
 }
 
 
 #fenetre {
-    margin: 5px;
-    position: absolute;
-    background-color: #b3d9ff;
-    width: 94%;
-    height: 94%;
-    
+	margin: 5px;
+	position: absolute;
+	background-color: #b3d9ff;
+
+	width: 94%;
+	height: 94%;
+	
 }
 
 
 #droite {
-    margin: 5px;
-    width: 5%;
-    position: absolute;
-    background-color: #00004d;
-    height: 94%;
-    right: 1px;
-    z-index: 2;
+	margin: 5px;
+	width: 5%;
+	position: absolute;
+	background-color: #00004d;
+	height: 94%;
+	right: 1px;
+	z-index: 2;
 }
 
 #g {
-    left: 5px;
-    background-color: #3399ff;
-    position: absolute;
-    height: 97%;
-    width: 90%;    
+	left: 5px;
+	background-color: #3399ff;
+	position: absolute;
+	height: 97%;
+	width: 90%;    
 }
 
 #md {
-    transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
-    -khtml-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
+	transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	-khtml-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
 
-    margin: 2%;
+	margin: 2%;
 }
 
 
 
 #d {
-    right: 5px;
-    visibility: hidden;
-    background-color: #e6ecff;
-    position: absolute;
-    height: 97%;
-    width: 75%;
+	right: 5px;
+	visibility: hidden;
+	background-color: #e6ecff;
+	position: absolute;
+	height: 97%;
+	width: 75%;
 }
 
 
 
 
 #etatJ {
-    margin: 5px;
-    position: absolute;
-    background-color: #e6ecff;
-    height: 4%;
-    width: 99%;
-    bottom: 5px;
+	margin: 5px;
+	position: absolute;
+	background-color: #e6ecff;
+	height: 4%;
+	width: 99%;
+	bottom: 5px;
 }
 
 table {
-    margin-left: auto;
-    margin-right: auto;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 tr, td {
-    left: 0;
-    right: 0;
-    
+	left: 0;
+	right: 0;
+	
 }
 
 .DMR {
-    width: 15%;
+	width: 15%;
 }
+
+
+#speach {
+	border : solid 3px rgb(50,50,50);
+	border-radius: 20px;
+	height: 70%;
+	width: 60%;
+	position: absolute;
+	left: 15%;
+	right: 10%;
+	top: 10%;
+	bottom: 10%;
+	background-color: rgb(255, 240, 245);
+	background-image: linear-gradient(to top left,
+					  rgba(0, 0, 0, .3),
+					  rgba(0, 0, 0, .2) 50%,
+					  rgba(0, 0, 0, 0));
+	box-shadow: 20px 20px 20px rgba(80, 80, 80);
+}
+
+#speach #texte {
+	font-size: 30px;
+	position: absolute;
+	top: 15%;
+	bottom: 5%;
+	left: 10%;
+	right: 20%;
+	color: rgb(40,40,40);
+}
+
+#speach #next {
+	position: absolute;
+	bottom : 10%;
+	right: 20%;
+	border: solid 1px black;
+	border-radius: 15%;
+	width: 100px;
+	height: 70px;
+	background-color: rgb(240, 240, 240);
+	background-image: linear-gradient(to top left,
+					  rgba(0, 0, 0, .3),
+					  rgba(0, 0, 0, .2) 50%,
+					  rgba(0, 0, 0, 0));
+	font-size: 20px;
+	font-family: fantasy;
+}
+
+#speach #choix button {
+	position: absolute;
+	bottom: 40%;
+	border: solid 1px black;
+	border-radius: 15%;
+	width: 100px;
+	height: 70px;
+	background-color: rgb(240, 240, 240);
+	background-image: linear-gradient(to top left,
+					  rgba(0, 0, 0, .3),
+					  rgba(0, 0, 0, .2) 50%,
+					  rgba(0, 0, 0, 0));
+	font-size: 20px;
+	font-family: fantasy;
+}
+
+#speach #bulb {
+	left: 20%;
+}
+
+
+#speach #bulb:hover {
+	background-color: rgba(0, 230, 20);
+	box-shadow: 10px 10px 10px rgba(80, 150, 80, 0.4);
+}
+
+#speach #sala {
+	left: 40%;
+}
+
+#speach #sala:hover {
+	background-color: rgba(230, 20, 0);
+	box-shadow: 10px 10px 10px rgba(200, 0, 20, 0.4);
+}
+
+
+#speach #cara {
+	left: 60%;
+}
+
+#speach #cara:hover {
+	background-color: rgba(150, 150, 255);
+	box-shadow: 10px 10px 10px rgba(20, 30, 200, 0.4);
+}
+
