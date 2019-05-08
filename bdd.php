@@ -349,18 +349,18 @@ function getEquipe($BDD, $ID){
 
 
 function displayEquipe($eq) {
-	$taille = count($eq);
-	$i = 0;
-	echo "<ul>";
-	for ($i=1; $i < $taille; $i++) { 
-		echo "<li>idPkm : ".$eq[$i][ID]."<br/>position : ".$i."<br/>nom : ".$eq[$i][nom]."<br/>pv : ".$eq[$i][pv]." pv</li>	";
-		echo "<br/>";
-	}
-	echo "</ul>";
-	
+  $taille = count($eq);
+    
+    echo "<ul>";
+    for ($i=1; $i < $taille; $i++) { 
+ 	echo "<li> IdPkm : ".$eq[$i]['ID']."<br/>position : ".$eq[$i]['pos']."<br/>nom : ".$eq[$i]['nom']."<br/>pv : ".$eq[$i]['pv']."pv</br>";
+        if ($eq[$i]['pos'] != 1){
+            echo "<input type='button' value ='Mettre ce pokemon en tete de file' onclick='send(2, ".$i.")'";
+        }
+ 	echo "</li><br/>";
+    }
+    echo "</ul>";
 }
-
-
 
 function getPkmPc($BDD, $ID){
 	$stmt = mysqli_prepare($BDD, 
