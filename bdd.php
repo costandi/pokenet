@@ -132,20 +132,6 @@ function getUsername($BDD, $ID)
 
 }
 
-// function hardestChoice($BDD) {
-// 	$stmt = mysqli_querry($BDD, "SELECT * FROM Pokedex WHERE IDPkd=1 or IDPkd=4 or IDPkd=7");
-
-
-// 	$AtkTab = array();
-// 	if($res) {
-// 		while(mysqli_stmt_fetch($stmt)){
-// 			array_push($AtkTab, $IDPkd, $nom);
-// 		}
-// 	}
-// }
-
-
-
 function displayAttaque($BDD, $pok) {
 	$taille = count($pok);
 	//echo "taille = ".$taille;
@@ -359,7 +345,7 @@ function getEquipe($BDD, $ID){
 	
 	if($res) {
 		while(mysqli_stmt_fetch($stmt)){
-			array_push($equipe, array('ID' => $IDPkm, 'nom' => $nom, 'pv' =>$PV));
+			array_push($equipe, array('ID' => $IDPkm, 'pos' => $pos, 'nom' => $nom, 'pv' =>$PV));
 		}
 	}
 	return $equipe;
