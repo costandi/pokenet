@@ -1,10 +1,16 @@
 <?php
 session_start();
 
+include './bdd.php';
+
 if(isset($_POST['deco']))
 {
+    $BDD = GenerBDD();
+    setDateDeconnexion($BDD, $_SESSION['ID']);
+    fermerBDD($BDD);
     session_destroy();
     $_SESSION=array();
+    
 }
 
 ?>
