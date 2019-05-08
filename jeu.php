@@ -1,25 +1,26 @@
 <?php
-	session_start();
+session_start();
 
-	include_once './bdd.php';
+include_once './bdd.php';
 
-	$BDD =  GenerBDD();
-	$DD = getDateDeconnexion($BDD, $_SESSION['ID']);
+$BDD =  GenerBDD();
+$DD = getDateDeconnexion($BDD, $_SESSION['ID']);
 
-	if ($DD <= (time() - 24*60*60)){
-    		newDay($BDD, $_SESSION['ID']);
-    	setDateDeconnexion($BDD, $_SESSION['ID']); 
-	}
-	fermerBDD($BDD);
+if ($DD <= (time() - 24*60*60)){
+    newDay($BDD, $_SESSION['ID']);
+    setDateDeconnexion($BDD, $_SESSION['ID']); 
+}
 
-	include './Template/header.php';
+$dejaJoue = dejaJoue($BDD, $_SESSION['ID']);
+fermerBDD($BDD);
 
-	if ($dejaJoue == 0) {
-		include './speach.php';
-	}
-	 else
-		 
-	echo "Bienvenue, ".$un." ! <br>";
+include './Template/header.php';
+
+if ($dejaJoue == 0) {
+    include './speach.php';
+}
+else		 
+    echo "Bienvenue, ".$un." ! <br>";
 		
-	include './Template/footer.php'; 
+include './Template/footer.php'; 
 ?>
