@@ -281,17 +281,17 @@ function getPotion($BDD, $ID){
 
 
 function newDay($BDD, $ID){
-    $stmt = mysqli_prepare($BDD, "UPDATE User SET qtteThune = qtteThune + '50' WHERE IDD = ?");
-    mysqli_stmt_bind_param($stmt, 'i', $ID);
-    mysqli_execute($stmt);
-    
-    $stmt = mysqli_prepare($BDD, "UPDATE Sac SET pokeball = pokeball + '5' WHERE IDSac = ?");
-    mysqli_stmt_bind_param($stmt, 'i', $ID);
-    mysqli_execute($stmt);
-    
-	$stmt = mysqli_prepare($BDD, "UPDATE Pokemon SET PV=100 WHERE IDPkm = Equipe.IDPkmEq AND IDEq = ?");
-    mysqli_stmt_bind_param($stmt, 'i', $ID);
-    mysqli_execute($stmt);
+	$stmt = mysqli_prepare($BDD, "UPDATE User SET qtteThune = qtteThune + '50' WHERE IDD = ?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
+	
+	$stmt = mysqli_prepare($BDD, "UPDATE Sac SET pokeball = pokeball + '5' WHERE IDSac = ?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
+	
+	$stmt = mysqli_prepare($BDD, "UPDATE Pokemon, Equipe SET PV=100 WHERE IDPkm = Equipe.IDPkmEq AND IDEq = ?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
 }
 
 function  buyPokeball($BDD, $ID){
@@ -340,7 +340,7 @@ function getEquipe($BDD, $ID){
 	
 	if($res) {
 		while(mysqli_stmt_fetch($stmt)){
-			array_push($equipe, array('ID' => $IDPkm, 'nom' => $nom, 'pv' =>$PV));
+			array_push($equipe, array('ID' => $IDPkm, 'nom' => $nom, 'pv' =>$PV, 'pos' => $pos));
 		}
 	}
 	return $equipe;
@@ -349,16 +349,16 @@ function getEquipe($BDD, $ID){
 
 function displayEquipe($eq) {
   $taille = count($eq);
-    
-    echo "<ul>";
-    for ($i=1; $i < $taille; $i++) { 
- 	echo "<li> IdPkm : ".$eq[$i]['ID']."<br/>position : ".$eq[$i]['pos']."<br/>nom : ".$eq[$i]['nom']."<br/>pv : ".$eq[$i]['pv']."pv</br>";
-        if ($eq[$i]['pos'] != 1){
-            echo "<input type='button' value ='Mettre ce pokemon en tete de file' onclick='send(2, ".$i.")'";
-        }
- 	echo "</li><br/>";
-    }
-    echo "</ul>";
+	
+	echo "<ul>";
+	for ($i=1; $i < $taille; $i++) { 
+	echo "<li> IdPkm : ".$eq[$i]['ID']."<br/>position : ".$eq[$i]['pos']."<br/>nom : ".$eq[$i]['nom']."<br/>pv : ".$eq[$i]['pv']."pv</br>";
+		if ($eq[$i]['pos'] != 1){
+			echo "<input type='button' value ='Mettre ce pokemon en tete de file' onclick='send(2, ".$i.")'";
+		}
+	echo "</li><br/>";
+	}
+	echo "</ul>";
 }
 
 
@@ -511,8 +511,7 @@ function newPkmSauvage($BDD, $ID)
 
 	$IDaleatPkm = mysqli_insert_id($BDD);
 	$tab = getTypePkm($BDD, $IDaleatPkm);
-//for i = 0; i < $tab.length; i++
-	// echo sizeof($tab);
+
 	for ($i=0; $i < sizeof($tab); $i++) { 
 		$insertType = mysqli_prepare($BDD, "INSERT INTO PoType VALUES(?, ?)");
 		mysqli_stmt_bind_param($insertType, 'ii', $IDaleatPkm, $tab[$i]);
@@ -619,19 +618,23 @@ function heal($BDD, $IDPkm, $ID)
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
 
-	if ($PV <= 0) {
+	if ($PV <= 0) 
+	{
 		return 1;
 	}
+
 	else if ($PV == 100)
 	{
 		return 1;
 	}
+
 	else if ($PV > 80)
 	{
 		$stmt = mysqli_prepare($BDD, "UPDATE Pokemon, Equipe SET PV = 100 WHERE IDPkmEq=IDPkm and position=1 and IDEq = ?");
 		mysqli_stmt_bind_param($stmt, 'i', $ID);
 		mysqli_execute($stmt);
 	}
+
 	else
 	{
 		$stmt = mysqli_prepare($BDD, "UPDATE Pokemon, Equipe SET PV = PV + 20 WHERE IDPkmEq=IDPkm and position=1 and IDEq = ?");
