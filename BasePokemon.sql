@@ -1,7 +1,15 @@
+create table User (
+	ID_D int not null primary key auto_increment,
+	UserName varchar(40) not null,
+	User_MDP varchar(40) not null,
+	NumEq int not null,
+	NumSac int not null,
+	QteThune int not null
+);
 
 create table Etat (
-	ID_Et int not null primary key auto_increment,
-	Nom_Et varchar(20) not null
+	ID_E int not null primary key auto_increment,
+	Nom_E varchar(20) not null
 );
 
 create table Type (
@@ -10,7 +18,7 @@ create table Type (
 );
 
 create table Sac (
-	ID_Sac int not null primary key auto_increment,
+	NumSac int not null primary key auto_increment,
 	Pokeball int not null,
 	Potion int not null
 );
