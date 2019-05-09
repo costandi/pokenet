@@ -17,7 +17,6 @@ body {
 
 	width: 94%;
 	height: 94%;
-	
 }
 
 
@@ -40,11 +39,11 @@ body {
 }
 
 #md {
-	transform: rotate(90deg);
-	-moz-transform: rotate(90deg);
-	-webkit-transform: rotate(90deg);
-	-khtml-transform: rotate(90deg);
-	-ms-transform: rotate(90deg);
+	writing-mode: vertical-rl;
+	text-orientation: mixed;
+	position: absolute;
+	right: 40%;
+	top: 45%;
 
 	margin: 2%;
 }
