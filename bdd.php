@@ -48,7 +48,7 @@ function starter
 */
 //__________________________________________________________________________________
 function GenerBDD(){
-	$BDD=mysqli_connect("localhost","root","1919","pokenet");
+	$BDD=mysqli_connect("localhost","root", "1919","pokenet");
 	if(!$BDD){
 		die("<p>connexion impossible</p>");
 	}
@@ -337,10 +337,10 @@ function getEquipe($BDD, $ID){
 	mysqli_execute($stmt);
 	$res = mysqli_stmt_bind_result($stmt, $IDPkm, $pos, $nom, $PV);
 	$equipe = array(0);
-	
+    
 	if($res) {
 		while(mysqli_stmt_fetch($stmt)){
-			array_push($equipe, array('ID' => $IDPkm, 'nom' => $nom, 'pv' =>$PV, 'pos' => $pos));
+            array_push($equipe, array('ID' => $IDPkm, 'nom' => $nom, 'pv' =>$PV, 'pos' => $pos));
 		}
 	}
 	return $equipe;
@@ -689,4 +689,9 @@ function aBienJoue($BDD, $ID){
 	mysqli_execute($stmt);
 }
 
+function centrePkm($BDD, $ID){
+	$stmt = mysqli_prepare($BDD, "UPDATE Pokemon, Equipe SET PV=100 WHERE IDPkm = Equipe.IDPkmEq AND IDEq = ?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
+}
 ?>

@@ -7,6 +7,8 @@ $BDD = GenerBDD();
 
 $eq = getEquipe($BDD, $_SESSION['ID']);
 ?>
+
+<input type="button" name="joelle" value="Soigner tout ses pokemons" onclick="send(1, 0)">
 <div id='disEquipe'> <?php echo displayEquipe($eq); ?></div>
 <?php
 fermerBDD($BDD);
