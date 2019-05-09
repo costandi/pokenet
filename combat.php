@@ -16,7 +16,7 @@ include './Template/header.php';
 	$joueur1 = getFirstPkm($BDD, $_SESSION['ID']); // joueur1 VS joueur2
 	$joueur2 = newPkmSauvage($BDD, $ran); // l'aléatoire fonctionne mais il ne connais pas d'attaque
 	
-	// $joueur2 = 29;
+	 // $joueur2 = 2;
 
 	// echo $joueur1."<br/>";
 	// echo $joueur2;
@@ -84,7 +84,7 @@ include './Template/header.php';
 			<input type="button" id="objets" value="Objets">
 
 			<input type="button" id="pokeball" value="Pokeball" onclick="capture(<?php echo $_SESSION['ID'] ?>, <?php echo $joueur2 ?>)">
-			<input type="button" id="potion" value="Potion">
+			<input type="button" id="potion" value="Potion" onclick="soin(<?php echo $joueur1 ?>)">
 
 			<br/>
 
@@ -185,7 +185,7 @@ include './Template/header.php';
 
 
 
-	function send(IDAtk, idCible, idLanceur){
+	function send(IDAtk, idCible, idLanceur) {
 		var xhr = new XMLHttpRequest();
 
 
@@ -195,17 +195,13 @@ include './Template/header.php';
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
 				var tab = JSON.parse(xhr.responseText);
 
-	    		updateVie(tab[0]); // ma vie
-	     		updateVieE(tab[1]);// vie adversaire
+				updateVie(tab[0]); // ma vie
+				updateVieE(tab[1]);// vie adversaire
 
-	     		KO(tab[2]); // mon KO
-	     		KOe(tab[3]);// KO adversaire
+				KO(tab[2]); // mon KO
+				KOe(tab[3]);// KO adversaire
 
-
-	     		return tab;
-
-
-	     	});
+			});
 
 		xhr.send();
 	}
@@ -216,18 +212,37 @@ include './Template/header.php';
 	{
 		var xhr = new XMLHttpRequest();
 
-
 		xhr.open('GET', 'ajaxCombat.php?IDD=' + IDD +'&IDPkm=' + IDPkm, false); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
 
-				alert("tin tin tiiiin tintintintintintintiiiiin");
-				window.location.replace("jeu.php");
+				alert(xhr.responseText);
+				if(xhr.responseText == "tin tin tiiiin tintintintintintintiiiiin")
+					window.location.replace("jeu.php");
+			});
+				xhr.send();
+	}
 
-	     	});
 
-		xhr.send();
+	function soin(IDPkm)
+	{
+		var xhr = new XMLHttpRequest();
+
+		xhr.open('GET', 'ajaxCombat.php?pkmAsoigner=' + IDPkm); //true pour synchrone, false pour asynchrone
+
+		xhr.addEventListener('readystatechange', function() {
+			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
+			{
+				var tab = JSON.parse(xhr.responseText);
+				 // alert(tab[0]);
+				// alert(xhr.responseText);
+
+				updateVie(tab[0]);
+				updatePotion(tab[1]);
+			}
+		});
+				xhr.send();
 	}
 
 
@@ -268,13 +283,11 @@ include './Template/header.php';
 	
 	// attaque.addEventListener("click", function ()
 	// {
-		
 	// 	objets.style.visibility = "hidden";
 	// 	attaque1.style.visibility = "visible";
 	// 	attaque2.style.visibility = "visible";
 	// 	attaque3.style.visibility = "visible";
 	// 	attaque4.style.visibility = "visible";
-
 	// });
 
 	retour.addEventListener("click", function ()
@@ -287,7 +300,6 @@ include './Template/header.php';
 		attaque2.style.visibility = "hidden";
 		attaque3.style.visibility = "hidden";
 		attaque4.style.visibility = "hidden";
-		
 	});
 	objets.addEventListener("click", function ()
 	{
