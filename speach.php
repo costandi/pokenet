@@ -5,7 +5,7 @@ $BDD = GenerBDD();
 
 $dejaJoue = dejaJoue($BDD, $_SESSION['ID']);
 
-echo $dejaJoue;
+// echo $dejaJoue;
 
 if ($dejaJoue == 1 || !isset($_SESSION['ID'])) {
 	header('Location: jeu.php');
@@ -21,7 +21,7 @@ if ($dejaJoue == 1 || !isset($_SESSION['ID'])) {
 </div>
 
 <script type="text/javascript">
-	var text = 5;
+	var text = 1;
 	let next = document.getElementById("next");
 	let txt = document.getElementById("texte");
 	let div = document.getElementById("choix");
