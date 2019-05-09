@@ -1,9 +1,10 @@
 </div>
 	
 	<div id='droite'><br/>
-	    <div id='g'><p id ='md'>_________________________________________________MENU</p></div>
+	    <div id='g'><p id ='md'>MENU</p></div>
 	    <div id='d'>
 		<ul>
+			<li><p><a href="jeu.php">Accueil</a></p></li>
 		    <li><p><a href="combat.php">Se promener</a></p></li>
 		    <li><p>Combattre d'autres joueurs!</p></li>
 		    <li><p><a href="magasin.php">Magasin</a></p></li>
@@ -91,8 +92,10 @@
      document.getElementById("mn").innerHTML = newVal;
  }
 
- function updateEquipe(newVal){
-     document.getElementById("disEquipe").innerHTML = newVal;
+function updateVie(i){
+	document.getElementById("vie").innerHTML = "il vous reste "+i+" pv !";
+	maBarreVie.value = i;
 
 }
+
 </script>
