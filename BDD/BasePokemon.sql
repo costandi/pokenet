@@ -1,3 +1,4 @@
+/*CREATE DATABASE IF NOT EXISTS pokenet;*/
 
 create table Etat (
 	IDEt int not null primary key auto_increment,
@@ -78,4 +79,10 @@ create table PC (
 	PCPkm int not null references Pokemon(IDPkm),
 	primary key (IDPC, PCPkm)
 
+);
+
+create table PoAtkPossible (
+	IDPkmPo int not null references Pokemon(IDPkm),
+	IDAtkPo int not null references Attaque(IDAtk),
+	primary key (IDPkmPo, IDAtkPo)
 );
