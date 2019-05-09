@@ -7,20 +7,29 @@ $BDD = GenerBDD();
 $rep = array();
 
 if($_POST["action"] == "1"){
-    $tmp = buyPotion($BDD, $_SESSION['ID']);
+    for ($i = 0, $tmp = true;
+         $i < $_POST['qtte'] && $tmp != false;
+         $i = $i + 1) 
+        $tmp = buyPotion($BDD, $_SESSION['ID']);
+    
     $mnn = getMoney($BDD, $_SESSION["ID"]);
-    $_POST = null;
-    if ($tmp == true)
-	$rep[0] = "Potion achetée! Il te reste ".$mnn." pokedollards.";
+
+    if ($tmp == true || ($tmp == false && $i > 0)){
+        $rep[0] = "Tu a acheter ".$i." potion(s)! Il te reste ".$mnn." pokedollards.";
+    }
     else $rep[0] = "Tu n'a pas asser d'argent!";
 }
 
 else if($_POST["action"] == "2"){
-    $tmp = buyPokeball($BDD, $_SESSION['ID']);
+ for ($i = 0, $tmp = true;
+      $i < $_POST['qtte'] && $tmp != false;
+      $i = $i + 1)
+     $tmp = buyPokeball($BDD, $_SESSION['ID']);
     $mnn = getMoney($BDD, $_SESSION["ID"]);
-    $_POST = null;
-    if ($tmp == true)
-	$rep[0] = "Pokeball achetée! Il te reste ".$mnn." pokedollards.";
+
+    if ($tmp == true || ($tmp == false && $i > 0)){
+        $rep[0] = "Tu a acheter ".$i." pokeball(s)! Il te reste ".$mnn." pokedollards.";
+    }
     else $rep[0] = "Tu n'a pas asser d'argent!";
 }
 
