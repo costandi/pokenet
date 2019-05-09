@@ -94,7 +94,7 @@ insert into Pokedex (nom)
 	values ("Sablaireau");
 
 insert into Pokedex (nom)
-	values ("Nidoran♀");
+	values ("Nidoran F.");
 
 insert into Pokedex (nom)
 	values ("Nidorina");
@@ -103,7 +103,7 @@ insert into Pokedex (nom)
 	values ("Nidoqueen");
 
 insert into Pokedex (nom)
-	values ("Nidoran♂");
+	values ("Nidoran M.");
 
 insert into Pokedex (nom)
 	values ("Nidorino");
@@ -233,6 +233,9 @@ insert into Attaque (nomAtk, typeAtk, degats)
 
 insert into Attaque (nomAtk, typeAtk, degats)
 	values("Queue de fer", 17, 8);
+
+insert into Attaque (nomAtk, typeAtk, degats)
+	values("Vent féerique", 18, 9);
 /* FIN ATTAQUES */
 
 /* ETATS */
@@ -491,3 +494,326 @@ insert into Equipe
 insert into Equipe
 	values (2, 5, 2);*/
 /* FIN EQUIPE */
+
+/* POATKPOSSIBLE */
+
+/* bulbizarre */
+insert into PoAtkPossible
+	values (1, 2);
+insert into PoAtkPossible
+	values (1, 5);
+insert into PoAtkPossible
+	values (1, 9);
+insert into PoAtkPossible
+	values (1, 17);
+
+/* herbizarre */
+insert into PoAtkPossible
+	values (2, 2);
+insert into PoAtkPossible
+	values (2, 5);
+insert into PoAtkPossible
+	values (2, 9);
+insert into PoAtkPossible
+	values (2, 17);
+
+/* florizarre */
+insert into PoAtkPossible
+	values (3, 2);
+insert into PoAtkPossible
+	values (3, 5);
+insert into PoAtkPossible
+	values (3, 9);
+insert into PoAtkPossible
+	values (3, 17);
+
+
+/* salameche */
+insert into PoAtkPossible
+	values (4, 1);
+insert into PoAtkPossible
+	values (4, 3);
+insert into PoAtkPossible
+	values (4, 17);
+
+/* reptincel */
+insert into PoAtkPossible
+	values (5, 1);
+insert into PoAtkPossible
+	values (5, 3);
+insert into PoAtkPossible
+	values (5, 17);
+
+/* dracaufeu */
+insert into PoAtkPossible
+	values (6, 1);
+insert into PoAtkPossible
+	values (6, 3);
+insert into PoAtkPossible
+	values (6, 17);
+insert into PoAtkPossible
+	values (6, 11);
+
+/* carapuce */
+insert into PoAtkPossible
+	values (7, 1);
+insert into PoAtkPossible
+	values (7, 4);
+insert into PoAtkPossible
+	values (7, 7);
+insert into PoAtkPossible
+	values (7, 17);
+
+/* carabaffe */
+insert into PoAtkPossible
+	values (8, 1);
+insert into PoAtkPossible
+	values (8, 4);
+insert into PoAtkPossible
+	values (8, 7);
+insert into PoAtkPossible
+	values (8, 17);
+
+/* tortank */
+insert into PoAtkPossible
+	values (9, 1);
+insert into PoAtkPossible
+	values (9, 4);
+insert into PoAtkPossible
+	values (9, 7);
+insert into PoAtkPossible
+	values (9, 17);
+
+/* chenipan */
+insert into PoAtkPossible
+	values (10, 2);
+insert into PoAtkPossible
+	values (10, 9);
+insert into PoAtkPossible
+	values (10, 13);
+
+/* chrisacier */
+insert into PoAtkPossible
+	values (11, 2);
+insert into PoAtkPossible
+	values (11, 9);
+insert into PoAtkPossible
+	values (11, 13);
+
+/* papilusion */
+insert into PoAtkPossible
+	values (12, 2);
+insert into PoAtkPossible
+	values (12, 9);
+insert into PoAtkPossible
+	values (12, 13);
+
+/* aspicot */
+insert into PoAtkPossible
+	values (13, 2);
+insert into PoAtkPossible
+	values (13, 9);
+insert into PoAtkPossible
+	values (13, 13);
+
+/* coconfort */
+insert into PoAtkPossible
+	values (14, 2);
+insert into PoAtkPossible
+	values (14, 9);
+insert into PoAtkPossible
+	values (14, 13);
+
+/* dardargnan */
+insert into PoAtkPossible
+	values (15, 2);
+insert into PoAtkPossible
+	values (15, 9);
+insert into PoAtkPossible
+	values (15, 13);
+insert into PoAtkPossible
+	values (15, 11);
+
+/* roucool */
+insert into PoAtkPossible
+	values (16, 1);
+insert into PoAtkPossible
+	values (16, 11);
+
+/* roucoups */
+insert into PoAtkPossible
+	values (17, 1);
+insert into PoAtkPossible
+	values (17, 11);
+
+/* roucarnage */
+insert into PoAtkPossible
+	values (18, 1);
+insert into PoAtkPossible
+	values (18, 11);
+
+/* rattata */
+insert into PoAtkPossible
+	values (19, 2);
+insert into PoAtkPossible
+	values (19, 17);
+
+/* rattatac */
+insert into PoAtkPossible
+	values (20, 2);
+insert into PoAtkPossible
+	values (20, 17);
+
+/* piafabec */
+insert into PoAtkPossible
+	values (21, 1);
+insert into PoAtkPossible
+	values (21, 11);
+
+/* rapasdepic */
+insert into PoAtkPossible
+	values (22, 1);
+insert into PoAtkPossible
+	values (22, 11);
+
+/* abo */
+insert into PoAtkPossible
+	values (23, 2);
+insert into PoAtkPossible
+	values (23, 8);
+insert into PoAtkPossible
+	values (23, 16);
+
+/* arbok */
+insert into PoAtkPossible
+	values (24, 2);
+insert into PoAtkPossible
+	values (24, 8);
+insert into PoAtkPossible
+	values (24, 16);
+
+/* pikachu */
+insert into PoAtkPossible
+	values (25, 1);
+insert into PoAtkPossible
+	values (25, 2);
+insert into PoAtkPossible
+	values (25, 6);
+insert into PoAtkPossible
+	values (25, 17);
+insert into PoAtkPossible
+	values (25, 18);
+
+/* raichu */
+insert into PoAtkPossible
+	values (26, 1);
+insert into PoAtkPossible
+	values (26, 2);
+insert into PoAtkPossible
+	values (26, 6);
+insert into PoAtkPossible
+	values (26, 17);
+insert into PoAtkPossible
+	values (26, 18);
+
+/* sablette */
+insert into PoAtkPossible
+	values (27, 1);
+insert into PoAtkPossible
+	values (27, 2);
+insert into PoAtkPossible
+	values (27, 10);
+insert into PoAtkPossible
+	values (27, 13);
+insert into PoAtkPossible
+	values (27, 14);
+insert into PoAtkPossible
+	values (27, 16);
+insert into PoAtkPossible
+	values (27, 17);
+
+/* sablaireau */
+insert into PoAtkPossible
+	values (28, 1);
+insert into PoAtkPossible
+	values (28, 2);
+insert into PoAtkPossible
+	values (28, 10);
+insert into PoAtkPossible
+	values (28, 13);
+insert into PoAtkPossible
+	values (28, 14);
+insert into PoAtkPossible
+	values (28, 16);
+insert into PoAtkPossible
+	values (28, 17);
+
+/* nidoran f. */
+insert into PoAtkPossible
+	values (29, 1);
+insert into PoAtkPossible
+	values (29, 8);
+insert into PoAtkPossible
+	values (29, 9);
+
+/* nidorina */
+insert into PoAtkPossible
+	values (30, 1);
+insert into PoAtkPossible
+	values (30, 8);
+insert into PoAtkPossible
+	values (30, 9);
+
+/* nidoqueen */
+insert into PoAtkPossible
+	values (31, 1);
+insert into PoAtkPossible
+	values (31, 8);
+insert into PoAtkPossible
+	values (31, 9);
+
+/* nidoran m. */
+insert into PoAtkPossible
+	values (32, 1);
+insert into PoAtkPossible
+	values (32, 8);
+insert into PoAtkPossible
+	values (32, 9);
+
+/* nidorino */
+insert into PoAtkPossible
+	values (33, 1);
+insert into PoAtkPossible
+	values (33, 8);
+insert into PoAtkPossible
+	values (33, 9);
+
+/* nidoking */
+insert into PoAtkPossible
+	values (34, 1);
+insert into PoAtkPossible
+	values (34, 8);
+insert into PoAtkPossible
+	values (34, 9);
+
+/* melofee */
+insert into PoAtkPossible
+	values (35, 2);
+insert into PoAtkPossible
+	values (35, 8);
+insert into PoAtkPossible
+	values (35, 12);
+insert into PoAtkPossible
+	values (35, 19);
+
+/* melodelfe */
+insert into PoAtkPossible
+	values (36, 2);
+insert into PoAtkPossible
+	values (36, 8);
+insert into PoAtkPossible
+	values (36, 12);
+insert into PoAtkPossible
+	values (36, 19);
+
+/* FIN POATKPOSSIBLE */

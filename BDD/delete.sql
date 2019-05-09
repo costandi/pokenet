@@ -9,4 +9,4 @@ drop table PoType;
 drop table Sac;
 drop table Type;
 drop table User;
-
+drop table PoAtkPossible;

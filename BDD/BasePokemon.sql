@@ -1,4 +1,5 @@
-/*CREATE DATABASE IF NOT EXISTS pokenet;*/
+CREATE DATABASE IF NOT EXISTS pokenet;
+USE pokenet;
 
 create table Etat (
 	IDEt int not null primary key auto_increment,
