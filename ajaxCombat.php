@@ -23,17 +23,45 @@ if (isset($_GET['IDAtk']) && isset($_GET['cible']) && isset($_GET['lanceur']))
 	$rep[3] = setKO($BDD, $joueur2);
 
 	echo json_encode($rep);
-
 }
 
 
 
 // CAPTURE
-if (isset($_GET['IDD']) && isset($_GET['IDPkm']))
+if (isset($_GET['IDD']))
 {
-	usePokeball($BDD, $_GET['IDD']);
-	capture($BDD, $_GET['IDD'], $_GET['IDPkm']);
+	$nb = getPokeball($BDD, $_SESSION['ID']);
+
+
+	if($nb >= 1) {
+		usePokeball($BDD, $_SESSION['ID']);
+		capture($BDD, $_GET['IDD'], $_GET['IDPkm']);
+		$msg = "tin tin tiiiin tintintintintintintiiiiin";
+	}
+	else
+	{
+		$msg = "vous n'avez plus de pokeball !";
+	}
+
+	echo $msg;
 } 
+
+
+
+// POTION
+if (isset($_GET['pkmAsoigner']))
+{
+	$res = array();
+
+	heal($BDD, $_GET['pkmAsoigner'], $_SESSION['ID']);
+	$res[0] = getPV($BDD, $joueur1);
+	// $res[1] = 2;
+	$res[1] = getPotion($BDD, $_SESSION['ID']);
+
+	echo json_encode($res);
+	// echo getPV($BDD, $joueur1);
+}
+
 
 fermerBDD($BDD);
 ?>
