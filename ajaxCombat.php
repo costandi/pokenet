@@ -21,6 +21,7 @@ if (isset($_GET['IDAtk']) && isset($_GET['cible']) && isset($_GET['lanceur']))
 	$rep[1] = getPV($BDD, $joueur2);
 	$rep[2] = setKO($BDD, $joueur1);
 	$rep[3] = setKO($BDD, $joueur2);
+	$rep[4] = getNomAttaque($BDD, $_GET['IDAtk']);
 
 	echo json_encode($rep);
 }
@@ -30,13 +31,26 @@ if (isset($_GET['IDAtk']) && isset($_GET['cible']) && isset($_GET['lanceur']))
 // CAPTURE
 if (isset($_GET['IDD']))
 {
+
 	$nb = getPokeball($BDD, $_SESSION['ID']);
 
 
 	if($nb >= 1) {
+		
+		$resistance = getPV($BDD, $_GET['IDPkm']);
+		$chance = random_int(1, 100);
 		usePokeball($BDD, $_SESSION['ID']);
-		capture($BDD, $_GET['IDD'], $_GET['IDPkm']);
-		$msg = "tin tin tiiiin tintintintintintintiiiiin";
+
+		if ($chance > $resistance)
+		{
+			capture($BDD, $_GET['IDD'], $_GET['IDPkm']);
+			$msg = "tin tin tiiiin tintintintintintintiiiiin";
+		}
+
+		else
+		{
+			echo "il s'echappe !";
+		}
 	}
 	else
 	{

@@ -15,7 +15,7 @@ include './Template/header.php';
 
 	$joueur1 = getFirstPkm($BDD, $_SESSION['ID']); // joueur1 VS joueur2
 	$joueur2 = newPkmSauvage($BDD, $ran); // l'aléatoire fonctionne mais il ne connais pas d'attaque
-	
+
 	 // $joueur2 = 2;
 
 	// echo $joueur1."<br/>";
@@ -81,10 +81,10 @@ include './Template/header.php';
 		<br/>
 
 		<div id="obj">
-			<input type="button" id="objets" value="Objets">
+			<input type="button" id="objets" value="Objets" onclick="del()">
 
 			<input type="button" id="pokeball" value="Pokeball" onclick="capture(<?php echo $_SESSION['ID'] ?>, <?php echo $joueur2 ?>)">
-			<input type="button" id="potion" value="Potion" onclick="soin(<?php echo $joueur1 ?>)">
+			<input type="button" id="potion" value="Potion" onclick="soin(<?php echo $joueur1 ?>), aQui()">
 
 			<br/>
 
@@ -137,11 +137,7 @@ include './Template/header.php';
 
 	}
 
-	function updateVie(i){
-		document.getElementById("vie").innerHTML = "il vous reste "+i+" pv !";
-		maBarreVie.value = i;
-
-	}
+	
 
 	function KO(i)
 	{
@@ -200,6 +196,8 @@ include './Template/header.php';
 
 				KO(tab[2]); // mon KO
 				KOe(tab[3]);// KO adversaire
+
+				alert(tab[4]+" utilisée !");
 
 			});
 
