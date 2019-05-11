@@ -256,7 +256,7 @@ function getMoney($BDD, $ID){
 	mysqli_execute($stmt);
 	mysqli_stmt_bind_result($stmt, $Thune);
 	while(mysqli_stmt_fetch($stmt));
-		
+
 	return $Thune;
 }
 function getPokeball($BDD, $ID){
@@ -329,10 +329,10 @@ function  buyPotion($BDD, $ID){
 
 function getEquipe($BDD, $ID){
 	$stmt = mysqli_prepare($BDD,
-						   "SELECT IDPkmEq, position, nom, PV 
-						   from Equipe, User, Pokedex, Pokemon 
-						   where IDEq=IDD and IDPkm=IDPkmEq and IDD=? and IDPkd_=IDPkd 
-						   order by position ASC");
+		"SELECT IDPkmEq, position, nom, PV 
+		from Equipe, User, Pokedex, Pokemon 
+		where IDEq=IDD and IDPkm=IDPkmEq and IDD=? and IDPkd_=IDPkd 
+		order by position ASC");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
 	$res = mysqli_stmt_bind_result($stmt, $IDPkm, $pos, $nom, $PV);
@@ -348,15 +348,15 @@ function getEquipe($BDD, $ID){
 
 
 function displayEquipe($eq) {
-  $taille = count($eq);
+	$taille = count($eq);
 	
 	echo "<ul>";
 	for ($i=1; $i < $taille; $i++) { 
-	echo "<li> IdPkm : ".$eq[$i]['ID']."<br/>position : ".$eq[$i]['pos']."<br/>nom : ".$eq[$i]['nom']."<br/>pv : ".$eq[$i]['pv']."pv</br>";
+		echo "<li> IdPkm : ".$eq[$i]['ID']."<br/>position : ".$eq[$i]['pos']."<br/>nom : ".$eq[$i]['nom']."<br/>pv : ".$eq[$i]['pv']."pv</br>";
 		if ($eq[$i]['pos'] != 1){
 			echo "<input type='button' value ='Mettre ce pokemon en tete de file' onclick='send(2, ".$i.")'";
 		}
-	echo "</li><br/>";
+		echo "</li><br/>";
 	}
 	echo "</ul>";
 }
@@ -393,7 +393,7 @@ function getFirstPkm($BDD, $IDEq)
 
 function getVitesse($BDD, $ID)
 {
-	$stmt = mysqli_prepare($BDD, "SELECT vitesse from Pokemon, Equipe where IDPkm=IDpkmEq and IDEq=? and position=1");
+	$stmt = mysqli_prepare($BDD, "SELECT vitesse from Pokemon, Equipe where IDPkm=IDPkmEq and IDEq=? and position=1");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
 
@@ -495,10 +495,10 @@ function getNomAttaque($BDD, $ID)
 
 	mysqli_stmt_bind_result($stmt, $nom);
 	while(mysqli_stmt_fetch($stmt));
-    if (!$nom)
-        return -1;
-    else
-        return $nom;
+	if (!$nom)
+		return -1;
+	else
+		return $nom;
 }
 
 
@@ -527,20 +527,20 @@ function newPkmSauvage($BDD, $IDPkd)
 
 function capture($BDD, $IDD, $IDPkm) //idpkm est l'id en parametre de l'adversaire
 {
-		$stmt = mysqli_prepare($BDD, "UPDATE Pokemon set sauvage=0 where IDPkm= ?");
-		mysqli_stmt_bind_param($stmt, 'i', $IDPkm);
-		mysqli_execute($stmt);
+	$stmt = mysqli_prepare($BDD, "UPDATE Pokemon set sauvage=0 where IDPkm= ?");
+	mysqli_stmt_bind_param($stmt, 'i', $IDPkm);
+	mysqli_execute($stmt);
 
-		$nb = countEquipe($BDD, $IDD);
+	$nb = countEquipe($BDD, $IDD);
 
-		if ($nb < 6)
-		{
-			addInEquipe($BDD, $IDD, $IDPkm);
-		}
-		else
-		{
-			addInPC($BDD, $IDD, $IDPkm);
-		}
+	if ($nb < 6)
+	{
+		addInEquipe($BDD, $IDD, $IDPkm);
+	}
+	else
+	{
+		addInPC($BDD, $IDD, $IDPkm);
+	}
 }
 
 
@@ -745,7 +745,7 @@ function setAtk($BDD, $IDPkm)
 	// echo "<br/>n = ".$n;
 
 		if (!in_array($tmp, $n)) {
-	// echo "<br/>attaque =  = ".$arrayAtk[$n];
+			// echo "<br/>attaque =  = ".$arrayAtk[$n];
 			// echo "<br/>i = ".$i;
 			array_push($tmp, $n);
 			apprendAttaque($BDD, $IDPkm, $arrayAtk[$n]);
