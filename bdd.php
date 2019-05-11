@@ -771,4 +771,15 @@ function getAtkPossible($BDD, $IDPkm) {
 	return $arrayAtk;
 }
 
+function displayPkd($BDD) {
+	$res = mysqli_query($BDD, "SELECT * FROM Pokedex");
+	
+    $pkd = array(0);
+    
+	while($pkd=mysqli_fetch_row($res))
+        echo "Pokemon n° ".$pkd[0]." : ".$pkd[1]."<br>";
+
+    return $pkd;
+}
+
 ?>
