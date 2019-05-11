@@ -6,9 +6,9 @@
 		<ul>
 			<li><p><a href="jeu.php">Accueil</a></p></li>
 		    <li><p><a href="combat.php">Se promener</a></p></li>
-		    <li><p>Combattre d'autres joueurs!</p></li>
 		    <li><p><a href="magasin.php">Magasin</a></p></li>
 		    <li><p><a href="gestion.php">Gerez son équipe</a></p></li>
+		    <li><p><a href="pokedex.php">Voir le pokedex</a></p></li>
 		</ul>
 	    </div>
 	</div>
