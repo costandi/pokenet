@@ -666,11 +666,14 @@ function getDateDeconnexion($BDD, $ID){
 	while(mysqli_stmt_fetch($stmt));
 	return $DD;
 }
+
 function setDateDeconnexion($BDD, $ID){
+    $time = time();
 	$stmt = mysqli_prepare($BDD, "UPDATE User SET dateDeconnexion=? WHERE IDD=?");
-	mysqli_stmt_bind_param($stmt, "ii", time(), $ID);
+	mysqli_stmt_bind_param($stmt, "ii", $time, $ID);
 	mysqli_execute($stmt);
 }
+
 function dejaJoue($BDD, $ID)
 {
 	$stmt = mysqli_prepare($BDD, "SELECT dejaJoue FROM User WHERE IDD = ?");
