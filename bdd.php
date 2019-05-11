@@ -666,14 +666,11 @@ function getDateDeconnexion($BDD, $ID){
 	while(mysqli_stmt_fetch($stmt));
 	return $DD;
 }
-
 function setDateDeconnexion($BDD, $ID){
-    $time = time();
 	$stmt = mysqli_prepare($BDD, "UPDATE User SET dateDeconnexion=? WHERE IDD=?");
-	mysqli_stmt_bind_param($stmt, "ii", $time, $ID);
+	mysqli_stmt_bind_param($stmt, "ii", time(), $ID);
 	mysqli_execute($stmt);
 }
-
 function dejaJoue($BDD, $ID)
 {
 	$stmt = mysqli_prepare($BDD, "SELECT dejaJoue FROM User WHERE IDD = ?");
@@ -772,17 +769,6 @@ function getAtkPossible($BDD, $IDPkm) {
 
 	// dans $arrayAtk il y a toutes les attaques possibles du pkm $IDPkm
 	return $arrayAtk;
-}
-
-function displayPkd($BDD) {
-	$res = mysqli_query($BDD, "SELECT * FROM Pokedex");
-	
-    $pkd = array(0);
-    
-	while($pkd=mysqli_fetch_row($res))
-        echo "Pokemon n° ".$pkd[0]." : ".$pkd[1]."<br>";
-
-    return $pkd;
 }
 
 ?>
