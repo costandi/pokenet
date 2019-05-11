@@ -14,9 +14,9 @@ include './Template/header.php';
 
 
 	$joueur1 = getFirstPkm($BDD, $_SESSION['ID']); // joueur1 VS joueur2
-	$joueur2 = newPkmSauvage($BDD, $ran); // l'aléatoire fonctionne mais il ne connais pas d'attaque
+	// $joueur2 = newPkmSauvage($BDD, $ran); // l'aléatoire fonctionne mais il ne connais pas d'attaque
 
-	 // $joueur2 = 2;
+	 $joueur2 = 3;
 
 	// echo $joueur1."<br/>";
 	// echo $joueur2;
@@ -35,7 +35,7 @@ include './Template/header.php';
 	$premier = whoStart($BDD, $joueur1, $joueur2);
 	// echo "le premier est le num : ".$premier;
 
-	$dernier = whoFinish($BDD, $joueur1, $joueur2);
+	// $dernier = whoFinish($BDD, $joueur1, $joueur2);
 	// echo "<br/>le dernier est le num : ".$dernier;
 	?>
 
@@ -246,8 +246,8 @@ include './Template/header.php';
 
 
 	var attE;
-	// var current = <?php //echo $premier ?>;
-	var current = joueur2;
+	var current = <?php //echo $premier ?>;
+	// var current = joueur2;
 	var test;
 
 	function aQui()	{
