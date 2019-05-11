@@ -48,7 +48,7 @@ function starter
 */
 //__________________________________________________________________________________
 function GenerBDD(){
-	$BDD=mysqli_connect("localhost","root", "1919","pokenet");
+	$BDD=mysqli_connect("localhost","root","1919","pokenet");
 	if(!$BDD){
 		die("<p>connexion impossible</p>");
 	}
@@ -337,10 +337,10 @@ function getEquipe($BDD, $ID){
 	mysqli_execute($stmt);
 	$res = mysqli_stmt_bind_result($stmt, $IDPkm, $pos, $nom, $PV);
 	$equipe = array(0);
-    
+	
 	if($res) {
 		while(mysqli_stmt_fetch($stmt)){
-            array_push($equipe, array('ID' => $IDPkm, 'nom' => $nom, 'pv' =>$PV, 'pos' => $pos));
+			array_push($equipe, array('ID' => $IDPkm, 'nom' => $nom, 'pv' =>$PV, 'pos' => $pos));
 		}
 	}
 	return $equipe;
@@ -487,37 +487,38 @@ function getRandomPkm($BDD)
 	return $tab[$ran];
 }
 
-// function getNomAttaque($BDD, $ID) 
-// {
-// 	$stmt = mysqli_prepare($BDD, "SELECT nomAtk from Attaque where IDAtk=?");
-// 	mysqli_stmt_bind_param($stmt, 'i', $ID);
-// 	mysqli_execute($stmt);
+function getNomAttaque($BDD, $ID) 
+{
+	$stmt = mysqli_prepare($BDD, "SELECT nomAtk from Attaque where IDAtk=?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
 
-// 	mysqli_stmt_bind_result($stmt, $nom);
-// 	while(mysqli_stmt_fetch($stmt));
-//     if (!$nom)
-//         return -1;
-//     else
-//         return $nom;
-// }
+	mysqli_stmt_bind_result($stmt, $nom);
+	while(mysqli_stmt_fetch($stmt));
+    if (!$nom)
+        return -1;
+    else
+        return $nom;
+}
 
 
 
-function newPkmSauvage($BDD, $ID)
+function newPkmSauvage($BDD, $IDPkd)
 {
 	$newPkm = mysqli_prepare($BDD, "INSERT into Pokemon(IDPkd_, niveau, PV, etat, KO, vitesse, sauvage) VALUES(?, 5, 100, -1, FALSE, 2, TRUE)");
-	mysqli_stmt_bind_param($newPkm, 'i', $ID);
+	mysqli_stmt_bind_param($newPkm, 'i', $IDPkd);
 	mysqli_execute($newPkm);
 
 	$IDaleatPkm = mysqli_insert_id($BDD);
 	$tab = getTypePkm($BDD, $IDaleatPkm);
+	setAtk($BDD, $IDaleatPkm);
+	
 
 	for ($i=0; $i < sizeof($tab); $i++) { 
 		$insertType = mysqli_prepare($BDD, "INSERT INTO PoType VALUES(?, ?)");
 		mysqli_stmt_bind_param($insertType, 'ii', $IDaleatPkm, $tab[$i]);
 		mysqli_execute($insertType);
 	}
-	
 
 	// echo "<h1>".$IDaleatPkm."</h1>";
 	return $IDaleatPkm;
@@ -689,9 +690,85 @@ function aBienJoue($BDD, $ID){
 	mysqli_execute($stmt);
 }
 
+
 function centrePkm($BDD, $ID){
 	$stmt = mysqli_prepare($BDD, "UPDATE Pokemon, Equipe SET PV=100 WHERE IDPkm = Equipe.IDPkmEq AND IDEq = ?");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
 }
+
+
+function apprendAttaque($BDD, $IDPkm, $IDAtk)
+{
+	$stmt = mysqli_prepare($BDD, "INSERT into PoAtk values (?, ?)");
+	mysqli_stmt_bind_param($stmt, 'ii', $IDPkm, $IDAtk);
+	mysqli_execute($stmt);
+
+}
+
+function getNumPkd($BDD, $IDPkm)
+{
+	$stmt = mysqli_prepare($BDD, "SELECT IDPkd_ FROM Pokemon WHERE IDPkm = ?");
+	mysqli_stmt_bind_param($stmt, 'i', $IDPkm);
+	mysqli_execute($stmt);
+
+	mysqli_stmt_bind_result($stmt, $res);
+	while(mysqli_stmt_fetch($stmt));
+
+	return $res;
+}
+
+function setAtk($BDD, $IDPkm)
+{
+	$IDPkd = getNumPkd($BDD, $IDPkm);
+	$arrayAtk = array();
+	$arrayAtk = getAtkPossible($BDD, $IDPkd);
+	$taille = sizeof($arrayAtk);
+	// print_r($arrayAtk);
+
+	$tartenpion = $taille; // c'est un taille temporaire
+
+	if ($tartenpion > 4) {
+		$tartenpion = random_int(1, 4);
+	}
+	else {
+		$tartenpion = random_int(1, $tartenpion);
+	}
+
+	$tmp = array();
+	$i = 0;
+
+	// echo "<br/>taille = ".$taille;
+	// echo "<br/>tartenpion = ".$tartenpion;
+	while ($i < $tartenpion) {
+		$n = random_int(0, $taille-1);
+	// echo "<br/>n = ".$n;
+
+		if (!in_array($tmp, $n)) {
+	// echo "<br/>attaque =  = ".$arrayAtk[$n];
+			// echo "<br/>i = ".$i;
+			array_push($tmp, $n);
+			apprendAttaque($BDD, $IDPkm, $arrayAtk[$n]);
+			$i = $i+1;
+		}
+	}
+}
+
+function getAtkPossible($BDD, $IDPkm) {
+	$stmt = mysqli_prepare($BDD, "SELECT IDAtkPo from PoAtkPossible where IDPkmPo=?");
+	mysqli_stmt_bind_param($stmt, 'i', $IDPkm);
+	mysqli_execute($stmt);
+
+	$res = mysqli_stmt_bind_result($stmt, $PoAtk);
+	$arrayAtk = array();
+	if($res) {
+		while(mysqli_stmt_fetch($stmt)){
+			array_push($arrayAtk, $PoAtk);
+		}
+	}
+
+	// dans $arrayAtk il y a toutes les attaques possibles du pkm $IDPkm
+	return $arrayAtk;
+}
+
 ?>
