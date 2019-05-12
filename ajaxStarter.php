@@ -12,9 +12,5 @@ if (isset($_GET['choix']))
 	echo $_GET['choix'];
 	starter($BDD, $_GET['choix'], $_SESSION['ID']);
 }
-else
-{
-	echo "erreur";
-}
 
 ?>
