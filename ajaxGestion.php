@@ -12,7 +12,7 @@ else if ($_POST['use'] == '2')
 
 $eq = getEquipe($BDD, $_SESSION['ID']);
 
-echo displayEquipe($eq);
+echo displayEquipe($eq, "Mettre en tete d équipe");
 
 fermerBDD($BDD);
 ?>
