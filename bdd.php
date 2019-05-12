@@ -1,15 +1,14 @@
 <?php
 /*
 UPDATE Pokemon, Equipe set PV=100 where IDEq=1 and IDPkm=IDPkmEq
+
+
 function GenerBDD(){}
 function CreUser($BDD, $username, $MdP){}
 function fermerBDD($BDD){}
 function checkUserBDD($BDD, $UNcheck, $MDP2check) {}
 function getIdNumber($BDD, $User){}
 function getUsername($BDD, $ID){}
-function newPkmSauvage($BDD, $ID){}
-//function starter($BDD, $IDPkm, $IDUser){
-// function hardestChoice($BDD) {}
 function displayAttaque($BDD, $pok) {}
 function getTypePkm($BDD, $pok) {}
 function displayPokemonInfo($BDD, $pok) {}
@@ -33,19 +32,44 @@ function whoStart($BDD, $Pkm1, $Pkm2){}
 function whofinish($BDD, $Pkm1, $Pkm2){}
 function countAttaque($BDD, $ID){}
 function getArrayIDAtk($BDD, $ID){}
-function getNomAttaque($BDD, $ID) {}
+function getArrayIDPkd($BDD)
+
 et la c'est le bordel
-function newPkmSauvage
-function capture
+
+function getRandomPkd($BDD)
+function getNomAttaque($BDD, $ID)
+function newPkmSauvage($BDD, $IDPkd)
+function capture($BDD, $IDD, $IDPkm)
+
 function countEquipe
-function countPokemon
 function addInEquipe
 function addInPC
+function countPokemon
 function starter
+
+function usePokeball($BDD, $ID)
+function heal($BDD, $IDPkm, $ID)
+function exchangePkmEq($BDD, $ID, $pos1, $pos2)
+function getDateDeconnexion($BDD, $ID)
+function setDateDeconnexion($BDD, $ID){
+function dejaJoue($BDD, $ID)
+function aBienJoue($BDD, $ID){
+function centrePkm($BDD, $ID){
+function apprendAttaque($BDD, $IDPkm, $IDAtk)
+function getNumPkd($BDD, $IDPkm)
+function setAtk($BDD, $IDPkm)
+function getAtkPossible($BDD, $IDPkm) {
+function displayPkd($BDD) {
+function getPkmSauvage($BDD)
+function oponent($BDD)
+
+
+
+
 */
 //__________________________________________________________________________________
 function GenerBDD(){
-	$BDD=mysqli_connect("localhost","cynthia","C4rpeD1em","pokenet");
+	$BDD=mysqli_connect("localhost","root","1919","pokenet");
 	if(!$BDD){
 		die("<p>connexion impossible</p>");
 	}
@@ -369,7 +393,7 @@ function getArrayIDAtk($BDD, $ID)
 	}
 	return $arrayAtk;
 }
-function getArrayIDPkm($BDD)
+function getArrayIDPkd($BDD)
 {
 	$stmt = mysqli_prepare($BDD, "SELECT IDPkd from Pokedex");
 	mysqli_execute($stmt);
@@ -382,9 +406,9 @@ function getArrayIDPkm($BDD)
 	}
 	return $arrayPkm;
 }
-function getRandomPkm($BDD)
+function getRandomPkd($BDD)
 {
-	$tab = getArrayIDPkm($BDD);
+	$tab = getArrayIDPkd($BDD);
 	$ran = random_int(0, sizeof($tab)-1);
 	return $tab[$ran];
 }
@@ -400,6 +424,7 @@ function getNomAttaque($BDD, $ID)
 	else
 		return $nom;
 }
+
 function newPkmSauvage($BDD, $IDPkd)
 {
 	$newPkm = mysqli_prepare($BDD, "INSERT into Pokemon(IDPkd_, niveau, PV, etat, KO, vitesse, sauvage) VALUES(?, 5, 100, -1, FALSE, 2, TRUE)");
@@ -621,4 +646,39 @@ function displayPkd($BDD) {
         echo "Pokemon n° ".$pkd[0]." : ".$pkd[1]."<br>";
     return $pkd;
 }
+
+
+
+function getPkmSauvage($BDD)
+{
+	$stmt = mysqli_query($BDD, "SELECT IDPkm from Pokemon where sauvage=1");
+
+	$t = array();
+	while($a=mysqli_fetch_row($stmt)) 
+	{
+		array_push($t, $a[0]);
+	}
+	return $t; // le tableau de pkm sauvages
+}
+
+function oponent($BDD)
+{
+	$p = array();
+	$p = getPkmSauvage($BDD);
+
+	if (sizeof($p >= 1)) {
+		$rand = random_int(0, sizeof($p)-1);
+		$oponent = $p[$rand];
+		$stmt = mysqli_prepare($BDD, "UPDATE Pokemon SET PV=100 WHERE IDPkm = ?");
+		mysqli_stmt_bind_param($stmt, 'i', $oponent);
+		mysqli_execute($stmt);
+		return $p[$rand];
+	}
+	else
+	{
+		$ran = getRandomPkd($BDD);
+		return newPkmSauvage($BDD, $ran);
+	}
+}
+
 ?>
