@@ -10,9 +10,13 @@ if ($_POST['use'] == '1')
 else if ($_POST['use'] == '2')
     exchangePkmEq($BDD, $_SESSION['ID'], 1, $_POST['pos']);
 
+else if ($_POST['use'] == '3')
+    fromEqToPC($BDD, $_SESSION['ID'], $_POST['pos']);
+
+
+
+
 $eq = getEquipe($BDD, $_SESSION['ID']);
-
-echo displayEquipe($eq, "Mettre en tete d équipe");
-
+echo displayEquipe($eq);
 fermerBDD($BDD);
 ?>

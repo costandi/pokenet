@@ -4,7 +4,7 @@
 	    <div id='g'><p id ='md'>MENU</p></div>
 	    <div id='d'>
 		<ul>
-			<li><p><a href="jeu.php">Accueil</a></p></li>
+		    <li><p><a href="jeu.php">Accueil</a></p></li>
 		    <li><p><a href="combat.php">Se promener</a></p></li>
 		    <li><p><a href="magasin.php">Magasin</a></p></li>
 		    <li><p><a href="gestion.php">Gerez son équipe</a></p></li>
@@ -95,7 +95,15 @@
 function updateVie(i){
 	document.getElementById("vie").innerHTML = "il vous reste "+i+" pv !";
 	maBarreVie.value = i;
-
 }
+
+ function updateEquipe(newVal){
+     document.getElementById("equipe").innerHTML = newVal;
+ }
+
+ function updatePC(newVal){
+     document.getElementById("PC").innerHTML = newVal;
+ }
+
 
 </script>

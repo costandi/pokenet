@@ -1,7 +1,5 @@
 <?php
 /*
-UPDATE Pokemon, Equipe set PV=100 where IDEq=1 and IDPkm=IDPkmEq
-
 
 function GenerBDD(){}
 function CreUser($BDD, $username, $MdP){}
@@ -24,8 +22,7 @@ function newDay($BDD){}
 function buyPokeball($BDD, $ID){}
 function buyPotion($BDD, $ID){}
 function getEquipe($BDD, $ID){}
-function displayEquipe($BDD, $eq) {}
-function getPkmPc($BDD, $ID){}
+* function displayEquipe($BDD, $eq) {}
 function getFirstPkm($BDD, $IDEq){}
 function getVitesse($BDD, $ID){}
 function whoStart($BDD, $Pkm1, $Pkm2){}
@@ -33,20 +30,16 @@ function whofinish($BDD, $Pkm1, $Pkm2){}
 function countAttaque($BDD, $ID){}
 function getArrayIDAtk($BDD, $ID){}
 function getArrayIDPkd($BDD)
-
 et la c'est le bordel
-
 function getRandomPkd($BDD)
 function getNomAttaque($BDD, $ID)
 function newPkmSauvage($BDD, $IDPkd)
 function capture($BDD, $IDD, $IDPkm)
-
 function countEquipe
 function addInEquipe
 function addInPC
 function countPokemon
 function starter
-
 function usePokeball($BDD, $ID)
 function heal($BDD, $IDPkm, $ID)
 function exchangePkmEq($BDD, $ID, $pos1, $pos2)
@@ -62,14 +55,15 @@ function getAtkPossible($BDD, $IDPkm) {
 function displayPkd($BDD) {
 function getPkmSauvage($BDD)
 function oponent($BDD)
-
-
+* function getPC($BDD, $ID);
+* function displayPC($PC);
+* function fromEqToPC($BDD, $ID, $pkm);
 
 
 */
 //__________________________________________________________________________________
 function GenerBDD(){
-	$BDD=mysqli_connect("localhost","root","1919","pokenet");
+	$BDD=mysqli_connect("localhost","cynthia","C4rpeD1em","pokenet");
 	if(!$BDD){
 		die("<p>connexion impossible</p>");
 	}
@@ -285,11 +279,7 @@ function  buyPotion($BDD, $ID){
 	else return false;
 }
 function getEquipe($BDD, $ID){
-	$stmt = mysqli_prepare($BDD,
-		"SELECT IDPkmEq, position, nom, PV 
-		from Equipe, User, Pokedex, Pokemon 
-		where IDEq=IDD and IDPkm=IDPkmEq and IDD=? and IDPkd_=IDPkd 
-		order by position ASC");
+	$stmt = mysqli_prepare($BDD, "SELECT IDPkmEq, position, nom, PV from Equipe, Pokedex, Pokemon where IDEq=? and IDPkm=IDPkmEq and IDPkd_=IDPkd");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
 	$res = mysqli_stmt_bind_result($stmt, $IDPkm, $pos, $nom, $PV);
@@ -302,36 +292,24 @@ function getEquipe($BDD, $ID){
 	}
 	return $equipe;
 }
-
-function displayEquipe($eq, $strb) {
+function displayEquipe($eq) {
 	$taille = count($eq);
 	
 	echo "<ul>";
 	for ($i=1; $i < $taille; $i++) { 
-		echo "<li> IdPkm : ".$eq[$i]['ID']."<br/>position : ".$eq[$i]['pos']."<br/>nom : ".$eq[$i]['nom']."<br/>pv : ".$eq[$i]['pv']."pv</br>";
-		if ($eq[$i]['pos'] != 1){
-			echo "<input type='button' value ='".$strb."' onclick='send(2, ".$i.")'";
-		}
-		echo "</li><br/>";
+	    echo "<li> IdPkm : ". $eq[$i]['ID'].
+		 "<br/>position : ".$eq[$i]['pos'].
+		 "<br/>nom : ".$eq[$i]['nom'].
+		 "<br/>pv : ".$eq[$i]['pv'].
+		 "pv</br><input type='button' value ='Envoyer au PC' onclick='send(3, ".$eq[$i]['ID'].")'>";
+	    if ($eq[$i]['pos'] != 1){
+		echo "<input type='button' value ='Mettre ce pkm en tete d équipe' onclick='send(2, ".$eq[$i]['pos'].")'>";
+	    }
+	    echo "</li><br/>";
 	}
-	echo "</ul>";
+    echo "</ul>";
 }
 
-
-function getPkmPc($BDD, $ID){
-	$stmt = mysqli_prepare($BDD, 
-		"SELECT IDPkmPC, nom from PC NATURAL JOIN Pokedex where IDPkmPC = ?");
-	mysqli_stmt_bind_param($stmt, 'i', $ID);
-	mysqli_execute($stmt);
-	$res = mysqli_stmt_bind_result($stmt, $IDPkmEq, $nomPkm);
-	$AtkEq = array();
-	if($res) {
-		while(mysqli_stmt_fetch($stmt)){
-			array_push($AtkEq, $IDPkmEq, $nomPkm);
-		}
-	}
-	return $AtkEq;
-}
 function getFirstPkm($BDD, $IDEq)
 {
 	$stmt = mysqli_prepare($BDD, "SELECT IdPkmEq from Equipe where IDEq= ? and position=1");
@@ -424,7 +402,6 @@ function getNomAttaque($BDD, $ID)
 	else
 		return $nom;
 }
-
 function newPkmSauvage($BDD, $IDPkd)
 {
 	$newPkm = mysqli_prepare($BDD, "INSERT into Pokemon(IDPkd_, niveau, PV, etat, KO, vitesse, sauvage) VALUES(?, 5, 100, -1, FALSE, 2, TRUE)");
@@ -442,6 +419,8 @@ function newPkmSauvage($BDD, $IDPkd)
 	// echo "<h1>".$IDaleatPkm."</h1>";
 	return $IDaleatPkm;
 }
+
+
 function capture($BDD, $IDD, $IDPkm) //idpkm est l'id en parametre de l'adversaire
 {
 	$stmt = mysqli_prepare($BDD, "UPDATE Pokemon set sauvage=0 where IDPkm= ?");
@@ -614,7 +593,7 @@ function setAtk($BDD, $IDPkm)
 	while ($i < $tartenpion) {
 		$n = random_int(0, $taille-1);
 	// echo "<br/>n = ".$n;
-		if (!in_array($n, $tmp)) {
+		if (!in_array($tmp, $tmp)) {
 			// echo "<br/>attaque =  = ".$arrayAtk[$n];
 			// echo "<br/>i = ".$i;
 			array_push($tmp, $n);
@@ -637,6 +616,7 @@ function getAtkPossible($BDD, $IDPkm) {
 	// dans $arrayAtk il y a toutes les attaques possibles du pkm $IDPkm
 	return $arrayAtk;
 }
+
 function displayPkd($BDD) {
 	$res = mysqli_query($BDD, "SELECT * FROM Pokedex");
 	
@@ -647,12 +627,9 @@ function displayPkd($BDD) {
     return $pkd;
 }
 
-
-
 function getPkmSauvage($BDD)
 {
 	$stmt = mysqli_query($BDD, "SELECT IDPkm from Pokemon where sauvage=1");
-
 	$t = array();
 	while($a=mysqli_fetch_row($stmt)) 
 	{
@@ -660,12 +637,10 @@ function getPkmSauvage($BDD)
 	}
 	return $t; // le tableau de pkm sauvages
 }
-
 function oponent($BDD)
 {
 	$p = array();
 	$p = getPkmSauvage($BDD);
-
 	if (sizeof($p >= 1)) {
 		$rand = random_int(0, sizeof($p)-1);
 		$oponent = $p[$rand];
@@ -681,4 +656,41 @@ function oponent($BDD)
 	}
 }
 
+function getPC($BDD, $ID){
+	$stmt = mysqli_prepare($BDD,"SELECT IDPkm, nom, PV 	from PC, Pokedex, Pokemon where IDPkm=PCPkm and IDPC=? and IDPkd_=IDPkd order by nom ASC");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
+	$res = mysqli_stmt_bind_result($stmt, $IDPkm, $nom, $PV);
+	$equipe = array(0);
+	
+	if($res) {
+		while(mysqli_stmt_fetch($stmt)){
+			array_push($equipe, array('ID' => $IDPkm, 'nom' => $nom, 'pv' =>$PV));
+		}
+	}
+	return $equipe;
+}
+
+function displayPC($PC) {
+	$taille = count($PC);
+	
+	echo "<ul>";
+	for ($i=1; $i < $taille; $i++) { 
+		echo "<li> IdPkm : ".$PC[$i]['ID']."<br/>nom : ".$PC[$i]['nom']."<br/>pv : ".$PC[$i]['pv']."pv</br><input type='button' value ='Envoyer ce pkm dans l équipe' onclick='send(4, ".$PC[$i]['ID'].")'";
+		echo "</li><br/>";
+	}
+	echo "</ul>";
+}
+
+function fromEqToPC($BDD, $ID, $pkm){
+    $stmt = mysqli_prepare($BDD,"DELETE FROM Equipe WHERE IDEq = ? AND IDPkmEq = ?");
+	mysqli_stmt_bind_param($stmt, 'ii',$ID ,$pkm);
+	mysqli_execute($stmt);
+
+    $stmt = mysqli_prepare($BDD,"INSERT INTO PC VALUES (?,?)");
+	mysqli_stmt_bind_param($stmt, 'ii',$ID ,$pkm);
+	mysqli_execute($stmt);
+
+    
+}
 ?>
