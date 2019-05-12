@@ -371,7 +371,7 @@ function getArrayIDAtk($BDD, $ID)
 	}
 	return $arrayAtk;
 }
-function getArrayIDPkd($BDD)
+function getArrayIDPkm($BDD)
 {
 	$stmt = mysqli_prepare($BDD, "SELECT IDPkd from Pokedex");
 	mysqli_execute($stmt);
@@ -384,9 +384,9 @@ function getArrayIDPkd($BDD)
 	}
 	return $arrayPkm;
 }
-function getRandomPkd($BDD)
+function getRandomPkm($BDD)
 {
-	$tab = getArrayIDPkd($BDD);
+	$tab = getArrayIDPkm($BDD);
 	$ran = random_int(0, sizeof($tab)-1);
 	return $tab[$ran];
 }
@@ -556,6 +556,12 @@ function centrePkm($BDD, $ID){
 	$stmt = mysqli_prepare($BDD, "UPDATE Pokemon, Equipe SET PV=100 WHERE IDPkm = Equipe.IDPkmEq AND IDEq = ?");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
+
+    $stmt = mysqli_prepare($BDD, "UPDATE Pokemon, Equipe SET KO = 0 WHERE IDPkm = Equipe.IDPkmEq AND IDEq = ?");
+	mysqli_stmt_bind_param($stmt, 'i', $ID);
+	mysqli_execute($stmt);
+
+    
 }
 function apprendAttaque($BDD, $IDPkm, $IDAtk)
 {
