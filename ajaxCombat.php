@@ -49,7 +49,7 @@ if (isset($_GET['IDD']))
 
 		else
 		{
-			$msg = "il s'echappe !";
+			echo "il s'echappe !";
 		}
 	}
 	else

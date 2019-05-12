@@ -14,9 +14,9 @@ include './Template/header.php';
 
 
 	$joueur1 = getFirstPkm($BDD, $_SESSION['ID']); // joueur1 VS joueur2
-	// $joueur2 = newPkmSauvage($BDD, $ran); // l'aléatoire fonctionne mais il ne connais pas d'attaque
+	$joueur2 = newPkmSauvage($BDD, $ran); // l'aléatoire fonctionne mais il ne connais pas d'attaque edit : maintenant si
 
-	 $joueur2 = 3;
+	// $joueur2 = 3;
 
 	// echo $joueur1."<br/>";
 	// echo $joueur2;
@@ -33,10 +33,13 @@ include './Template/header.php';
 
 
 	$premier = whoStart($BDD, $joueur1, $joueur2);
-	// echo "le premier est le num : ".$premier;
+	echo "le premier est le num : ".$premier;
+	echo "<br/>vit1 ".getVitesse($BDD, $joueur1);
 
-	// $dernier = whoFinish($BDD, $joueur1, $joueur2);
-	// echo "<br/>le dernier est le num : ".$dernier;
+	$dernier = whoFinish($BDD, $joueur1, $joueur2);
+	echo "<br/>le dernier est le num : ".$dernier;
+	echo "<br/>vit2 ".getVitesse($BDD, $joueur2);
+
 	?>
 
 	<div id="ennemi">
@@ -68,6 +71,8 @@ include './Template/header.php';
 		<progress id="barreVie" value="<?php echo getPV($BDD, $joueur1) ?>" max="100"></progress>
 
 	</div>
+
+	<p id="event"></p>
 
 
 	<div id="actions">
@@ -172,12 +177,11 @@ include './Template/header.php';
 	}
 
 
-
-	// function getNomAtk(id)
-	// {
-	// 	.innerHTML += "<?php //getNomAttaque($BDD, );?>";
-	// }
-
+	function writeEvent(text)
+	{
+		document.getElementById("event").innerHTML = text;
+		sleep(1500);
+	}
 
 
 
@@ -197,7 +201,12 @@ include './Template/header.php';
 				KO(tab[2]); // mon KO
 				KOe(tab[3]);// KO adversaire
 
-				alert(tab[4]+" utilisée !");
+				if (idCible == joueur1)
+					alert("il utilise "+tab[4]+" !");
+
+				else if (idCible == joueur2)
+					alert("vous utilisez "+tab[4]+" !");
+				// writeEvent(tab[4]+" utilisée !");
 
 			});
 
@@ -246,7 +255,11 @@ include './Template/header.php';
 
 
 	var attE;
-	var current = <?php //echo $premier ?>;
+	var current = <?php echo $premier ?>;
+	if (current == joueur2)
+	{
+		aQui();
+	}
 	// var current = joueur2;
 	var test;
 
