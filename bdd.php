@@ -278,19 +278,22 @@ function getEquipe($BDD, $ID){
 	}
 	return $equipe;
 }
-function displayEquipe($eq) {
+
+function displayEquipe($eq, $strb) {
 	$taille = count($eq);
 	
 	echo "<ul>";
 	for ($i=1; $i < $taille; $i++) { 
 		echo "<li> IdPkm : ".$eq[$i]['ID']."<br/>position : ".$eq[$i]['pos']."<br/>nom : ".$eq[$i]['nom']."<br/>pv : ".$eq[$i]['pv']."pv</br>";
 		if ($eq[$i]['pos'] != 1){
-			echo "<input type='button' value ='Mettre ce pokemon en tete de file' onclick='send(2, ".$i.")'";
+			echo "<input type='button' value ='".$strb."' onclick='send(2, ".$i.")'";
 		}
 		echo "</li><br/>";
 	}
 	echo "</ul>";
 }
+
+
 function getPkmPc($BDD, $ID){
 	$stmt = mysqli_prepare($BDD, 
 		"SELECT IDPkmPC, nom from PC NATURAL JOIN Pokedex where IDPkmPC = ?");
