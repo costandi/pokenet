@@ -42,7 +42,3 @@ fermerBDD($BDD);
  
  
 </script>
-
-<?php
-include './Template/footer.php';
-?>
