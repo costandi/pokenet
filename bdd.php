@@ -586,7 +586,7 @@ function setAtk($BDD, $IDPkm)
 	while ($i < $tartenpion) {
 		$n = random_int(0, $taille-1);
 	// echo "<br/>n = ".$n;
-		if (!in_array($tmp, $n)) {
+		if (!in_array($n, $tmp)) {
 			// echo "<br/>attaque =  = ".$arrayAtk[$n];
 			// echo "<br/>i = ".$i;
 			array_push($tmp, $n);
