@@ -294,22 +294,24 @@ function getEquipe($BDD, $ID){
 }
 function displayEquipe($eq) {
 	$taille = count($eq);
-	
-	echo "<ul>";
+
+    
+	$tmp =  "<ul>";
 	for ($i=1; $i < $taille; $i++) { 
-	    echo "<li> IdPkm : ". $eq[$i]['ID'].
+	    $tmp = $tmp."<li> IdPkm : ". $eq[$i]['ID'].
 		 "<br/>position : ".$eq[$i]['pos'].
 		 "<br/>nom : ".$eq[$i]['nom'].
 		 "<br/>pv : ".$eq[$i]['pv'].
 		 "pv</br><input type='button' value ='Envoyer au PC' onclick='send(3, ".$eq[$i]['ID'].")'>";
 	    if ($eq[$i]['pos'] != 1){
-		echo "<input type='button' value ='Mettre ce pkm en tete d équipe' onclick='send(2, ".$eq[$i]['pos'].")'>";
+            $tmp = $tmp."<input type='button' value ='Mettre ce pkm en tete d équipe' onclick='send(2, ".$eq[$i]['pos'].")'>";
 	    }
-	    echo "</li><br/>";
+	    $tmp = $tmp."</li><br/>";
 	}
-    echo "</ul>";
-}
+    $tmp = $tmp."</ul>";
 
+    return $tmp;
+}
 function getFirstPkm($BDD, $IDEq)
 {
 	$stmt = mysqli_prepare($BDD, "SELECT IdPkmEq from Equipe where IDEq= ? and position=1");
@@ -676,16 +678,17 @@ function getPC($BDD, $ID){
 	}
 	return $equipe;
 }
-
 function displayPC($PC) {
 	$taille = count($PC);
 	
-	echo "<ul>";
+	$tmp = "<ul>";
 	for ($i=1; $i < $taille; $i++) { 
-		echo "<li> IdPkm : ".$PC[$i]['ID']."<br/>nom : ".$PC[$i]['nom']."<br/>pv : ".$PC[$i]['pv']."pv</br><input type='button' value ='Envoyer ce pkm dans l équipe' onclick='send(4, ".$PC[$i]['ID'].")'";
-		echo "</li><br/>";
+		$tmp = $tmp."<li> IdPkm : ".$PC[$i]['ID']."<br/>nom : ".$PC[$i]['nom']."<br/>pv : ".$PC[$i]['pv']."pv</br><input type='button' value ='Envoyer ce pkm dans l équipe' onclick='send(4, ".$PC[$i]['ID'].")'";
+		$tmp = $tmp."</li><br/>";
 	}
-	echo "</ul>";
+	$tmp = $tmp."</ul>";
+
+    return $tmp;
 }
 
 function fromEqToPC($BDD, $ID, $pkm){
@@ -695,8 +698,19 @@ function fromEqToPC($BDD, $ID, $pkm){
 
     $stmt = mysqli_prepare($BDD,"INSERT INTO PC VALUES (?,?)");
 	mysqli_stmt_bind_param($stmt, 'ii',$ID ,$pkm);
+	mysqli_execute($stmt);    
+}
+
+function fromPCToEq($BDD, $ID, $pkm){
+    $stmt = mysqli_prepare($BDD,"DELETE FROM PC WHERE IDPC = ? AND PCPkm = ?");
+	mysqli_stmt_bind_param($stmt, 'ii', $ID ,$pkm);
 	mysqli_execute($stmt);
 
+    $eq = getEquipe($BDD, $ID);
+    $pos = countEquipe($BDD, $ID) + 1;
     
+    $stmt = mysqli_prepare($BDD,"INSERT INTO Equipe VALUES (?,?,?)");
+	mysqli_stmt_bind_param($stmt, 'iii',$ID ,$pkm, $pos);
+	mysqli_execute($stmt);    
 }
 ?>
