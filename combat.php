@@ -14,7 +14,7 @@ include './Template/header.php';
 
 
 	$joueur1 = getFirstPkm($BDD, $_SESSION['ID']); // joueur1 VS joueur2
-	$joueur2 = oponent($BDD, $ran); // l'aléatoire fonctionne mais il ne connais pas d'attaque edit : maintenant si
+	$joueur2 = newPkmSauvage($BDD, $ran); // l'aléatoire fonctionne mais il ne connais pas d'attaque edit : maintenant si
 
 	// $joueur2 = 3;
 
@@ -189,7 +189,7 @@ include './Template/header.php';
 		var xhr = new XMLHttpRequest();
 
 
-		xhr.open('GET', './ajaxServeur/ajaxCombat.php?IDAtk=' + IDAtk +'&cible=' + idCible+'&lanceur=' + idLanceur , false); //true pour synchrone, false pour asynchrone
+		xhr.open('GET', 'ajaxCombat.php?IDAtk=' + IDAtk +'&cible=' + idCible+'&lanceur=' + idLanceur , false); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
@@ -219,7 +219,7 @@ include './Template/header.php';
 	{
 		var xhr = new XMLHttpRequest();
 
-		xhr.open('GET', './ajaxServeur/ajaxCombat.php?IDD=' + IDD +'&IDPkm=' + IDPkm, false); //true pour synchrone, false pour asynchrone
+		xhr.open('GET', 'ajaxServeur/ajaxCombat.php?IDD=' + IDD +'&IDPkm=' + IDPkm, false); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
@@ -236,7 +236,7 @@ include './Template/header.php';
 	{
 		var xhr = new XMLHttpRequest();
 
-		xhr.open('GET', './ajaxServeur/ajaxCombat.php?pkmAsoigner=' + IDPkm); //true pour synchrone, false pour asynchrone
+		xhr.open('GET', 'ajaxCombat.php?pkmAsoigner=' + IDPkm); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
