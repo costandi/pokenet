@@ -5,7 +5,7 @@ include './bdd.php';
 include './Template/header.php';
 ?>
 
-<link rel='stylesheet' type='text/css' href='styleCombat.css'>
+<link rel='stylesheet' type='text/css' href='style/styleCombat.css'>
 
 <body>
 	<?php
@@ -219,7 +219,7 @@ include './Template/header.php';
 	{
 		var xhr = new XMLHttpRequest();
 
-		xhr.open('GET', 'ajaxCombat.php?IDD=' + IDD +'&IDPkm=' + IDPkm, false); //true pour synchrone, false pour asynchrone
+		xhr.open('GET', 'ajaxServeur/ajaxCombat.php?IDD=' + IDD +'&IDPkm=' + IDPkm, false); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)

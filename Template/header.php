@@ -20,7 +20,7 @@ fermerBDD($BDD); ?>
 	<meta charset='utf-8'>
 	<Title>Pokenet</title>
 	<link rel='icon' href='decors/favicon.png'>
-	<link rel='stylesheet' type='text/css' href='jeu.css'>
+	<link rel='stylesheet' type='text/css' href='style/jeu.css'>
     </head>
     
     <body>

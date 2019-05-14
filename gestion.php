@@ -22,7 +22,7 @@ fermerBDD($BDD);
  function send(use, pos){
      var xhr = new XMLHttpRequest();
      
-     xhr.open('POST', 'ajaxGestion.php', false);
+     xhr.open('POST', 'ajaxServeur/ajaxGestion.php', false);
      xhr.addEventListener('readystatechange', function() {
 	 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
 	     var v = JSON.parse(xhr.responseText);

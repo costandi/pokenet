@@ -24,7 +24,7 @@ if(isset($_POST['deco']))
 	<meta charset="utf-8">
 	<title>Accueil</title>
 	<link rel="icon" href="decors/favicon.png">
-	<link rel="stylesheet" type="text/css" href="indexstylesheet.css">
+	<link rel="stylesheet" type="text/css" href="style/indexstylesheet.css">
 	
 </head>
 
