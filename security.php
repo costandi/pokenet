@@ -14,12 +14,6 @@ function mdpValid($MdP1)
 }
 
 //Source : https://openclassrooms.com/fr/courses/2091901-protegez-vous-efficacement-contre-les-failles-web/2873202-protegez-les-donnees
-function clef()
-{
-    return "faucibusturpisineumi";
-}
-
-
 class Chiffrement {
     
     // Algorithme utilisé pour le cryptage des blocs
