@@ -63,7 +63,7 @@ function oponent($BDD)
 */
 //__________________________________________________________________________________
 function GenerBDD(){
-	$BDD=mysqli_connect("localhost","cynthia","C4rpeD1em","pokenet");
+	$BDD=mysqli_connect("localhost","root","1919","pokenet");
 	if(!$BDD){
 		die("<p>connexion impossible</p>");
 	}
@@ -388,7 +388,7 @@ function getArrayIDPkm($BDD)
 	}
 	return $arrayPkm;
 }
-function getRandomPkm($BDD)
+function getRandomPkd($BDD)
 {
 	$tab = getArrayIDPkm($BDD);
 	$ran = random_int(0, sizeof($tab)-1);
@@ -645,13 +645,14 @@ function getPkmSauvage($BDD)
 	{
 		array_push($t, $a[0]);
 	}
+	// print_r($t);
 	return $t; // le tableau de pkm sauvages
 }
 function oponent($BDD)
 {
 	$p = array();
 	$p = getPkmSauvage($BDD);
-	if (sizeof($p >= 1)) {
+	if (!empty($p)) {
 		$rand = random_int(0, sizeof($p)-1);
 		$oponent = $p[$rand];
 		$stmt = mysqli_prepare($BDD, "UPDATE Pokemon SET PV=100 WHERE IDPkm = ?");

@@ -10,11 +10,11 @@ include './Template/header.php';
 <body>
 	<?php
 	$BDD = GenerBDD();
-	$ran = getRandomPkm($BDD);
+	$ran = getRandomPkd($BDD);
 
 
 	$joueur1 = getFirstPkm($BDD, $_SESSION['ID']); // joueur1 VS joueur2
-	$joueur2 = newPkmSauvage($BDD, $ran); // l'aléatoire fonctionne mais il ne connais pas d'attaque edit : maintenant si
+	$joueur2 = oponent($BDD); // l'aléatoire fonctionne mais il ne connais pas d'attaque edit : maintenant si
 
 	// $joueur2 = 3;
 
@@ -33,12 +33,6 @@ include './Template/header.php';
 
 
 	$premier = whoStart($BDD, $joueur1, $joueur2);
-	echo "le premier est le num : ".$premier;
-	echo "<br/>vit1 ".getVitesse($BDD, $joueur1);
-
-	$dernier = whoFinish($BDD, $joueur1, $joueur2);
-	echo "<br/>le dernier est le num : ".$dernier;
-	echo "<br/>vit2 ".getVitesse($BDD, $joueur2);
 
 	?>
 
@@ -189,7 +183,7 @@ include './Template/header.php';
 		var xhr = new XMLHttpRequest();
 
 
-		xhr.open('GET', 'ajaxCombat.php?IDAtk=' + IDAtk +'&cible=' + idCible+'&lanceur=' + idLanceur , false); //true pour synchrone, false pour asynchrone
+		xhr.open('GET', './ajaxServeur/ajaxCombat.php?IDAtk=' + IDAtk +'&cible=' + idCible+'&lanceur=' + idLanceur , false); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
@@ -219,7 +213,7 @@ include './Template/header.php';
 	{
 		var xhr = new XMLHttpRequest();
 
-		xhr.open('GET', 'ajaxServeur/ajaxCombat.php?IDD=' + IDD +'&IDPkm=' + IDPkm, false); //true pour synchrone, false pour asynchrone
+		xhr.open('GET', './ajaxServeur/ajaxCombat.php?IDD=' + IDD +'&IDPkm=' + IDPkm, false); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
@@ -236,7 +230,7 @@ include './Template/header.php';
 	{
 		var xhr = new XMLHttpRequest();
 
-		xhr.open('GET', 'ajaxCombat.php?pkmAsoigner=' + IDPkm); //true pour synchrone, false pour asynchrone
+		xhr.open('GET', './ajaxServeur/ajaxCombat.php?pkmAsoigner=' + IDPkm); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
