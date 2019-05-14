@@ -103,7 +103,7 @@ if ($dejaJoue == 1 || !isset($_SESSION['ID'])) {
 	{
 		var xhr = new XMLHttpRequest();
 
-		xhr.open('GET', 'ajaxStarter.php?choix=' + i); //true pour synchrone, false pour asynchrone
+		xhr.open('GET', 'ajaxServeur/ajaxStarter.php?choix=' + i); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){

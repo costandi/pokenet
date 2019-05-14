@@ -15,7 +15,7 @@ Choisisser un article!<br/>
      var xhr = new XMLHttpRequest();
      var qtte = parseInt(document.querySelector("#qtte").value, 10);
      
-     xhr.open('POST', 'ajaxShop.php', false);
+     xhr.open('POST', 'ajaxServeur/ajaxShop.php', false);
      xhr.addEventListener('readystatechange', function() {
 	 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
 
