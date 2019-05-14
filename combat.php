@@ -189,7 +189,7 @@ include './Template/header.php';
 		var xhr = new XMLHttpRequest();
 
 
-		xhr.open('GET', 'ajaxCombat.php?IDAtk=' + IDAtk +'&cible=' + idCible+'&lanceur=' + idLanceur , false); //true pour synchrone, false pour asynchrone
+		xhr.open('GET', './ajaxServeur/ajaxCombat.php?IDAtk=' + IDAtk +'&cible=' + idCible+'&lanceur=' + idLanceur , false); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
@@ -219,7 +219,7 @@ include './Template/header.php';
 	{
 		var xhr = new XMLHttpRequest();
 
-		xhr.open('GET', 'ajaxServeur/ajaxCombat.php?IDD=' + IDD +'&IDPkm=' + IDPkm, false); //true pour synchrone, false pour asynchrone
+		xhr.open('GET', './ajaxServeur/ajaxCombat.php?IDD=' + IDD +'&IDPkm=' + IDPkm, false); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
@@ -236,7 +236,7 @@ include './Template/header.php';
 	{
 		var xhr = new XMLHttpRequest();
 
-		xhr.open('GET', 'ajaxCombat.php?pkmAsoigner=' + IDPkm); //true pour synchrone, false pour asynchrone
+		xhr.open('GET', './ajaxServeur/ajaxCombat.php?pkmAsoigner=' + IDPkm); //true pour synchrone, false pour asynchrone
 
 		xhr.addEventListener('readystatechange', function() {
 			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200)
