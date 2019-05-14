@@ -14,7 +14,7 @@ include './Template/header.php';
 
 
 	$joueur1 = getFirstPkm($BDD, $_SESSION['ID']); // joueur1 VS joueur2
-	$joueur2 = newPkmSauvage($BDD, $ran); // l'aléatoire fonctionne mais il ne connais pas d'attaque edit : maintenant si
+	$joueur2 = oponent($BDD, $ran); // l'aléatoire fonctionne mais il ne connais pas d'attaque edit : maintenant si
 
 	// $joueur2 = 3;
 
