@@ -1,0 +1,88 @@
+
+Costandi Adrien
+Dulymbois-Louison Cynthia
+
+			Rapport de projet: Pokemon
+Plan:
+	I/   Comment utiliser notre site
+	II/  Ce que nous avons réussi à faire
+	III/ Ce que nous n'avons pas eu le temps de faire
+	IV/ Ce que nous n'avons pas reussi à faire
+
+
+
+     I/   Comment utiliser notre site
+
+		1) La base de données
+
+			Dans l'archive que l'on vous a donné, il y a un dossier BDD : il y a plusieurs fichiers ".sql" dedans. 
+			Lancez dans votre terminal la commande : mysql -u <userName> -p
+			Dans mysql lancez les commandes :
+				source BDD/BasePokemon.sql
+				source BDD/remplirBDD.sql
+
+			La base de donées est créée et fonctionnelle !
+
+
+		2) bdd.php
+
+			Maintenant, il faut aller dans bdd.php. En dessous de toutes les fonctions en commentaire, il y a la fonction "GenerBDD()". Il faut que vous y métiez votre login et mot de passe phpmyadmin aux endroits prévus à cet effet.
+
+			Vous devriez être en mesure de lancer le site avec un localhost :)
+
+
+		3) Une fois sur le site
+
+			Vous voilà sur l'index de notre site : il vous reste à choisir entre deux options : s'inscrire ou se connecter.
+			Un utilisateur par défaut existe déjà sous le nom de root, il a pour mot de passe : 123456 (oui on sait, très mauvais mot de passe mais on vous garantit que vous ne l'auriez pas trouvé en fouillant dans la base de données).
+
+		4) Vous êtes connecté
+
+			Vous voilà enfin sur le jeu !
+			Alors oui, il est un peu fade mais il fonctionne plutôt bien !
+
+			Lors de votre première connection, un professeur portant le nom d'un arbre (non, ce n'est pas le professeur Chen) va vous déconseiller de boire de l'alcool (vous comprendrez en jouant...) et surtout de faire le choix le plus évident de tous !
+
+			En face de vous, la fenêtre principale, en bas un résumé de votre compte et à droite, comme subtilement indiqué, le menu.
+			Vous trouverez dans ce menu des liens guidant chacun vers les différentes fonctionnalités du site.
+
+
+
+	II/  Ce que nous avons réussi à faire
+
+		La connexion et l'inscription fonctionnent, lors de l'inscription, vous êtes automatiquement connecté et les mots de passe sont cryptés!
+		Si vous vous déconnectez et tentez d'aller sur le jeu vous serez automatiquement renvoyé vers la page de connexion.
+
+		Le combat contre un pokemon sauvage est opérationnel : il se déroule tour par tour et on peut attaquer, se soigner ou le capturer.
+
+		Le magasin permet d'acheter en lots des potions et des pokeballs à condition d'avoir suffisement d'argent. Si vous n'avez pas assez d'argent, vous achèterez le maximum que votre porte monnaie vous le permet !
+
+		La gestion d'équipe et celle du PC permettent d'interchanger des pokemons entre eux et ainsi modifier l'ordre des pokemons de l'équipe.
+
+		Le pokedex affiche la liste complète des pokemons dans la fenètre principale.
+
+		On maîtrise mieux le JavaScript et le PHP.
+
+
+
+	III/ Ce que nous n'avons pas eu le temps de faire
+
+		La gestion des niveaux et lier les évolutions avec ce système de niveau.
+
+		L'utilisation des états des pokemons (gelé, brûlé...).
+
+		Les types ne servent qu'à décorer mais ils auraient pu servir plus !
+
+
+
+	IV/ Ce que nous n'avons pas réussi à faire
+
+		Malgré son utilisation, nous avons encore du mal avec GitHub.
+
+		L'utilisation de CodeIgniter n'a pas été un franc succès... Après quelques minutes on a rapidement abandonné.
+
+		Les combats de dresseurs n'ont pas été fait car on ne savait pas comment les aborder.
+
+
+
+PS : Un easter egg est (presque) bien caché sur ce site ! Attention ! Interdit de fouiller dans le code avant de l'avoir trouvé !
