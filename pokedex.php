@@ -6,7 +6,8 @@ include './Template/header.php';
 
 $BDD = GenerBDD();
 ?>
-<div id ="pkd" overflow="hidden">
+<link rel='stylesheet' type='text/css' href='style/stylePokedex.css'>
+<div id ="pkd" overflow="auto">
 <?php displayPkd($BDD); ?>
 </div>
 

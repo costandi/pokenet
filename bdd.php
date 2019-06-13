@@ -633,7 +633,7 @@ function displayPkd($BDD) {
     $pkd = array(0);
     
 	while($pkd=mysqli_fetch_row($res))
-        echo "Pokemon n° ".$pkd[0]." : ".$pkd[1]."<br>";
+        echo "<div class='pkmPkd'>Pokemon n° ".$pkd[0]." : ".$pkd[1]."</div><br>";
     return $pkd;
 }
 
