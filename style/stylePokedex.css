@@ -1,0 +1,16 @@
+#pkd {
+	height: 100%;
+	overflow: auto;
+}
+
+.pkmPkd {
+	border: solid black 2px;
+	border-radius: 35%;
+	padding-top: 30px;
+	width: 350px;
+	height: 50px;
+	text-align: center;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+}
