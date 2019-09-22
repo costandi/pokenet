@@ -1,5 +1,4 @@
-CREATE DATABASE IF NOT EXISTS pokenet;
-USE pokenet;
+
 
 create table Etat (
 	IDEt int not null primary key auto_increment,
@@ -57,7 +56,7 @@ create table Equipe (
 create table User (
 	IDD int not null primary key auto_increment,
 	userName varchar(40) not null,
-	userMDP varchar(40) not null,
+	userMDP varchar(60) not null,
 	qtteThune int not null,
 	dateDeconnexion int not null,
 	dejaJoue boolean not null default false
