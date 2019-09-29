@@ -8,14 +8,16 @@ if (isset($_POST["connexion"]) && isset($_POST["nom"]) && isset($_POST["mdp"])) 
 	// que tu as entré un nom et mdp
 {
 	$check = mdpValid($_POST["mdp"]);
+	//echo $check;
 	if ($check == 0)
 	{
 		$BDD = GenerBDD();
 
-		$MDP2check = Chiffrement::crypt($_POST["mdp"]);
+		$MDP2check = cryptage($_POST["mdp"]);
+		echo $MDP2check;
 
 		// echo $MDP2check;
-		// echo Chiffrement::decrypt($MDP2check);
+		//decrypt($MDP2check);
 
 		$entrer = checkUserBDD($BDD, $_POST['nom'], $MDP2check);
 
@@ -57,15 +59,17 @@ if (isset($_POST["inscription"]))
 	$check = mdpValid($_POST["mdp"]);
 	if ($check == 0)
 	{
-		$cMdP = Chiffrement::crypt($_POST["mdp"]);
+		$cMdP = cryptage($_POST["mdp"]);
 		$BDD = GenerBDD();        
 	
 		$tmp = CreUser($BDD, $_POST["nom"], $cMdP);
 		
 		if ($tmp == -1) {
-				$cMdP = Chiffrement::decrypt($cMdP);
-				$MDP2check = Chiffrement::crypt($_POST["mdp"]);
+				//$cMdP = decrypt($cMdP);
+				$MDP2check = cryptage($_POST["mdp"]);
 				$entrer = checkUserBDD($BDD, $_POST['nom'], $MDP2check);
+
+				
 
 				if ($entrer == true)
 				{
