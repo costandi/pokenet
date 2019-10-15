@@ -1,5 +1,4 @@
 
-
 create table Etat (
 	IDEt int not null primary key auto_increment,
 	nomEt varchar(20) not null
