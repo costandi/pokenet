@@ -63,7 +63,7 @@ function oponent($BDD)
 */
 //__________________________________________________________________________________
 function GenerBDD(){
-	$BDD=mysqli_connect("localhost","root","1919","pokenet");
+	$BDD=mysqli_connect("dwarves.iut-fbleau.fr","costandi","sqldwarves","costandi");
 	if(!$BDD){
 		die("<p>connexion impossible</p>");
 	}
