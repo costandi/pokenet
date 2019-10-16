@@ -1,109 +1,70 @@
-</div>
-	
-	<div id='droite'><br/>
-	    <div id='g'><p id ='md'>MENU</p></div>
-	    <div id='d'>
-		<ul>
-		    <li><p><a href="jeu.php">Accueil</a></p></li>
-		    <li><p><a href="combat.php">Se promener</a></p></li>
-		    <li><p><a href="magasin.php">Magasin</a></p></li>
-		    <li><p><a href="gestion.php">Gerez son équipe</a></p></li>
-		    <li><p><a href="pokedex.php">Voir le pokedex</a></p></li>
-		</ul>
+    </div>
+
+	</div>
+	<div id="footer" class="w3-row w3-bar w3-deep-purple w3-display-bottommiddle">
+	    <div class="w3-container w3-col s3 m3 l3">
+		Pseudo : <?php echo $un;?>
+	    </div>
+	    <div class="w3-container w3-col s3 m3 l3">
+		Potion(s) : <?php echo $pt;?>
+	    </div>
+	    <div class="w3-container w3-col s3 m3 l3">
+		Pokeball(s) : <?php echo $pb;?>
+	    </div>
+	    <div class="w3-container w3-col s3 m3 l3">
+		Pokédollar(s) : <?php echo $mn;?>
 	    </div>
 	</div>
-	<div id='etatJ'>
-	    <table id ="menuRapide">
-		<tr>
-		    <td>
-			Nom : <div id="un"><?php echo $un; ?></div>
-		    </td>
-		    <td>	
-			Pokeball : <div id="pb"><?php echo $pb;  ?></div>
-		    </td>
-		    <td>
-			Potions : <div id="pt"><?php echo $pt; ?></div>
-		    </td>
-		    <td>
-			Pokedollars : <div id ="mn"><?php echo $mn; ?></div>
-		    </td>
-		    <td>
-			<form method='POST' action='index.php'>
-			    <input type='submit' value='Déconnexion' id='deco' name='deco'/>
-			</form> 
-		    </td>
-		    
-		</tr>
-	    </table>
-	</div>
-	
+	<style>
+	.w3-pokefont {
+	    font-family: 'pokemon_hollownormal';
+	}
+
+	.w3-bold-pokefont {
+	    font-family: 'pokemon_solidnormal';
+	}
+	 body {
+	     background-image: url("./decors/fondSombre.png");
+	 }
+	</style>
+	<script>
+	 function w3_open() {
+	     document.getElementById("main").style.marginLeft = "25%";
+	     document.getElementById("mySidebar").style.width = "25%";
+	     document.getElementById("mySidebar").style.display = "block";
+	     document.getElementById("openNav").style.display = 'none';
+	 }
+	 function w3_close() {
+	     document.getElementById("main").style.marginLeft = "0%";
+	     document.getElementById("mySidebar").style.display = "none";
+	     document.getElementById("openNav").style.display = "inline-block";
+	 }
+
+	 function updatePokeball(newVal){
+	     document.getElementById("pb").innerHTML = newVal;
+	 }
+
+	 function updatePotion(newVal){
+	     document.getElementById("pt").innerHTML = newVal;
+	 }
+
+	 function updateMoney(newVal){
+	     document.getElementById("mn").innerHTML = newVal;
+	 }
+
+	function updateVie(i){
+		document.getElementById("vie").innerHTML = "il vous reste "+i+" pv !";
+		maBarreVie.value = i;
+	}
+
+	 function updateEquipe(newVal){
+	     document.getElementById("equipe").innerHTML = newVal;
+	 }
+
+	 function updatePC(newVal){
+	     document.getElementById("PC").innerHTML = newVal;
+	 }
+	</script>
+ 
     </body>
 </html>
-<script>
- 
- var statutB = 0;
- var fenetre = document.querySelector("#fenetre");
- var droite = document.querySelector("#droite");
-
- var g = document.querySelector("#g");
- var d = document.querySelector("#d");
-
- var etatJ = document.querySelector("#etatJ");
- 
- g.addEventListener("click", function (){
-     
-     if (statutB == 1){
-	 
-	 d.style.visibility="hidden";
-	 
-	 droite.style.width="5%";
-	 
-	 g.style.width="90%";
-	 
-	 fenetre.style.width="94%";
-	 
-	 statutB = 0;
-     }
-     
-     else if (statutB == 0){
-	 
-	 d.style.visibility="visible";
-	 
-	 droite.style.width="24%";
-	 
-	 g.style.width="20%";
-	 
-	 fenetre.style.width="75%";
-	 
-	 statutB = 1;
-     }     
- });
-
-
- function updatePokeball(newVal){
-     document.getElementById("pb").innerHTML = newVal;
- }
-
- function updatePotion(newVal){
-     document.getElementById("pt").innerHTML = newVal;
- }
-
- function updateMoney(newVal){
-     document.getElementById("mn").innerHTML = newVal;
- }
-
-function updateVie(i){
-	document.getElementById("vie").innerHTML = "il vous reste "+i+" pv !";
-	maBarreVie.value = i;
-}
-
- function updateEquipe(newVal){
-     document.getElementById("equipe").innerHTML = newVal;
- }
-
- function updatePC(newVal){
-     document.getElementById("PC").innerHTML = newVal;
- }
-
-
-</script>
