@@ -4,11 +4,12 @@ session_start();
 include './bdd.php';
 include './Template/header.php';
 ?>
-
-Choisisser un article!<br/>
-<input type="number" id="qtte" name="qtte" min="1" value="1" /><br/>    
-<button onclick="send(1)">Potion</button>
-<button onclick="send(2)">Pokeball</button>
+<div class="w3-center">
+    <h1 class="w3-pokefont w3-jumbo">Choisisser un article!</h1><br/>
+    <input type="number" id="qtte" name="qtte" min="1" value="1" class="w3-input"/><br/>    
+    <button class="w3-btn w3-deep-purple w3-hover-grey w3-bold-pokefont w3-xlarge" onclick="send(1)">Potion</button>
+    <button class="w3-btn w3-deep-purple w3-hover-grey w3-bold-pokefont  w3-xlarge" onclick="send(2)">Pokeball</button>
+</div>
 
 <script>
  function send(action) {

@@ -36,7 +36,7 @@ include './Template/header.php';
 
 	?>
 
-	<div id="ennemi">
+	<div id="ennemi" class="w3-card-4">
 		<?php displayPokemonInfo($BDD, $joueur2);?>
 		<p id="typeE">	<?php echo $t2[0] ?> </p>
 		<p id="typeE">	<?php echo $t2[1] ?> </p> 
@@ -71,7 +71,7 @@ include './Template/header.php';
 
 	<div id="actions">
 
-		<input type="button" id="attaque" value="Attaques" onclick="del(), display()">
+		<input type="button" id="attaque" value="Attaques" onclick="del(), display()" class="adrien-button">
 
 		<div id="atk">
 
@@ -80,14 +80,14 @@ include './Template/header.php';
 		<br/>
 
 		<div id="obj">
-			<input type="button" id="objets" value="Objets" onclick="del()">
+			<input type="button" id="objets" value="Objets" onclick="del()" class="adrien-button">
 
-			<input type="button" id="pokeball" value="Pokeball" onclick="capture(<?php echo $_SESSION['ID'] ?>, <?php echo $joueur2 ?>)">
-			<input type="button" id="potion" value="Potion" onclick="soin(<?php echo $joueur1 ?>), aQui()">
+			<input type="button" id="pokeball" value="Pokeball" onclick="capture(<?php echo $_SESSION['ID'] ?>, <?php echo $joueur2 ?>)" class="adrien-button">
+			<input type="button" id="potion" value="Potion" onclick="soin(<?php echo $joueur1 ?>), aQui()" class="adrien-button">
 
 			<br/>
 
-			<input type="button" id="retour" value="Retour" onclick="del()">
+			<input type="button" id="retour" value="Retour" onclick="del()" class="adrien-button">
 
 
 
@@ -275,15 +275,14 @@ include './Template/header.php';
 	}
 
 
-
+	var objets = document.querySelector("#objets");
+	var potion = document.querySelector("#potion");
 	var retour = document.querySelector("#retour");
 	var attaque = document.querySelector("#attaque");
 	var attaque1 = document.querySelector("#attaque1");
 	var attaque2 = document.querySelector("#attaque2");
 	var attaque3 = document.querySelector("#attaque3");
 	var attaque4 = document.querySelector("#attaque4");
-	var objets = document.querySelector("#objets");
-	var potion = document.querySelector("#potion");
 	var pokeball = document.querySelector("#pokeball");
 	
 	// attaque.addEventListener("click", function ()

@@ -35,10 +35,7 @@
 	width: 350px;
 }
 
-
-
-
-input {
+div > input {
 	border: 0;
 	line-height: 2.5;
 	padding: 0 20px;
