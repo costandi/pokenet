@@ -35,7 +35,10 @@ fermerBDD($BDD); ?>
 
 	<div id="main">
 	    <div class="w3-bar w3-deep-purple">
-		<button id="openNav" class="w3-button w3-xlarge w3-bold-pokefont" onclick="w3_open()">Menu</button>
-		<button class="w3-button w3-xlarge w3-right w3-bold-pokefont">Deconnexion</button>
+			<button id="openNav" class="w3-button w3-xlarge w3-bold-pokefont w3-bar-item" onclick="w3_open()">Menu</button>
+
+			<form method='POST' action='index.php'>
+			    <input type='submit' value='Déconnexion' id='deco' name='deco'class="w3-button w3-xlarge w3-bold-pokefont w3-bar-item w3-right"/>
+			</form> 
 	    </div>
 	    <div class="w3-container">
