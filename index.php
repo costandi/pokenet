@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 include './bdd.php';
 
 if(isset($_POST['deco']))
@@ -56,9 +55,13 @@ if(isset($_POST['deco']))
 		<button class="w3-button w3-deep-purple w3-hover-purple w3-xlarge" type="submit" formaction="connect.php" formmethod="POST" autofocus>Connectez vous !</button>
 	    </form>
 	</div>
-	<div class="w3-content w3-black w3-opacity-min">
+	<div class="w3-contener w3-black w3-opacity-min w3-margin">
 	    <p><span class="w3-tag w3-teal w3-bold-pokefont w3-large">More Later!</span> Nouveau theme : Sombre</p>
 	    <p><span class="w3-tag w3-teal w3-bold-pokefont w3-large">More Later!</span> Combat en multijoueur!</p> 
+	    <h2 class="w3-bold-pokefont">A propos du site</h2>
+	    <p>
+	    	Ce site a été réaliser par Cynthia Dulymbois-Louison et Adrien Costandi pour un exercice de 1ere année de DUT Informatique (<a href="./divers/projetPokemon.pdf">voir le sujet</a>). Le site est toujours maintenu a ce jour, n'hézitez pas a faire un petit tour! <br>Ce site est optimisé pour les ordinateurs, on travaille a avoir un mode mobile un peu plus agréable.
+	    </p>
 	</div>
     </body>
 

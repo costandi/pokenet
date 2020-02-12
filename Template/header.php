@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <?php $BDD = GenerBDD();
 
 if(!isset($_SESSION['ID']))

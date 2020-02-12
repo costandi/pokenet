@@ -1,0 +1,59 @@
+<?php
+session_start();
+include './bdd.php';
+if(isset($_POST['deco']))
+{
+    $BDD = GenerBDD();
+    setDateDeconnexion($BDD, $_SESSION['ID']);
+    fermerBDD($BDD);
+    session_destroy();
+    $_SESSION=array();
+    
+}
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+	<meta charset="utf-8">
+	<title>Accueil</title>
+	<link rel="icon" href="../decors/favicon.png">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="../decors/police.css">
+	<style>
+	 .w3-pokefont {
+	     font-family: 'pokemon_hollownormal';
+	 }
+	</style>
+	
+    </head>
+    <body background="../decors/fondSombre.png" class="w3-text-white w3-center">
+	<!-- <div class="round-button" name="boutonPokeball">
+	     <a href="index.php">
+	     <img src="../decors/pokeball.png">
+	     </a>
+	     </div>
+	-->
+	<h1 class="w3-pokefont w3-jumbo">Bienvenue sur Pokenet !</h1>
+	<!-- <div>
+	     <a href="easter.html">
+	     <img id="gifPika" src="../decors/pika.gif">
+	     </a>
+	     </div>
+	     <br/>-->
+	<div id="content">
+	    <p id="resume" class="w3-xlarge">Pokenet est un site où vous pouvez constituer une équipe de pokemon et combattre d'autres joueurs du monde entier depuis votre salon (ou votre chambre si vous voulez! )</p>
+	</div>
+	
+	<div id="boutons">
+	    <form>
+		<button class="w3-button w3-deep-purple w3-hover-purple w3-xlarge" type="submit" formaction="inscrit.php" formmethod="POST" >Inscrivez vous !</button>
+		<button class="w3-button w3-deep-purple w3-hover-purple w3-xlarge" type="submit" formaction="connect.php" formmethod="POST" autofocus>Connectez vous !</button>
+	    </form>
+	</div>
+	<div>
+	    
+	</div>
+    </body>
+
+</html>
