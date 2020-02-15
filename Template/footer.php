@@ -1,7 +1,7 @@
     </div>
 
 	</div>
-	<div id="footer" class="w3-row w3-bar w3-deep-purple w3-display-bottommiddle">
+	<footer id="footer" class="w3-row w3-bar w3-deep-purple w3-display-bottommiddle" style="position: fixed;">
 	    <div class="w3-container w3-col s3 m3 l3">
 		Pseudo : <?php echo $un;?>
 	    </div>
@@ -14,7 +14,7 @@
 	    <div class="w3-container w3-col s3 m3 l3">
 		Pokédollar(s) : <?php echo $mn;?>
 	    </div>
-	</div>
+	</footer>
 	<style>
 	.w3-pokefont {
 	    font-family: 'pokemon_hollownormal';
@@ -25,6 +25,7 @@
 	}
 	 body {
 	     background-image: url("./decors/fondSombre.png");
+	     background-attachment: fixed;
 	 }
 	</style>
 	<script>
@@ -65,6 +66,5 @@
 	     document.getElementById("PC").innerHTML = newVal;
 	 }
 	</script>
- 
     </body>
 </html>

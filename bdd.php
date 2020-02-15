@@ -1,67 +1,5 @@
 <?php
-/*
 
-function GenerBDD(){}
-function CreUser($BDD, $username, $MdP){}
-function fermerBDD($BDD){}
-function checkUserBDD($BDD, $UNcheck, $MDP2check) {}
-function getIdNumber($BDD, $User){}
-function getUsername($BDD, $ID){}
-function displayAttaque($BDD, $pok) {}
-function getTypePkm($BDD, $pok) {}
-function displayPokemonInfo($BDD, $pok) {}
-function getPV($BDD, $pok){}
-function setKO($BDD, $pok){}
-function getPkmAtk($BDD, $ID){}
-function getDamage($BDD, $attaque, $array){}
-function applyDamage($BDD, $damage, $IDennemi){}
-function getMoney($BDD, $ID){}
-function getPokeball($BDD, $ID){}
-function getPotion($BDD, $ID){}
-function newDay($BDD){}
-function buyPokeball($BDD, $ID){}
-function buyPotion($BDD, $ID){}
-function getEquipe($BDD, $ID){}
-* function displayEquipe($BDD, $eq) {}
-function getFirstPkm($BDD, $IDEq){}
-function getVitesse($BDD, $ID){}
-function whoStart($BDD, $Pkm1, $Pkm2){}
-function whofinish($BDD, $Pkm1, $Pkm2){}
-function countAttaque($BDD, $ID){}
-function getArrayIDAtk($BDD, $ID){}
-function getArrayIDPkd($BDD)
-et la c'est le bordel
-function getRandomPkd($BDD)
-function getNomAttaque($BDD, $ID)
-function newPkmSauvage($BDD, $IDPkd)
-function capture($BDD, $IDD, $IDPkm)
-function countEquipe
-function addInEquipe
-function addInPC
-function countPokemon
-function starter
-function usePokeball($BDD, $ID)
-function heal($BDD, $IDPkm, $ID)
-function exchangePkmEq($BDD, $ID, $pos1, $pos2)
-function getDateDeconnexion($BDD, $ID)
-function setDateDeconnexion($BDD, $ID){
-function dejaJoue($BDD, $ID)
-function aBienJoue($BDD, $ID){
-function centrePkm($BDD, $ID){
-function apprendAttaque($BDD, $IDPkm, $IDAtk)
-function getNumPkd($BDD, $IDPkm)
-function setAtk($BDD, $IDPkm)
-function getAtkPossible($BDD, $IDPkm) {
-function displayPkd($BDD) {
-function getPkmSauvage($BDD)
-function oponent($BDD)
-* function getPC($BDD, $ID);
-* function displayPC($PC);
-* function fromEqToPC($BDD, $ID, $pkm);
-
-
-*/
-//__________________________________________________________________________________
 function GenerBDD(){
 	$BDD=mysqli_connect("dwarves.iut-fbleau.fr","costandi","sqldwarves","costandi");
 	if(!$BDD){
@@ -297,15 +235,17 @@ function displayEquipe($eq) {
 	$taille = count($eq);
 
     
-	$tmp =  "<ul>";
+	$tmp =  "<ul class='w3-ul' style='width:55%'>";
 	for ($i=1; $i < $taille; $i++) { 
-	    $tmp = $tmp."<li> IdPkm : ". $eq[$i]['ID'].
-		 "<br/>position : ".$eq[$i]['pos'].
-		 "<br/>nom : ".$eq[$i]['nom'].
-		 "<br/>pv : ".$eq[$i]['pv'].
-		 "pv</br><input type='button' value ='Envoyer au PC' onclick='send(3, ".$eq[$i]['ID'].")'>";
+	    $tmp = $tmp."<li class='w3-card-4 w3-deep-purple w3-hover-purple w3-padding-small'>".
+	    "<header class='w3-container w3-black'>
+  			<h1 class='w3-bold-pokefont'>".$eq[$i]['nom']."</h1>
+		</header>".
+		"<br/>position : ".$eq[$i]['pos'].
+		"<br/>Points de vie : ".$eq[$i]['pv']." pv".
+		"<br/><input class='w3-btn w3-black w3-hover-grey w3-round-xxlarge' type='button' value ='Envoyer au PC' onclick='send(3, ".$eq[$i]['ID'].")'>";
 	    if ($eq[$i]['pos'] != 1){
-            $tmp = $tmp."<input type='button' value ='Mettre ce pkm en tete d équipe' onclick='send(2, ".$eq[$i]['pos'].")'>";
+            $tmp = $tmp."<input class='w3-btn w3-black w3-hover-grey w3-round-xxlarge'type='button' value ='Mettre ce pokémon en tête d&apos;équipe' onclick='send(2, ".$eq[$i]['pos'].")'>";
 	    }
 	    $tmp = $tmp."</li><br/>";
 	}
@@ -685,12 +625,17 @@ function getPC($BDD, $ID){
 function displayPC($PC) {
 	$taille = count($PC);
 	
-	$tmp = "<ul>";
+	$tmp =  "<ul class='w3-ul' style='width:55%'>";
 	for ($i=1; $i < $taille; $i++) { 
-		$tmp = $tmp."<li> IdPkm : ".$PC[$i]['ID']."<br/>nom : ".$PC[$i]['nom']."<br/>pv : ".$PC[$i]['pv']."pv</br><input type='button' value ='Envoyer ce pkm dans l équipe' onclick='send(4, ".$PC[$i]['ID'].")'";
-		$tmp = $tmp."</li><br/>";
+	    $tmp = $tmp."<li class='w3-card-4 w3-deep-purple w3-hover-purple w3-padding-small'>".
+	    "<header class='w3-container w3-black'>
+  			<h1 class='w3-bold-pokefont'>".$PC[$i]['nom']."</h1>
+		</header>".
+		"<br/>Points de vie : ".$PC[$i]['pv']." pv".
+		"<br/><input class='w3-btn w3-black w3-hover-grey w3-round-xxlarge' type='button' value ='Envoyer dans l&apos;équipe' onclick='send(4, ".$PC[$i]['ID'].")'>".
+		"</li><br/>";
 	}
-	$tmp = $tmp."</ul>";
+    $tmp = $tmp."</ul>";
 
     return $tmp;
 }
