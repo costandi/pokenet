@@ -235,7 +235,7 @@ function displayEquipe($eq) {
 	$taille = count($eq);
 
     
-	$tmp =  "<ul class='w3-ul' style='width:55%'>";
+	$tmp =  "<ul class='w3-ul'>";
 	for ($i=1; $i < $taille; $i++) { 
 	    $tmp = $tmp."<li class='w3-card-4 w3-deep-purple w3-hover-purple w3-padding-small'>".
 	    "<header class='w3-container w3-black'>
@@ -572,9 +572,11 @@ function displayPkd($BDD) {
 	
     $pkd = array(0);
     
-	while($pkd=mysqli_fetch_row($res))
-        echo "Pokemon n° ".$pkd[0]." : ".$pkd[1]."<br>";
-    return $pkd;
+    echo "<ul class='w3-ul'>";
+	while($pkd=mysqli_fetch_row($res)){
+        echo "<li class='w3-card-4'>Pokemon n° ".$pkd[0]." : ".$pkd[1]."</li><br/>";
+	}
+	echo "</ul>";
 }
 
 function getPkmSauvage($BDD)
@@ -625,7 +627,7 @@ function getPC($BDD, $ID){
 function displayPC($PC) {
 	$taille = count($PC);
 	
-	$tmp =  "<ul class='w3-ul' style='width:55%'>";
+	$tmp =  "<ul class='w3-ul'>";
 	for ($i=1; $i < $taille; $i++) { 
 	    $tmp = $tmp."<li class='w3-card-4 w3-deep-purple w3-hover-purple w3-padding-small'>".
 	    "<header class='w3-container w3-black'>
