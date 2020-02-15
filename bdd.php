@@ -217,15 +217,15 @@ function  buyPotion($BDD, $ID){
 	else return false;
 }
 function getEquipe($BDD, $ID){
-	$stmt = mysqli_prepare($BDD, "SELECT IDPkmEq, position, nom, PV from User, Equipe, Pokedex, Pokemon where IDEq=? and IDPkm=IDPkmEq and IDPkd_=IDPkd and IDEq = IDD order by position");
+	$stmt = mysqli_prepare($BDD, "SELECT IDPkmEq, position, nom, PV, surnom from User, Equipe, Pokedex, Pokemon where IDEq=? and IDPkm=IDPkmEq and IDPkd_=IDPkd and IDEq = IDD order by position");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
-	$res = mysqli_stmt_bind_result($stmt, $IDPkm, $pos, $nom, $PV);
+	$res = mysqli_stmt_bind_result($stmt, $IDPkm, $pos, $nom, $PV, $surnom);
 	$equipe = array(0);
 	
 	if($res) {
 		while(mysqli_stmt_fetch($stmt)){
-			array_push($equipe, array('ID' => $IDPkm, 'nom' => $nom, 'pv' =>$PV, 'pos' => $pos));
+			array_push($equipe, array('ID' => $IDPkm, 'nom' => $nom, 'pv' =>$PV, 'pos' => $pos, 'surnom' => $surnom));
 		}
 	}
 	return $equipe;
@@ -238,9 +238,13 @@ function displayEquipe($eq) {
 	$tmp =  "<ul class='w3-ul'>";
 	for ($i=1; $i < $taille; $i++) { 
 	    $tmp = $tmp."<li class='w3-card-4 w3-deep-purple w3-hover-purple w3-padding-small'>".
-	    "<header class='w3-container w3-black'>
-  			<h1 class='w3-bold-pokefont'>".$eq[$i]['nom']."</h1>
-		</header>".
+	    "<header class='w3-container w3-black'>";
+	    if($eq[$i]['surnom'] != null){
+  			$tmp = $tmp."<h1 class='w3-bold-pokefont'>".$eq[$i]['surnom']." (".$eq[$i]['nom'].")</h1>";
+		} else {
+			$tmp = $tmp."<h1 class='w3-bold-pokefont'>".$eq[$i]['nom']."</h1>";
+		}
+		$tmp = $tmp."</header>".
 		"<br/>position : ".$eq[$i]['pos'].
 		"<br/>Points de vie : ".$eq[$i]['pv']." pv".
 		"<br/><input class='w3-btn w3-black w3-hover-grey w3-round-xxlarge' type='button' value ='Envoyer au PC' onclick='send(3, ".$eq[$i]['ID'].")'>";
@@ -569,14 +573,17 @@ function getAtkPossible($BDD, $IDPkm) {
 
 function displayPkd($BDD) {
 	$res = mysqli_query($BDD, "SELECT * FROM Pokedex");
-	
     $pkd = array(0);
+    $i = 0;
     
-    echo "<ul class='w3-ul'>";
-	while($pkd=mysqli_fetch_row($res)){
-        echo "<li class='w3-card-4'>Pokemon n° ".$pkd[0]." : ".$pkd[1]."</li><br/>";
+    echo "<div class='w3-container w3-center'>";
+	while($pkd = mysqli_fetch_row($res)){
+		if($i%4 == 0) echo "<div class='w3-row'>";
+        	echo "<div class='w3-card-2 w3-margin w3-padding-small w3-deep-purple w3-hover-purple w3-col w3-xlarge' style='width: 20%'><p>[".$pkd[0]."] ".$pkd[1]."</p></div>";
+        if($i%4 == 3) echo "</div>";
+        $i++;
 	}
-	echo "</ul>";
+	echo "</div>";
 }
 
 function getPkmSauvage($BDD)
@@ -610,15 +617,15 @@ function oponent($BDD)
 }
 
 function getPC($BDD, $ID){
-	$stmt = mysqli_prepare($BDD,"SELECT IDPkm, nom, PV 	from PC, Pokedex, Pokemon where IDPkm=PCPkm and IDPC=? and IDPkd_=IDPkd order by nom ASC");
+	$stmt = mysqli_prepare($BDD,"SELECT IDPkm, nom, PV, surnom from PC, Pokedex, Pokemon where IDPkm=PCPkm and IDPC=? and IDPkd_=IDPkd order by nom ASC");
 	mysqli_stmt_bind_param($stmt, 'i', $ID);
 	mysqli_execute($stmt);
-	$res = mysqli_stmt_bind_result($stmt, $IDPkm, $nom, $PV);
+	$res = mysqli_stmt_bind_result($stmt, $IDPkm, $nom, $PV, $surnom);
 	$equipe = array(0);
 	
 	if($res) {
 		while(mysqli_stmt_fetch($stmt)){
-			array_push($equipe, array('ID' => $IDPkm, 'nom' => $nom, 'pv' =>$PV));
+			array_push($equipe, array('ID' => $IDPkm, 'nom' => $nom, 'pv' =>$PV, 'surnom' => $surnom));
 		}
 	}
 	return $equipe;
@@ -630,9 +637,13 @@ function displayPC($PC) {
 	$tmp =  "<ul class='w3-ul'>";
 	for ($i=1; $i < $taille; $i++) { 
 	    $tmp = $tmp."<li class='w3-card-4 w3-deep-purple w3-hover-purple w3-padding-small'>".
-	    "<header class='w3-container w3-black'>
-  			<h1 class='w3-bold-pokefont'>".$PC[$i]['nom']."</h1>
-		</header>".
+	    "<header class='w3-container w3-black'>";
+  		if($PC[$i]['surnom'] != null){
+  			$tmp = $tmp."<h1 class='w3-bold-pokefont'>".$PC[$i]['surnom']." (".$PC[$i]['nom'].")</h1>";
+		} else {
+			$tmp = $tmp."<h1 class='w3-bold-pokefont'>".$PC[$i]['nom']."</h1>";
+		}
+		$tmp = $tmp."</header>".
 		"<br/>Points de vie : ".$PC[$i]['pv']." pv".
 		"<br/><input class='w3-btn w3-black w3-hover-grey w3-round-xxlarge' type='button' value ='Envoyer dans l&apos;équipe' onclick='send(4, ".$PC[$i]['ID'].")'>".
 		"</li><br/>";
@@ -675,5 +686,14 @@ function fromPCToEq($BDD, $ID, $pkm){
     $stmt = mysqli_prepare($BDD,"INSERT INTO Equipe VALUES (?,?,?)");
 	mysqli_stmt_bind_param($stmt, 'iii',$ID ,$pkm, $pos);
 	mysqli_execute($stmt);    
+}
+
+function getSurnom($BDD, $IDPkm){
+	$stmt = mysqli_prepare($BDD,"SELECT surnom FROM Pokemon WHERE IDPkm = ?");
+	mysqli_stmt_bind_param($stmt, 'i', $IDPkm);
+	mysqli_stmt_bind_result($stmt, $res);
+
+	while(mysqli_stmt_fetch($stmt));
+	return($res);
 }
 ?>

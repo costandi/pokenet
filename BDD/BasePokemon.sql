@@ -41,7 +41,8 @@ create table Pokemon (
 	etat int not null references Etat(IDEt),
 	KO boolean not null,
 	vitesse int not null,
-	sauvage boolean not null
+	sauvage boolean not null,
+	surnom varchar(30) default null
 );
 
 

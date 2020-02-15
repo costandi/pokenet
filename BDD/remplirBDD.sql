@@ -674,7 +674,7 @@ insert into PoAtkPossible
 insert into PoAtkPossible
 	values (22, 1);
 insert into PoAtkPossible
-	values (22, 11);
+	values (13, 11);
 
 /* abo */
 insert into PoAtkPossible
