@@ -1,6 +1,4 @@
 <?php
-
-<?php
 /**
 * Met la variable dejaJoue d'un utilisateur a 1
 * @Adrien ca devrais etre un setter je pense :')
@@ -1017,10 +1015,4 @@ function whofinish($BDD, $Pkm1, $Pkm2){
 	else
 		return $Pkm2;
 }
-?>
-
-
-
-
-
 ?>
