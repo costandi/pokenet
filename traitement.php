@@ -17,8 +17,6 @@ if (isset($_POST["connexion"]) && isset($_POST["nom"]) && isset($_POST["mdp"])) 
 		echo $MDP2check;
 
 		// echo $MDP2check;
-		//decrypt($MDP2check);
-
 		$entrer = checkUserBDD($BDD, $_POST['nom'], $MDP2check);
 
 		if ($entrer == true)
@@ -65,7 +63,6 @@ if (isset($_POST["inscription"]))
 		$tmp = CreUser($BDD, $_POST["nom"], $cMdP);
 		
 		if ($tmp == -1) {
-				//$cMdP = decrypt($cMdP);
 				$MDP2check = cryptage($_POST["mdp"]);
 				$entrer = checkUserBDD($BDD, $_POST['nom'], $MDP2check);
 

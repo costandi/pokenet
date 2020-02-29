@@ -1,6 +1,9 @@
 <?php
-//Fonction qui verifie que le mot de passe nepose pas de probleme en échapant les caractères relous
-//Fonction personelle
+/**
+*Fonction qui verifie que le mot de passe ne pose pas de probleme en échapant les caractères relous
+* @param MdP1 un mot de passe a verifier
+* @return 1 si le mot de passe pose probleme, 0 sinon
+*/
 function mdpValid($MdP1)
 {
 	
@@ -13,7 +16,11 @@ function mdpValid($MdP1)
 		return 0;
 }
 
-
+/**
+* Cette fonction sert a encrypter des données
+* @param $data la donnée a crypter
+* @return la donnée cryptée
+*/
 function cryptage($data){
 	$key='faucibusturpisineumi';
 	$method='ripemd160';
@@ -23,6 +30,11 @@ function cryptage($data){
 	return base64_encode($data);
 }
 
+/**
+* Cette fonction sert a décrypter des données
+* @param $mdpcrypte la donnée a décrypter
+* @return la donnée décryptée
+*/
 function decrypt($mdpcrypte, $mdpentre){
 	$key='faucibusturpisineumi';
 	$method='ripemd160';
@@ -30,6 +42,5 @@ function decrypt($mdpcrypte, $mdpentre){
 	$mdpcrypte = base64_decode($mdpcrypte);
 	return password_verify($mdpcrypte, $mdpentre);
 }
-
 
 ?>
