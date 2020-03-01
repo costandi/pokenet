@@ -1,7 +1,7 @@
 <?php
 /**
 * Met la variable dejaJoue d'un utilisateur a 1
-* @Adrien ca devrais etre un setter je pense :')
+* c'est un setter, pour savoir si le joueur a déjà lancé le jeu une fois
 * @param $BDD
 * @param int $ID l'ID de l'utilisateur
 */
@@ -43,7 +43,7 @@ function addInPC($BDD, $IDD, $IDPkm) {
 }
 
 /**
-* Cette fonction permet d'appliquer des degats j'imagine @Adrien
+* Cette fonction permet d'appliquer des degats à l'ennemi
 * @param $BDD
 * @param int $damage
 * @param int $IDennemi
@@ -55,7 +55,7 @@ function applyDamage($BDD, $damage, $IDennemi) {
 }
 
 /**
-* @Adrien c'est pour toi ça
+* permet d'apprendre une attaque à un pokemon en fonction de leurs identifiants respectifs
 */
 function apprendAttaque($BDD, $IDPkm, $IDAtk) {
 	$stmt = mysqli_prepare($BDD, "INSERT into PoAtk values (?, ?)");
@@ -228,7 +228,7 @@ function CreUser($BDD, $username, $MdP){
 
 /**
 * Recupere la variable dejaJoue d'un utilisateur
-* @Adrien ca devrais etre un getter je pense o/
+* c'est un getter qui permet de savoir si le joueur a déjà joué
 * @param $BDD
 * @param int $ID l'ID du dresseur
 * @return int la variable dejaJoue de l'utilisateur
@@ -457,7 +457,7 @@ function getArrayIDAtk($BDD, $ID) {
 /**
 * Permet de recuperer tout les pokemons
 * @param $BDD
-* @return array tout les pokemons
+* @return array tous les pokemons
 */
 function getArrayIDPkm($BDD) {
 	$stmt = mysqli_prepare($BDD, "SELECT IDPkd from Pokedex");
@@ -473,7 +473,9 @@ function getArrayIDPkm($BDD) {
 }
 
 /**
-* @Adrien flemme wlh
+* @param $BDD
+* @param int $attaque l'ID du pokemon
+* @return array toutes les attaques que le pokemon peut apprendre
 */
 function getAtkPossible($BDD, $IDPkm) {
 	$stmt = mysqli_prepare($BDD, "SELECT IDAtkPo from PoAtkPossible where IDPkmPo=?");
@@ -491,10 +493,10 @@ function getAtkPossible($BDD, $IDPkm) {
 }
 
 /**
-* Permet de recuperer les dégats d'une attaque
+* Permet de recuperer les dégats d'une attaque si elle figure dans le tableau
 * @param $BDD
 * @param int $attaque l'ID de l'attaque
-* @param $array @Adrien ?
+* @param $array
 * @return int le nombre de degats de l'attaque
 */
 function getDamage($BDD, $attaque, $array){
@@ -885,7 +887,9 @@ function newPkmSauvage($BDD, $IDPkd) {
 }
 
 /**
-* @Adrien ????
+* si il reste au moins un pokemon sauvage, on l'affronte, sinon on en crée un nouveau et on l'affronte
+* @param $BDD
+* @return int identifiant du pokemon ennemi
 */
 function oponent($BDD) {
 	$p = array();
@@ -918,7 +922,9 @@ function setDateDeconnexion($BDD, $ID){
 }
 
 /**
-* @Adrien c'est pour toi
+* attribue des attaques aléatoires à un pokemon lors de sa création
+* @param $BDD
+* @param $IDPkm
 */
 function setAtk($BDD, $IDPkm){
 	$IDPkd = getNumPkd($BDD, $IDPkm);
@@ -951,7 +957,9 @@ function setAtk($BDD, $IDPkm){
 }
 
 /**
-* J'imagine que cette la elle met un PKM KO, je suis pas sure je t'avoue @Adrien
+* permet de mettre KO un pokemon
+* @param $BDD
+* @param $pok
 */
 function setKO($BDD, $pok){
 	$PV = getPV($BDD, $pok);
@@ -992,8 +1000,7 @@ function usePokeball($BDD, $ID) {
 }
 
 /** 
-* @Adrien 
-* je te laisse de debrouiller avec ses deux la '^'
+* détermine quel pokemon est le plus rapide
 */
 function whoStart($BDD, $Pkm1, $Pkm2){
 	
@@ -1005,6 +1012,10 @@ function whoStart($BDD, $Pkm1, $Pkm2){
 	else
 		return $Pkm2;
 }
+
+/**
+* détermine quel pokemon est le plus lent
+*/
 
 function whofinish($BDD, $Pkm1, $Pkm2){
 	$pok1 = getVitesse($BDD, $Pkm1);
